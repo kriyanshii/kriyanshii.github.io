@@ -1,4 +1,3 @@
-import React from 'react';
 import { Briefcase, FolderGit2, Rss, Github , Dot} from 'lucide-react';
 import { ProjectItem } from '../types';
 import { Link } from 'react-router-dom';
