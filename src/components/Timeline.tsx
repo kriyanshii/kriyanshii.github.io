@@ -62,9 +62,41 @@ export function Timeline({ items, title }: TimelineProps) {
                   </div>
                   <span className="text-xs font-medium text-gray-500 dark:text-gray-400 shrink-0">{item.date}</span>
                 </div>
+                {item.tags && item.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mb-2">
+                    {item.tags.map((tag, tagIndex) => (
+                      <span
+                        key={tagIndex}
+                        className={`px-2 py-0.5 text-[10px] font-medium rounded-full ${
+                          tag === 'from scratch' 
+                            ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200'
+                            : tag === 'tools'
+                            ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200'
+                            : tag === 'games'
+                            ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-200'
+                            : tag === 'opensource'
+                            ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-200'
+                            : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'
+                        }`}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
                 <p className="text-[13px] text-gray-600 dark:text-gray-400 leading-relaxed">
                   {item.description}
                 </p>
+                {item.bulletPoints && item.bulletPoints.length > 0 && (
+                  <ul className="mt-2 space-y-1">
+                    {item.bulletPoints.map((bullet, bulletIndex) => (
+                      <li key={bulletIndex} className="text-[13px] text-gray-600 dark:text-gray-400 leading-relaxed flex items-start">
+                        <span className="text-gray-400 dark:text-gray-500 mr-2 mt-1.5 text-[10px]">•</span>
+                        <span>{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </Link>
             </div>
           ))}

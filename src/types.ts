@@ -5,6 +5,8 @@ export interface ProjectItem {
     description: string;
     link?: string;
     isNew?: boolean;
+    bulletPoints?: string[];
+    tags?: string[];
   }
   
   export interface BlogPost {
