@@ -26,7 +26,7 @@ export function Home() {
 			title: "dagu",
 			date: "Sep 8, 2025",
 			description:
-				"I actively contributed to Dagu, an open-source workflow engine, where I worked on both core features and usability improvements. My contributions include implementing enqueue logic for batch processing, adding custom exit-code based retry handling, introducing zoom support in DAG visualizations, and building controlled execution configs to lock parameters for reproducible runs. I also fixed frontend build issues, improving the stability of the development workflow.",
+				"I actively contribute to Dagu, an open-source workflow engine, where I worked on both core features and usability improvements. My contributions include implementing enqueue logic for batch processing, adding custom exit-code based retry handling, introducing zoom support in DAG visualizations, and building controlled execution configs to lock parameters for reproducible runs. I also fixed frontend build issues, improving the stability of the development workflow.",
 			link: "https://github.com/dagu-org/dagu/pulls?q=is:pr+author:kriyanshii",
 			tags: ["opensource"],
 		},

@@ -60,7 +60,38 @@ export function Timeline({ items, title }: TimelineProps) {
                       {item.title}
                     </h3>
                   </div>
-                  <span className="text-xs font-medium text-gray-500 dark:text-gray-400 shrink-0">{item.date}</span>
+                  <div className="flex items-center gap-2 shrink-0">
+                    {/* GitHub link for project items */}
+                    {item.type === 'project' && item.link && item.link.includes('github.com') && (
+                      <a
+                        href={item.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors"
+                        title="View on GitHub"
+                      >
+                        <Github size={16} />
+                      </a>
+                    )}
+                    {/* Platform link for non-GitHub project items */}
+                    {item.type === 'project' && item.link && !item.link.includes('github.com') && (
+                      <a
+                        href={item.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors"
+                        title="View Platform"
+                      >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                        </svg>
+                      </a>
+                    )}
+                    <span className="text-xs font-medium text-gray-500 dark:text-gray-400">{item.date}</span>
+                  </div>
                 </div>
                 {item.tags && item.tags.length > 0 && (
                   <div className="flex flex-wrap gap-1 mb-2">
