@@ -12,6 +12,22 @@ const md = new MarkdownIt({
   }
 });
 
+// Support Mermaid code fences by converting them to containers Mermaid can hydrate
+const originalFenceRule = md.renderer.rules.fence;
+md.renderer.rules.fence = (tokens, idx, options, env, self) => {
+  const token = tokens[idx];
+  const info = (token.info || '').trim().toLowerCase();
+  if (info === 'mermaid') {
+    const diagramDefinition = token.content;
+    // Mermaid expects raw text inside a container element with class "mermaid"
+    return `<div class="mermaid">\n${diagramDefinition}\n</div>`;
+  }
+  if (originalFenceRule) {
+    return originalFenceRule(tokens, idx, options, env, self);
+  }
+  return self.renderToken(tokens, idx, options);
+};
+
 export async function getAllPosts(): Promise<BlogPost[]> {
   const files = import.meta.glob('/src/content/blog/*.md', { 
     query: '?raw',
