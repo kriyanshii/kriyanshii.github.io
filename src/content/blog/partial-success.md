@@ -1,4 +1,12 @@
-# Understanding Partial Success in DAG Systems: Building Resilient Workflows
+---
+title: Understanding Partial Success in DAG Systems
+date: 2025-28-09
+tag: Tech
+description: Building Resilient Workflows
+---
+ 
+
+*This is the first post in a series where I explore and explain the powerful features of [Dagu](https://github.com/dagu-org/dagu), a modern workflow orchestration platform. In this series, we'll dive deep into the capabilities that make Dagu an excellent choice for building robust, production-ready data pipelines and automation workflows. From advanced error handling and retry mechanisms to distributed execution and monitoring, each post will provide practical insights and real-world examples to help you master workflow orchestration with Dagu.*
 
 ## Introduction
 

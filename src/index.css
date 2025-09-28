@@ -30,3 +30,30 @@
 .animate-shine {
   animation: shine 3s infinite cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* Custom styling for code blocks */
+.prose pre {
+  @apply bg-gray-50 dark:bg-[#2a2a2a] border border-gray-200 dark:border-gray-700;
+}
+
+/* YAML-specific styling */
+.prose pre code.language-yaml,
+.prose pre code.language-yml {
+  @apply text-blue-700 dark:text-blue-300;
+}
+
+/* General code styling */
+.prose pre code:not(.language-yaml):not(.language-yml) {
+  @apply text-gray-800 dark:text-gray-200;
+}
+
+/* Syntax highlighting for YAML */
+.prose pre.language-yaml,
+.prose pre.language-yml {
+  @apply bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800;
+}
+
+/* General code block styling */
+.prose pre:not(.language-yaml):not(.language-yml) {
+  @apply bg-gray-50 dark:bg-[#2a2a2a] border-gray-200 dark:border-gray-700;
+}
