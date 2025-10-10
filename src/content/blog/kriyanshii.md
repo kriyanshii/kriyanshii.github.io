@@ -5,10 +5,32 @@ tag: Life
 description: welcome to my portfolio
 ---
 
-Hey, I'm Kriyanshi—welcome to my portfolio! This version is heavily inspired by [shin](https://shinbehavior.com/). and I've kept it simple yet expressive, reflecting the journey I'm on.
+## 🌿 About Me
 
-By day, I'm a software engineer, and in my free time, I occasionally play the flute. What started as a love for experimenting with CSS turned into writing powerful Bash scripts—some of which have accidentally wiped my hard drive (but I've definitely improved since then! 😆).
+I work at the **Space Applications Center, ISRO**,  
+where I contribute to a **Golang-based scheduler** —  
+a system with a clean web interface and orchestration logic,  
+built as an *alternative to Airflow*.
 
-Lately, I've been working on backend systems, distributed computing, and DAG-based scheduling in Go. Here, I'll be sharing insights from my projects, things I’m learning, and maybe even a few unexpected detours—whether it's tech, music, or something fun.
+Alongside this, I work on **interactive computing environments** —  
+systems that let researchers explore data, run experiments,  
+and turn complex analyses into shareable, reproducible notebooks.
 
-Glad you’re here, and I hope you find something interesting. Thanks for stopping by! 🚀
+My focus is on **bridging infrastructure and experience** —  
+making computation feel *alive*, *collaborative*, and *approachable*.
+
+---
+
+Beyond code, I’m drawn to slower, grounding things:
+
+- 🎶 Playing the flute  
+- 🌳 Identifying and planting trees  
+- 🍰 Baking cupcakes and cakes on weekends  
+- 📚 Reading essays and quiet books  
+
+---
+
+*I like building things that feel thoughtful and precise —*  
+*systems that do their job, beautifully.*
+
+**→ Let’s build something lasting.**
