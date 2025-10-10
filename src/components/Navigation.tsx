@@ -26,6 +26,15 @@ export function Navigation() {
               Blog
               <span className={`absolute -bottom-1 left-0 w-full h-[1.5px] bg-current transform transition-transform duration-200 ${location.pathname === '/blog' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`} />
             </Link>
+            <a 
+              href="https://drive.google.com/file/d/1Ew4e1IqmkH91Gb-NgBv5Zao8wqQl4z0D/view?usp=drive_link"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[13px] font-medium relative group dark:text-gray-300"
+            >
+              Resume
+              <span className="absolute -bottom-1 left-0 w-full h-[1.5px] bg-current transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200" />
+            </a>
             {/* <Link 
               to="/projects" 
               className="text-[13px] font-medium relative group dark:text-gray-300"

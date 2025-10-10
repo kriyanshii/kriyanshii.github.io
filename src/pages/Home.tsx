@@ -100,12 +100,12 @@ export function Home() {
 
 	return (
 		<div className="max-w-3xl mx-auto px-6">
-			<header className="mb-10 flex sm:flex-row  sm:justify-between items-center">
-					<p className="text-[15px] leading-relaxed text-gray-800 dark:text-gray-300 mb-4">
-					I’m a software engineer at ISRO’s Space Applications Centre, where I get to play with satellites (well, their data at least 🚀). I’ve built tools that ingest and schedule data from geostationary satellites and crafted interactive environments with JupyterHub to make planetary and weather research a lot more hands-on.
+			<header className="mb-10 flex flex-col sm:flex-row gap-6 sm:justify-between sm:items-start">
+					<p className="text-[15px] leading-relaxed text-gray-800 dark:text-gray-300">
+					I'm a software engineer at ISRO's Space Applications Centre, where I get to play with satellites (well, their data at least 🚀). I've built tools that ingest and schedule data from geostationary satellites and crafted interactive environments with JupyterHub to make planetary and weather research a lot more hands-on.
 
-Right now, I’m diving into SeaDAS, NASA’s go-to toolkit for processing and analyzing Earth observation data — tweaking it, customizing it, and making sure scientists can get the most out of satellite snapshots of our planet 🌍✨.					</p>
-					<div>
+Right now, I'm diving into SeaDAS, NASA's go-to toolkit for processing and analyzing Earth observation data — tweaking it, customizing it, and making sure scientists can get the most out of satellite snapshots of our planet 🌍✨.					</p>
+					<div className="flex flex-col gap-3 shrink-0">
 						<a
 							href="https://github.com/kriyanshii"
 							target="_blank"
