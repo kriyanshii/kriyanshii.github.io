@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Moon, Sun } from 'lucide-react';
+import { Moon, Sun, Presentation } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
 export function Navigation() {
@@ -33,6 +33,16 @@ export function Navigation() {
               className="text-[13px] font-medium relative group dark:text-gray-300"
             >
               Resume
+              <span className="absolute -bottom-1 left-0 w-full h-[1.5px] bg-current transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200" />
+            </a>
+            <a 
+              href="https://www.youtube.com/live/NyQced4oJVM?t=9548s"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[13px] font-medium relative group dark:text-gray-300 flex items-center gap-1"
+            >
+              <Presentation size={14} />
+              Talk
               <span className="absolute -bottom-1 left-0 w-full h-[1.5px] bg-current transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200" />
             </a>
             {/* <Link 

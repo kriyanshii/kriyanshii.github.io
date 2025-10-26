@@ -1,4 +1,4 @@
-import { Github, Twitter } from "lucide-react";
+import { Github, Twitter, Presentation } from "lucide-react";
 import { ProjectItem } from "../types";
 import { Timeline } from "../components/Timeline";
 
@@ -120,10 +120,51 @@ Right now, I'm diving into SeaDAS, NASA's go-to toolkit for processing and analy
 							className="text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 transition-colors">
 							<Twitter size={18} />
 						</a>
+						<a
+							href="https://www.youtube.com/live/NyQced4oJVM?t=9548s"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 transition-colors">
+							<Presentation size={18} />
+						</a>
 					</div>
 			</header>
 			<Timeline items={workItems} title="work" />
 			<Timeline items={projectItems} title="projects" />
+			
+			{/* Talks Section */}
+			<section className="mt-16">
+				<h2 className="text-xl font-medium mb-6 text-gray-900 dark:text-gray-100">talks</h2>
+				<div className="space-y-4">
+					<div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
+						<div className="flex items-start justify-between">
+							<div className="flex-1">
+								<h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+									Interactive Computing Environments for Open Science
+								</h3>
+								<p className="text-gray-600 dark:text-gray-400 text-sm mb-3">
+									Presented at a conference, discussing scalable JupyterHub deployments and Mercury integration for scientific research workflows.
+								</p>
+								<div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-500">
+									<span className="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full">
+										Conference Talk
+									</span>
+									<span>2025</span>
+								</div>
+							</div>
+							<a
+								href="https://www.youtube.com/live/NyQced4oJVM?t=9548s"
+								target="_blank"
+								rel="noopener noreferrer"
+								className="ml-4 flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
+							>
+								<Presentation size={16} />
+								Watch Talk
+							</a>
+						</div>
+					</div>
+				</div>
+			</section>
 		</div>
 	);
 }
