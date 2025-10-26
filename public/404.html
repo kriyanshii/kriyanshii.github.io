@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>kriyanshi</title>
     <script>
-        // GitHub Pages SPA redirect
-        // This script takes the current URL and converts it from a
-        // 404 error page into the URL that should have been requested.
-        var pathSegmentsToKeep = 0;
+        // GitHub Pages SPA redirect for /portfolio/ base path
+        var pathSegmentsToKeep = 1; // Keep /portfolio/ segment
         var l = window.location;
         l.replace(
             l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
@@ -21,6 +19,6 @@
 </head>
 <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="/portfolio/src/main.tsx"></script>
 </body>
 </html>
