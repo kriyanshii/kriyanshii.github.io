@@ -402,7 +402,9 @@ export function BlogPost() {
               [&>ul]:mb-6 [&>ul]:list-disc [&>ul]:pl-6
               [&>ol]:mb-6 [&>ol]:list-decimal [&>ol]:pl-6
               [&>li]:mb-2
-              [&>blockquote]:border-l-4 [&>blockquote]:border-gray-200 [&>blockquote]:dark:border-gray-700 [&>blockquote]:pl-4 [&>blockquote]:italic [&>blockquote]:mb-6"
+              [&>blockquote]:border-l-4 [&>blockquote]:border-gray-200 [&>blockquote]:dark:border-gray-700 [&>blockquote]:pl-4 [&>blockquote]:italic [&>blockquote]:mb-6
+              [&_img]:max-w-full [&_img]:h-auto [&_img]:rounded-lg [&_img]:my-8 [&_img]:shadow-md [&_img]:dark:shadow-gray-800
+              [&>p>img]:mx-auto [&>p>img]:block"
             dangerouslySetInnerHTML={{ __html: post.content }} 
           />
         </article>
