@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>kriyanshi</title>
     <script>
-        // GitHub Pages SPA redirect for /portfolio/ base path
-        var pathSegmentsToKeep = 1; // Keep /portfolio/ segment
+        // GitHub Pages SPA redirect for ROOT deployment (no subpath)
+        // Based on https://github.com/rafgraph/spa-github-pages
+        var pathSegmentsToKeep = 0; // Keep zero segments for root
         var l = window.location;
         l.replace(
             l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
@@ -19,12 +20,6 @@
 </head>
 <body>
     <div id="root"></div>
-    <script>
-        // Load the main bundle dynamically
-        var script = document.createElement('script');
-        script.type = 'module';
-        script.src = '/portfolio/assets/index-BbTrn_-y.js';
-        document.head.appendChild(script);
-    </script>
+    <!-- No bundle load here; redirect above navigates to /?/<path> which serves index.html -->
 </body>
 </html>
