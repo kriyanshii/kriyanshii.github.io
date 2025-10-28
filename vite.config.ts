@@ -10,8 +10,14 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: undefined,
+        // Ensure consistent asset naming for GitHub Pages
+        assetFileNames: 'assets/[name]-[hash][extname]',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
       },
     },
+    // Generate source maps for better debugging
+    sourcemap: true,
   },
   preview: {
     port: 3000,
