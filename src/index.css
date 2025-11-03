@@ -57,3 +57,27 @@
 .prose pre:not(.language-yaml):not(.language-yml) {
   @apply bg-gray-50 dark:bg-[#2a2a2a] border-gray-200 dark:border-gray-700;
 }
+
+/* Markdown table styling */
+.prose table {
+  /* enable horizontal scroll on small screens */
+  display: block;
+  overflow-x: auto;
+  @apply w-full my-6 border-collapse rounded-lg;
+}
+
+.prose thead th {
+  @apply bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-medium px-3 py-2 border border-gray-200 dark:border-gray-700 text-left;
+}
+
+.prose tbody td {
+  @apply px-3 py-2 border border-gray-200 dark:border-gray-700 align-top text-gray-700 dark:text-gray-300;
+}
+
+.prose tbody tr:nth-child(even) {
+  @apply bg-gray-50 dark:bg-gray-900/30;
+}
+
+.prose caption {
+  @apply text-sm text-gray-500 dark:text-gray-400 mt-2 caption-bottom;
+}
