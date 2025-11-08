@@ -29,7 +29,7 @@ md.renderer.rules.fence = (tokens, idx, options, env, self) => {
 };
 
 export async function getAllPosts(): Promise<BlogPost[]> {
-  const files = import.meta.glob('/src/content/blog/*.md', { 
+  const files = import.meta.glob('../content/blog/*.md', { 
     query: '?raw',
     import: 'default',
     eager: true
@@ -69,7 +69,7 @@ export async function getAllPosts(): Promise<BlogPost[]> {
 }
 
 export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
-  const files = import.meta.glob('/src/content/blog/*.md', { 
+  const files = import.meta.glob('../content/blog/*.md', { 
     query: '?raw',
     import: 'default',
     eager: true
