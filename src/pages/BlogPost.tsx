@@ -380,7 +380,7 @@ export function BlogPost() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-2xl mx-auto px-6 py-16">
+      <div className="max-w-4xl mx-auto px-6 py-16">
         <article className="prose prose-gray dark:prose-invert max-w-none">
           <h1 className="text-3xl font-medium mb-8 text-gray-900 dark:text-gray-100">
             {post.title}

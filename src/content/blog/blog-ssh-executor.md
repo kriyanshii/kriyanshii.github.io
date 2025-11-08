@@ -90,6 +90,8 @@ steps:
 | `strictHostKey` | No | `true` | Enable strict host key checking |
 | `knownHostFile` | No | `~/.ssh/known_hosts` | Path to known_hosts file |
 
+
+
 ## DAG-Level vs Step-Level Configuration
 
 Dagu provides flexibility in configuring SSH settings. You can define SSH configuration at two levels:
