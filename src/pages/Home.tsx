@@ -153,7 +153,7 @@ Right now, I'm diving into SeaDAS, NASA's go-to toolkit for processing and analy
 								</div>
 							</div>
 							<a
-								href="https://www.youtube.com/live/NyQced4oJVM?t=9548s"
+								href="https://youtu.be/6o_XY5jBchY?si=lZssP4yTXsjFuYQx"
 								target="_blank"
 								rel="noopener noreferrer"
 								className="ml-4 flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
