@@ -112,10 +112,7 @@ export function Home() {
 		<div className="max-w-3xl mx-auto px-6">
 			<header className="mb-10 flex flex-col sm:flex-row gap-6 sm:justify-between sm:items-start">
 					<p className="text-[15px] leading-relaxed text-gray-800 dark:text-gray-300">
-						I work somewhere between satellites, distributed systems, and the people who need their data on time. Most days, I’m designing workflows, orchestrating compute, and shaping quiet infrastructure behind the scenes.
-						I'm a software engineer at ISRO's Space Applications Centre, where I get to play with satellites (well, their data at least 🚀). I've built tools that ingest and schedule data from geostationary satellites and crafted interactive environments with JupyterHub to make planetary and weather research a lot more hands-on.
-						I also have hands-on experience running production and development setups on airgapped machines and on-prem servers—guiding everything from build to deployment. It's my guilty pleasure.
-						Right now, I'm diving into SeaDAS, NASA's go-to toolkit for processing and analyzing Earth observation data — tweaking it, customizing it, and making sure scientists can get the most out of satellite snapshots of our planet 🌍✨.
+					I work at the intersection of satellites, distributed systems, and the teams who need their data on time. At ISRO’s Space Applications Centre, I build ingestion, scheduling, and processing pipelines for geostationary satellite data and design JupyterHub environments that make planetary and weather research more accessible. I like running production and development setups on air-gapped and on-prem systems end to end—from build to deployment; it’s my guilty pleasure. Lately, I’ve been exploring and customizing SeaDAS to help scientists get more out of Earth observation data. 🌍✨
 					</p>
 					<div className="flex flex-col gap-3 shrink-0">
 						<a
