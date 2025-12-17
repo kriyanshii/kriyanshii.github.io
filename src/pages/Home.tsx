@@ -23,6 +23,16 @@ export function Home() {
 	const projectItems: ProjectItem[] = [
 		{
 			type: "project",
+			title: "VisionBoardIt",
+			date: "Dec 17, 2025",
+			description:
+				"Create beautiful vision boards with photos, notes, and emojis. Bring your dreams to life with Japanese-inspired elegance.",
+			link: "https://visionboardit.art/?ref=producthunt",
+			isNew: true,
+			tags: ["tools"],
+		},
+		{
+			type: "project",
 			title: "dagu",
 			date: "Sep 8, 2025",
 			description:
@@ -31,69 +41,69 @@ export function Home() {
 			tags: ["opensource"],
 		},
 		{
-		  type: "project",
-		  title: "MapReduce",
-		  date: "Jan 23, 2025",
-		  description:
-			"Implemented the MapReduce paper from MIT's Distributed Systems course (MIT 6.5840) in Go, gaining hands-on experience in parallel data processing, distributed computing, and fault tolerance.",
-		  link: "https://github.com/kriyanshii/mit-6.5840",
-		  tags: ["from scratch"],
+			type: "project",
+			title: "MapReduce",
+			date: "Jan 23, 2025",
+			description:
+				"Implemented the MapReduce paper from MIT's Distributed Systems course (MIT 6.5840) in Go, gaining hands-on experience in parallel data processing, distributed computing, and fault tolerance.",
+			link: "https://github.com/kriyanshii/mit-6.5840",
+			tags: ["from scratch"],
 		},
 		{
-		  type: "project",
-		  title: "Shell",
-		  date: "Dec 30, 2024",
-		  description:
-			"A minimalist implementation of a Unix shell built from scratch in Go.",
-		  link: "https://github.com/kriyanshii/shell-go",
-		  tags: ["from scratch"],
+			type: "project",
+			title: "Shell",
+			date: "Dec 30, 2024",
+			description:
+				"A minimalist implementation of a Unix shell built from scratch in Go.",
+			link: "https://github.com/kriyanshii/shell-go",
+			tags: ["from scratch"],
 		},
 		{
-		  type: "project",
-		  title: "Grep",
-		  date: "Feb 5, 2025",
-		  description:
-			"An implementation of the classic grep utility built from scratch in Go.",
-		  link: "https://github.com/kriyanshii/grep-go",
-		  tags: ["from scratch"],
+			type: "project",
+			title: "Grep",
+			date: "Feb 5, 2025",
+			description:
+				"An implementation of the classic grep utility built from scratch in Go.",
+			link: "https://github.com/kriyanshii/grep-go",
+			tags: ["from scratch"],
 		},
 		{
-		  type: "project",
-		  title: "Serene",
-		  date: "Feb 2025",
-		  description:
-			"A personalized productivity tool to help manage and complete day-to-day tasks. Built with a clean and simple UI.",
-		  link: "https://sereneworkspace.netlify.app/",
-		  isNew: true,
-		  tags: ["tools"],
+			type: "project",
+			title: "Serene",
+			date: "Feb 2025",
+			description:
+				"A personalized productivity tool to help manage and complete day-to-day tasks. Built with a clean and simple UI.",
+			link: "https://sereneworkspace.netlify.app/",
+			isNew: true,
+			tags: ["tools"],
 		},
 		{
-		  type: "project",
-		  title: "Rock Paper Scissors",
-		  date: "Nov 2024",
-		  description:
-			"An implementation of the classic Rock-Paper-Scissors game in TypeScript.",
-		  link: "https://github.com/kriyanshii/rock-paper-scissors",
-		  tags: ["games"],
+			type: "project",
+			title: "Rock Paper Scissors",
+			date: "Nov 2024",
+			description:
+				"An implementation of the classic Rock-Paper-Scissors game in TypeScript.",
+			link: "https://github.com/kriyanshii/rock-paper-scissors",
+			tags: ["games"],
 		},
 		{
-		  type: "project",
-		  title: "Bubble Burst",
-		  date: "Dec 2024",
-		  description:
-			"A fun browser-based game where you pop all the bubbles that appear on the screen.",
-		  link: "https://github.com/kriyanshii/bubble-burst",
-		  isNew: true,
-		  tags: ["games"],
+			type: "project",
+			title: "Bubble Burst",
+			date: "Dec 2024",
+			description:
+				"A fun browser-based game where you pop all the bubbles that appear on the screen.",
+			link: "https://github.com/kriyanshii/bubble-burst",
+			isNew: true,
+			tags: ["games"],
 		},
 		{
-		  type: "project",
-		  title: "Wordle",
-		  date: "Jan 2025",
-		  description:
-			"A from-scratch implementation of the popular Wordle game using TypeScript.",
-		  link: "https://github.com/kriyanshii/wordle",
-		  tags: ["games"],
+			type: "project",
+			title: "Wordle",
+			date: "Jan 2025",
+			description:
+				"A from-scratch implementation of the popular Wordle game using TypeScript.",
+			link: "https://github.com/kriyanshii/wordle",
+			tags: ["games"],
 		},
 	];
 	  
@@ -102,9 +112,11 @@ export function Home() {
 		<div className="max-w-3xl mx-auto px-6">
 			<header className="mb-10 flex flex-col sm:flex-row gap-6 sm:justify-between sm:items-start">
 					<p className="text-[15px] leading-relaxed text-gray-800 dark:text-gray-300">
-					I'm a software engineer at ISRO's Space Applications Centre, where I get to play with satellites (well, their data at least 🚀). I've built tools that ingest and schedule data from geostationary satellites and crafted interactive environments with JupyterHub to make planetary and weather research a lot more hands-on.
-
-Right now, I'm diving into SeaDAS, NASA's go-to toolkit for processing and analyzing Earth observation data — tweaking it, customizing it, and making sure scientists can get the most out of satellite snapshots of our planet 🌍✨.					</p>
+						I work somewhere between satellites, distributed systems, and the people who need their data on time. Most days, I’m designing workflows, orchestrating compute, and shaping quiet infrastructure behind the scenes.
+						I'm a software engineer at ISRO's Space Applications Centre, where I get to play with satellites (well, their data at least 🚀). I've built tools that ingest and schedule data from geostationary satellites and crafted interactive environments with JupyterHub to make planetary and weather research a lot more hands-on.
+						I also have hands-on experience running production and development setups on airgapped machines and on-prem servers—guiding everything from build to deployment. It's my guilty pleasure.
+						Right now, I'm diving into SeaDAS, NASA's go-to toolkit for processing and analyzing Earth observation data — tweaking it, customizing it, and making sure scientists can get the most out of satellite snapshots of our planet 🌍✨.
+					</p>
 					<div className="flex flex-col gap-3 shrink-0">
 						<a
 							href="https://github.com/kriyanshii"

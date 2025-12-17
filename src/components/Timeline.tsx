@@ -105,8 +105,10 @@ export function Timeline({ items, title }: TimelineProps) {
                             ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200'
                             : tag === 'games'
                             ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-200'
-                            : tag === 'opensource'
+                          : tag === 'opensource'
                             ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-200'
+                            : tag === 'new'
+                            ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200'
                             : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'
                         }`}
                       >
