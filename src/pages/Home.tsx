@@ -6,17 +6,25 @@ export function Home() {
 	const workItems: ProjectItem[] = [
 		{
 			type: "job",
+			title: "cloudraft",
+			date: "Jan, 2026",
+			description: "working on migration of n8n workflows from Docker to self-managed Kubernetes, designing namespaces, deployments/statefulsets, services, ingress, configmaps, and secrets.",
+			link: "https://cloudraft.io",
+			isNew: true,
+		},
+		{
+			type: "job",
 			title: "Space Application Center",
 			date: "Sep, 2023",
 			description:
 				"At the Space Applications Centre, ISRO, I've been fortunate to work on projects that bring space data closer to scientists and researchers:",
 			link: "#",
-			isNew: true,
+			isNew: false,
 			bulletPoints: [
 				"Built systems to ingest and manage continuous streams of data from geostationary satellites, ensuring reliable scheduling and availability for downstream applications",
 				"Developed JupyterHub-based platforms that empower planetary and meteorological researchers to run experiments, collaborate, and explore massive datasets in an interactive way.",
 				"Created scheduling systems for automated satellite data processing workflows",
-				"Recently started contributing to the customization of SeaDAS, NASA’s toolkit for processing and analyzing Earth observation data"
+				"Recently started contributing to the customization of SeaDAS, NASA's toolkit for processing and analyzing Earth observation data"
 			],
 		},
 	];
