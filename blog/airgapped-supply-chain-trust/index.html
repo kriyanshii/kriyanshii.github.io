@@ -34,8 +34,8 @@
 
     
     
-    <script type="module" crossorigin src="/assets/index-Bhkaxq17.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-qfpOjz0d.css">
+    <script type="module" crossorigin src="/assets/index-DecGO-ae.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-m277N5rh.css">
     <style>
       .static-blog { max-width: 48rem; margin: 0 auto; padding: 4rem 1.5rem; font-family: system-ui, sans-serif; line-height: 1.7; color: #374151; }
       .static-blog h1 { font-size: 1.875rem; font-weight: 500; margin-bottom: 1.5rem; color: #111827; }
@@ -44,6 +44,7 @@
       .static-blog a { color: #2563eb; }
       .static-blog figcaption { font-size: 0.875rem; color: #6b7280; margin: 0.5rem 0 1.5rem; font-style: italic; }
       .static-blog .mermaid-figure { margin: 1.5rem 0; padding: 1rem; background: #f9fafb; border-radius: 0.5rem; }
+      .static-blog .mermaid-diagram { display: block; max-width: 100%; height: auto; margin: 0 auto; }
     </style>
   </head>
   <body>
@@ -64,57 +65,13 @@
 <p>In most engineering environments today, the network quietly becomes part of the runtime. Dependencies are downloaded dynamically. Container images are pulled from registries without much thought. Package managers resolve transitive dependencies invisibly. Trust is inherited passively because the surrounding ecosystem is designed to feel frictionless.</p>
 <p>Inside constrained systems, that abstraction disappears very quickly.</p>
 <p><em>Figure: Artifacts move from an internet-connected acquisition machine through controlled transfer into the air-gapped build environment, then into custom UBI9 container images and JupyterHub.</em></p>
-<figure class="mermaid-figure"><div class="mermaid">flowchart LR
-
-A[Internet Connected Machine] --> B[Download Source Code]
-A --> C[Fetch Python Packages]
-A --> D[Collect RPM Dependencies]
-A --> E[Access Documentation]
-A --> F[Retrieve Build Requirements]
-
-B --> G[Controlled Artifact Transfer]
-C --> G
-D --> G
-E --> G
-F --> G
-
-G --> H[Air-Gapped Environment]
-
-H --> I[Build Scientific Libraries From Source]
-H --> J[Compile Native Dependencies]
-H --> K[Configure Python Runtime]
-H --> L[Resolve Shared Object Dependencies]
-
-I --> M[Custom UBI9 Container Images]
-J --> M
-K --> M
-L --> M
-
-M --> N[JupyterHub Deployment]
-
-N --> O[Persistent Notebook Environments]
-N --> P[Isolated User Workloads]
-N --> Q[Notebook Execution]
-N --> R[Notebook to Webpage Conversion]</div><figcaption>Diagram: flowchart LR</figcaption></figure><p>We primarily worked on isolated systems with a single internet-connected machine acting as the external acquisition point. Source code, Python packages, RPM dependencies, documentation, and build requirements were collected there first and then transferred internally into the air-gapped environment where the actual builds happened.</p>
+<figure class="mermaid-figure"><img src="/diagrams/airgapped-supply-chain-trust/0.svg" alt="Diagram" class="mermaid-diagram" loading="lazy" /></figure><p>We primarily worked on isolated systems with a single internet-connected machine acting as the external acquisition point. Source code, Python packages, RPM dependencies, documentation, and build requirements were collected there first and then transferred internally into the air-gapped environment where the actual builds happened.</p>
 <p>That workflow changes how you think about software almost immediately.</p>
 <p>A simple <code>pip install</code> no longer feels lightweight. Every dependency introduces questions around compatibility, reproducibility, runtime behavior, and operational trust boundaries. The movement of artifacts itself becomes important because software no longer enters the environment invisibly.</p>
 <hr>
 <h2>Trust Boundaries</h2>
 <p><em>Figure: External internet sources feed an artifact acquisition machine; only approved artifacts cross the trust boundary into the air-gapped environment for source builds and controlled deployment.</em></p>
-<figure class="mermaid-figure"><div class="mermaid">flowchart TD
-
-A[External Internet Sources] --> B[Artifact Acquisition Machine]
-
-B --> C{Trust Boundary}
-
-C -->|Approved Artifacts Only| D[Air-Gapped Environment]
-
-D --> E[Source Builds]
-D --> F[Dependency Resolution]
-D --> G[Runtime Validation]
-D --> H[Container Image Creation]
-
-H --> I[Controlled Deployment]</div><figcaption>Diagram: flowchart TD</figcaption></figure><p>Over time, source builds started feeling easier to trust than binaries we did not fully understand.</p>
+<figure class="mermaid-figure"><img src="/diagrams/airgapped-supply-chain-trust/1.svg" alt="Diagram" class="mermaid-diagram" loading="lazy" /></figure><p>Over time, source builds started feeling easier to trust than binaries we did not fully understand.</p>
 <p>Not because source builds are automatically safer, but because they exposed more of the system. Compilation steps became visible. Linked libraries became visible. Runtime incompatibilities became visible. Hidden assumptions became visible.</p>
 <hr>
 <h2>Scientific Python Dependencies</h2>
@@ -122,25 +79,7 @@ H --> I[Controlled Deployment]</div><figcaption>Diagram: flowchart TD</figcaptio
 <p>A large part of the environment depended on libraries like Astropy, Skyfield, and SunPy, along with geospatial tooling around GDAL and several native dependencies sitting underneath the Python layer. Much of this work lives in the same design space as the <a href="/blog/interacitve-computing-environments">interactive computing platform</a> we built for open science workloads in India.</p>
 <p>At first, the environment looked manageable. Most libraries installed normally until geospatial tooling entered the picture.</p>
 <p><em>Figure: Scientific Python packages depend on C/C++ extensions, Fortran libraries, compiler toolchains, and OS-level dependencies — each layer can introduce build failures in isolated environments.</em></p>
-<figure class="mermaid-figure"><div class="mermaid">flowchart LR
-
-A[Python Application Layer] --> B[Scientific Python Packages]
-
-B --> C[C / C++ Extensions]
-C --> D[Fortran Dependencies]
-D --> E[System Libraries]
-E --> F[Compiler Toolchains]
-F --> G[OS-Level Dependencies]
-
-G --> H[YUM Repositories]
-G --> I[Shared Object Files]
-G --> J[Python ABI Compatibility]
-
-J --> K[Build Failures]
-I --> K
-H --> K
-
-K --> L[Operational Complexity]</div><figcaption>Diagram: flowchart LR</figcaption></figure><p>GDAL in particular became a recurring source of operational pain.</p>
+<figure class="mermaid-figure"><img src="/diagrams/airgapped-supply-chain-trust/2.svg" alt="Diagram" class="mermaid-diagram" loading="lazy" /></figure><p>GDAL in particular became a recurring source of operational pain.</p>
 <p>Sometimes a build would succeed on one system and fail silently inside another environment with an almost identical dependency graph. Other times the Python environment itself looked healthy while a missing <code>.so</code> dependency several layers below quietly broke runtime behavior. There were cases where the compiler version was technically compatible, but linked against libraries the isolated runtime environment could not properly resolve later.</p>
 <p>A surprising amount of engineering time went into tracing dependency behavior rather than writing application code.</p>
 <p>That experience changed how I thought about dependency trees entirely.</p>
@@ -149,38 +88,13 @@ K --> L[Operational Complexity]</div><figcaption>Diagram: flowchart LR</figcapti
 <hr>
 <h2>Source Builds vs Prebuilt Binaries</h2>
 <p><em>Figure: Prebuilt binaries hide build assumptions and linked libraries, reducing trust; source builds expose compilation steps and dependencies, increasing confidence.</em></p>
-<figure class="mermaid-figure"><div class="mermaid">flowchart TD
-
-A[Prebuilt Binary] --> B[Hidden Build Assumptions]
-A --> C[Unknown Linked Libraries]
-A --> D[Opaque Dependency Chains]
-
-E[Source Build] --> F[Visible Compilation Steps]
-E --> G[Traceable Dependencies]
-E --> H[Better Runtime Visibility]
-
-B --> I[Reduced Trust]
-C --> I
-D --> I
-
-F --> J[Higher Confidence]
-G --> J
-H --> J</div><figcaption>Diagram: flowchart TD</figcaption></figure><p>One practical decision we made fairly early was locking Python versions and building the environment around a controlled runtime combination. Initially it felt like operational convenience. Over time it became clear it was actually a way of reducing uncertainty inside an already fragile ecosystem.</p>
+<figure class="mermaid-figure"><img src="/diagrams/airgapped-supply-chain-trust/3.svg" alt="Diagram" class="mermaid-diagram" loading="lazy" /></figure><p>One practical decision we made fairly early was locking Python versions and building the environment around a controlled runtime combination. Initially it felt like operational convenience. Over time it became clear it was actually a way of reducing uncertainty inside an already fragile ecosystem.</p>
 <p>Scientific stacks are difficult enough without uncontrolled upgrades introducing additional instability.</p>
 <p>Keeping runtimes predictable reduced rebuild complexity, minimized subtle incompatibilities, and made debugging far more survivable in constrained environments where iteration cycles were naturally slower. That same instinct — designing for predictable failure modes rather than hoping workflows succeed — shows up in <a href="/blog/partial-success">building resilient workflows</a> more broadly.</p>
 <hr>
 <h2>Locked Runtimes and Reproducibility</h2>
 <p><em>Figure: Locking Python versions and controlling the runtime reduces dependency drift, leading to deterministic builds and operational stability.</em></p>
-<figure class="mermaid-figure"><div class="mermaid">flowchart LR
-
-A[Uncontrolled Upgrades] --> B[Dependency Drift]
-B --> C[Runtime Instability]
-C --> D[Difficult Debugging]
-
-E[Locked Python Version] --> F[Controlled Runtime]
-F --> G[Deterministic Builds]
-G --> H[Reduced Variability]
-H --> I[Operational Stability]</div><figcaption>Diagram: flowchart LR</figcaption></figure><p>The container layer mattered for similar reasons.</p>
+<figure class="mermaid-figure"><img src="/diagrams/airgapped-supply-chain-trust/4.svg" alt="Diagram" class="mermaid-diagram" loading="lazy" /></figure><p>The container layer mattered for similar reasons.</p>
 <p>We built our custom images on top of UBI9 largely because it provided a stable and enterprise-grade base to build on. In environments where scientific dependencies were already complicated enough, reducing variability at the operating system layer improved reproducibility and long-term maintainability significantly.</p>
 <p>What I find interesting now is how many modern supply-chain-security conversations revolve around operational realities that constrained systems naturally expose.</p>
 <p>At the time, we were not implementing SBOM pipelines, signed artifacts, provenance frameworks, or attestation systems explicitly. But many of the underlying concerns were already present. Questions around dependency trust, deterministic environments, artifact control, and reproducibility emerged naturally once internet access stopped being treated as invisible infrastructure.</p>
@@ -189,33 +103,12 @@ H --> I[Operational Stability]</div><figcaption>Diagram: flowchart LR</figcaptio
 <p>Even developer experience started looking different under those constraints.</p>
 <p>The goal was not only to secure infrastructure. Researchers still needed environments that were usable. We spent considerable effort building persistent notebook environments, reproducible Python setups, isolated workloads, and workflows like one-click notebook-to-webpage conversion because security constraints alone are not enough to make a platform useful.</p>
 <p><em>Figure: Security constraints shaped platform design — persistent notebooks, reproducible environments, isolated workloads, and self-service workflows together produced a usable scientific platform.</em></p>
-<figure class="mermaid-figure"><div class="mermaid">flowchart TD
-
-A[Security Constraints] --> B[Developer Platform Design]
-
-B --> C[Persistent Notebook Environments]
-B --> D[Reproducible Python Environments]
-B --> E[Isolated User Workloads]
-B --> F[Self-Service Workflows]
-B --> G[Notebook to Webpage Conversion]
-
-C --> H[Usable Scientific Platform]
-D --> H
-E --> H
-F --> H
-G --> H</div><figcaption>Diagram: flowchart TD</figcaption></figure><p>That experience changed how I think about platform engineering more broadly.</p>
+<figure class="mermaid-figure"><img src="/diagrams/airgapped-supply-chain-trust/5.svg" alt="Diagram" class="mermaid-diagram" loading="lazy" /></figure><p>That experience changed how I think about platform engineering more broadly.</p>
 <p>Infrastructure systems are also trust systems. And trust is often shaped less by explicit security policy and more by operational design decisions quietly accumulating underneath developer workflows.</p>
 <p>Looking back, I do not think air-gapped systems necessarily made development harder.</p>
 <p>They simply made inherited trust assumptions impossible to ignore.</p>
 <p><em>Figure: Air-gapped constraints force visibility, which leads to understanding, controlled dependencies, deterministic systems, and operational trust.</em></p>
-<figure class="mermaid-figure"><div class="mermaid">flowchart LR
-
-A[Visibility] --> B[Understanding]
-B --> C[Controlled Dependencies]
-C --> D[Deterministic Systems]
-D --> E[Operational Trust]
-
-F[Air-Gapped Constraints] --> A</div><figcaption>Diagram: flowchart LR</figcaption></figure><hr>
+<figure class="mermaid-figure"><img src="/diagrams/airgapped-supply-chain-trust/6.svg" alt="Diagram" class="mermaid-diagram" loading="lazy" /></figure><hr>
 <h2>Further Context</h2>
 <p>I also had the opportunity to speak publicly about parts of this infrastructure work and the JupyterHub ecosystem we built around constrained scientific workloads. Looking back, many of the operational concerns discussed there now feel closely connected to broader conversations around software trust, reproducibility, and infrastructure design.</p>
 <p><a href="https://www.youtube.com/live/NyQced4oJVM?t=9548s">Watch my talk on building JupyterHub for air-gapped scientific workloads</a></p>
