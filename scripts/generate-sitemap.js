@@ -39,6 +39,10 @@ function buildSitemap() {
   const urls = [
     { loc: '/', priority: '1.0', changefreq: 'weekly', lastmod: today },
     { loc: '/blog', priority: '0.9', changefreq: 'weekly', lastmod: today },
+    { loc: '/projects', priority: '0.8', changefreq: 'monthly', lastmod: today },
+    { loc: '/resume', priority: '0.8', changefreq: 'monthly', lastmod: today },
+    { loc: '/talks', priority: '0.8', changefreq: 'monthly', lastmod: today },
+    { loc: '/opensource', priority: '0.8', changefreq: 'monthly', lastmod: today },
     ...posts.map((post) => ({
       loc: `/blog/${post.slug}`,
       priority: '0.8',
