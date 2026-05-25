@@ -117,6 +117,7 @@ ${headAssets}
       .static-blog a { color: #2563eb; }
       .static-blog figcaption { font-size: 0.875rem; color: #6b7280; margin: 0.5rem 0 1.5rem; font-style: italic; }
       .static-blog .mermaid-figure { margin: 1.5rem 0; padding: 1rem; background: #f9fafb; border-radius: 0.5rem; }
+      .static-blog .mermaid-diagram { display: block; max-width: 100%; height: auto; margin: 0 auto; }
     </style>
   </head>
   <body>
@@ -139,7 +140,7 @@ function loadPosts() {
       const slug = file.replace(/\.md$/, '');
       const raw = readFileSync(join(BLOG_DIR, file), 'utf8');
       const { attributes, body } = frontMatter(raw);
-      const html = stripLeadingH1(renderMarkdown(body));
+      const html = stripLeadingH1(renderMarkdown(body, { slug }));
 
       return {
         slug,

@@ -1,6 +1,7 @@
 import frontMatter from 'front-matter';
 import MarkdownIt from 'markdown-it';
 import type { BlogPost, BlogFrontmatter } from '../types';
+import mermaidManifest from '../generated/mermaid-manifest.json';
 
 function normalizeDate(value: string | Date): string {
   if (typeof value === 'string') return value.split('T')[0];
@@ -8,31 +9,50 @@ function normalizeDate(value: string | Date): string {
   return String(value).split('T')[0];
 }
 
-const md = new MarkdownIt({
-  html: true,
-  breaks: true,
-  linkify: true,
-  typographer: true,
-  highlight: function (str, lang) {
-    return `<pre class="bg-gray-50 dark:bg-[#2a2a2a] p-4 rounded-lg overflow-x-auto"><code class="language-${lang}">${str}</code></pre>`;
-  }
-});
+function mermaidFigureHtml(imageUrl: string, alt = 'Diagram') {
+  const safeAlt = alt.replace(/"/g, '&quot;');
+  return `<figure class="mermaid-figure"><img src="${imageUrl}" alt="${safeAlt}" class="mermaid-diagram" loading="lazy" /></figure>`;
+}
 
-// Support Mermaid code fences by converting them to containers Mermaid can hydrate
-const originalFenceRule = md.renderer.rules.fence;
-md.renderer.rules.fence = (tokens, idx, options, env, self) => {
-  const token = tokens[idx];
-  const info = (token.info || '').trim().toLowerCase();
-  if (info === 'mermaid') {
-    const diagramDefinition = token.content;
-    // Mermaid expects raw text inside a container element with class "mermaid"
-    return `<div class="mermaid">\n${diagramDefinition}\n</div>`;
-  }
-  if (originalFenceRule) {
-    return originalFenceRule(tokens, idx, options, env, self);
-  }
-  return self.renderToken(tokens, idx, options);
-};
+function createMarkdownRenderer(mermaidImages: string[] = []) {
+  let mermaidIndex = 0;
+
+  const md = new MarkdownIt({
+    html: true,
+    breaks: true,
+    linkify: true,
+    typographer: true,
+    highlight: function (str, lang) {
+      return `<pre class="bg-gray-50 dark:bg-[#2a2a2a] p-4 rounded-lg overflow-x-auto"><code class="language-${lang}">${str}</code></pre>`;
+    },
+  });
+
+  const originalFenceRule = md.renderer.rules.fence;
+  md.renderer.rules.fence = (tokens, idx, options, env, self) => {
+    const token = tokens[idx];
+    const info = (token.info || '').trim().toLowerCase();
+    if (info === 'mermaid') {
+      const imageUrl = mermaidImages[mermaidIndex++];
+      if (imageUrl) {
+        return mermaidFigureHtml(imageUrl);
+      }
+      const diagramDefinition = token.content;
+      return `<div class="mermaid">\n${diagramDefinition}\n</div>`;
+    }
+    if (originalFenceRule) {
+      return originalFenceRule(tokens, idx, options, env, self);
+    }
+    return self.renderToken(tokens, idx, options);
+  };
+
+  return md;
+}
+
+function renderPostBody(body: string, slug: string) {
+  const mermaidImages = mermaidManifest[slug as keyof typeof mermaidManifest] ?? [];
+  const md = createMarkdownRenderer(mermaidImages);
+  return md.render(body);
+}
 
 export async function getAllPosts(): Promise<BlogPost[]> {
   const files = import.meta.glob('../content/blog/*.md', { 
@@ -58,7 +78,7 @@ export async function getAllPosts(): Promise<BlogPost[]> {
           slug,
           title: attributes.title,
           date: normalizeDate(attributes.date),
-          content: md.render(body),
+          content: renderPostBody(body, slug),
           description: attributes.description || body.slice(0, 150) + '...',
           tag: attributes.tag,
           ogImage: attributes.ogImage,
@@ -95,7 +115,7 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
       slug,
       title: attributes.title,
       date: normalizeDate(attributes.date),
-      content: md.render(body),
+      content: renderPostBody(body, slug),
       description: attributes.description || body.slice(0, 150) + '...',
       tag: attributes.tag,
       ogImage: attributes.ogImage,

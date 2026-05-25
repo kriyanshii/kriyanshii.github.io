@@ -1,27 +1,41 @@
 import MarkdownIt from 'markdown-it';
+import { loadMermaidManifest, mermaidFigureHtml } from './mermaid-manifest.mjs';
 
-const md = new MarkdownIt({
-  html: true,
-  breaks: true,
-  linkify: true,
-  typographer: true,
-});
+function createMarkdownIt({ mermaidImages = [] } = {}) {
+  let mermaidIndex = 0;
 
-const originalFenceRule = md.renderer.rules.fence;
-md.renderer.rules.fence = (tokens, idx, options, env, self) => {
-  const token = tokens[idx];
-  const info = (token.info || '').trim().toLowerCase();
-  if (info === 'mermaid') {
-    const diagramDefinition = token.content.trim();
-    return `<figure class="mermaid-figure"><div class="mermaid">${diagramDefinition}</div><figcaption>Diagram: ${diagramDefinition.split('\n')[0] || 'flowchart'}</figcaption></figure>`;
-  }
-  if (originalFenceRule) {
-    return originalFenceRule(tokens, idx, options, env, self);
-  }
-  return self.renderToken(tokens, idx, options);
-};
+  const md = new MarkdownIt({
+    html: true,
+    breaks: true,
+    linkify: true,
+    typographer: true,
+  });
 
-export function renderMarkdown(body) {
+  const originalFenceRule = md.renderer.rules.fence;
+  md.renderer.rules.fence = (tokens, idx, options, env, self) => {
+    const token = tokens[idx];
+    const info = (token.info || '').trim().toLowerCase();
+    if (info === 'mermaid') {
+      const imageUrl = mermaidImages[mermaidIndex++];
+      if (imageUrl) {
+        return mermaidFigureHtml(imageUrl);
+      }
+      const diagramDefinition = token.content.trim();
+      return `<figure class="mermaid-figure"><div class="mermaid">${diagramDefinition}</div></figure>`;
+    }
+    if (originalFenceRule) {
+      return originalFenceRule(tokens, idx, options, env, self);
+    }
+    return self.renderToken(tokens, idx, options);
+  };
+
+  return md;
+}
+
+export function renderMarkdown(body, { slug } = {}) {
+  const manifest = loadMermaidManifest();
+  const mermaidImages = slug ? manifest[slug] || [] : [];
+  const md = createMarkdownIt({ mermaidImages });
   return md.render(body);
 }
 

@@ -1,0 +1,14 @@
+{
+  "airgapped-supply-chain-trust": [
+    "/diagrams/airgapped-supply-chain-trust/0.svg",
+    "/diagrams/airgapped-supply-chain-trust/1.svg",
+    "/diagrams/airgapped-supply-chain-trust/2.svg",
+    "/diagrams/airgapped-supply-chain-trust/3.svg",
+    "/diagrams/airgapped-supply-chain-trust/4.svg",
+    "/diagrams/airgapped-supply-chain-trust/5.svg",
+    "/diagrams/airgapped-supply-chain-trust/6.svg"
+  ],
+  "interacitve-computing-environments": [
+    "/diagrams/interacitve-computing-environments/0.svg"
+  ]
+}

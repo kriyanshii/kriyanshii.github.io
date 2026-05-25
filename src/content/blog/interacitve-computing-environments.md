@@ -86,3 +86,4 @@ flowchart LR
     G --> H[Mercury Converts Notebook into Web App]
     H --> I[JupyterLab Extensions Manage Web Apps]
     I --> J[Researcher Shares Interactive App with Peers]
+```
