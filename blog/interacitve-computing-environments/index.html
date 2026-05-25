@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <title>Interactive Computing Environments | Kriyanshi</title>
+    <meta name="description" content="Empowering Open Science with Scalable Interactive Computing Environments in India" />
+    <link rel="canonical" href="https://kriyanshii.github.io/blog/interacitve-computing-environments" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://kriyanshii.github.io/blog/interacitve-computing-environments" />
+    <meta property="og:title" content="Interactive Computing Environments" />
+    <meta property="og:description" content="Empowering Open Science with Scalable Interactive Computing Environments in India" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content="https://kriyanshii.github.io/og/interacitve-computing-environments.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Interactive Computing Environments" />
+    <meta name="twitter:description" content="Empowering Open Science with Scalable Interactive Computing Environments in India" />
+    <meta name="twitter:image" content="https://kriyanshii.github.io/og/interacitve-computing-environments.png" />
+    <meta property="article:published_time" content="2025-09-23" />
+    <meta property="article:section" content="Tech" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Interactive Computing Environments","description":"Empowering Open Science with Scalable Interactive Computing Environments in India","url":"https://kriyanshii.github.io/blog/interacitve-computing-environments","datePublished":"2025-09-23","dateModified":"2025-09-23","image":"https://kriyanshii.github.io/og/interacitve-computing-environments.png","author":{"@type":"Person","name":"Kriyanshi","url":"https://kriyanshii.github.io"},"publisher":{"@type":"Person","name":"Kriyanshi","url":"https://kriyanshii.github.io"},"articleSection":"Tech","mainEntityOfPage":{"@type":"WebPage","@id":"https://kriyanshii.github.io/blog/interacitve-computing-environments"}}</script>
+<meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" sizes="32x32" href="/assets/favicon-Te9WZvHs.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+    
+    
+
+    
+    <link rel="stylesheet" crossorigin href="/assets/index-qfpOjz0d.css">
+    <style>
+      .static-blog { max-width: 48rem; margin: 0 auto; padding: 4rem 1.5rem; font-family: system-ui, sans-serif; line-height: 1.7; color: #374151; }
+      .static-blog h1 { font-size: 1.875rem; font-weight: 500; margin-bottom: 1.5rem; color: #111827; }
+      .static-blog h2 { font-size: 1.25rem; font-weight: 500; margin: 2rem 0 1rem; color: #111827; }
+      .static-blog p { margin-bottom: 1.25rem; }
+      .static-blog a { color: #2563eb; }
+      .static-blog figcaption { font-size: 0.875rem; color: #6b7280; margin: 0.5rem 0 1.5rem; font-style: italic; }
+      .static-blog .mermaid-figure { margin: 1.5rem 0; padding: 1rem; background: #f9fafb; border-radius: 0.5rem; }
+    </style>
+  </head>
+  <body>
+    <noscript>
+      <main class="static-blog">
+        
+        <article>
+          <h1>Interactive Computing Environments</h1>
+          <p><time datetime="2025-09-23">2025-09-23</time> · Tech</p>
+          <h2>Introduction</h2>
+<p>Open Science is transforming how research is conducted, shared, and reused across the globe.<br>
+In India, where diverse scientific communities work on domains ranging from <strong>planetary science</strong> to <strong>meteorology</strong>, the need for scalable, reproducible, and accessible research platforms is stronger than ever.</p>
+<p>To address this, I designed and developed a <strong>cloud-native, Free and Open Source Software (FOSS)-powered platform</strong> that lowers the barriers for scientists to adopt open, reproducible workflows.</p>
+<p>This blog post outlines the motivation, architecture, and impact of this project.</p>
+<hr>
+<h2>Challenges in Scientific Computing</h2>
+<p>Researchers in India face several challenges when working with scientific data and tools:</p>
+<ul>
+<li>Complex setup of software environments across different domains.</li>
+<li>Limited access to scalable infrastructure.</li>
+<li>Difficulty in converting computational notebooks into shareable tools.</li>
+<li>Fragmentation in adopting FOSS workflows.</li>
+</ul>
+<p>These challenges slow down reproducible science and collaboration.<br>
+Our solution aims to solve these problems using open-source technologies.</p>
+<hr>
+<h2>The Solution: Scalable Interactive Environments</h2>
+<p>At the core of the platform is <strong>JupyterHub</strong>, deployed on <strong>Kubernetes</strong>, which provides a scalable environment for interactive computing.<br>
+Each researcher logs into a web-based portal and gets access to a <strong>customized containerized workspace</strong>.</p>
+<p>Key features:</p>
+<ul>
+<li><strong>Custom Docker Images</strong>: Domain-specific environments (e.g., planetary science, meteorology) preloaded with required libraries.</li>
+<li><strong>Shared Data Volumes</strong>: Mounted with satellite datasets to allow direct access to scientific data.</li>
+<li><strong>Secure &amp; Scalable Pods</strong>: Managed by Kubernetes using <strong>KubeSpawner</strong>, ensuring isolation and resource allocation.</li>
+</ul>
+<hr>
+<h2>Enhancing Interactivity with Mercury</h2>
+<p>While Jupyter Notebooks are powerful, sharing results often requires additional steps.<br>
+To bridge this gap, I integrated <strong>Mercury</strong>, an open-source library, into the JupyterLab environment.</p>
+<h3>Custom Mercury Enhancements</h3>
+<ul>
+<li>Integrated Mercury inside <strong>multi-user JupyterHub setup</strong>.</li>
+<li>Added support for <strong>RESTful APIs</strong>.</li>
+<li>Built <strong>custom JupyterLab extensions</strong> to let users create, update, and delete Mercury web apps through a graphical interface.</li>
+</ul>
+<p>This enables researchers to <strong>convert notebooks into web applications</strong> seamlessly, making their analyses interactive and shareable with peers.</p>
+<hr>
+<h2>Supporting Tools and Integrations</h2>
+<p>The platform leverages several open-source components:</p>
+<ul>
+<li><strong>JupyterHub</strong> – Web interface for multi-user access.</li>
+<li><strong>Kubernetes + KubeSpawner</strong> – Scalable orchestration of user pods.</li>
+<li><strong>Docker</strong> – Containerization of domain-specific environments.</li>
+<li><strong>JupyterLab</strong> – Interactive computing workspace.</li>
+<li><strong>Jupyter Server Proxy</strong> – Secure access to additional services within JupyterHub.</li>
+<li><strong>Mercury (custom build)</strong> – Notebook-to-webapp conversion, enhanced for multi-user workflows.</li>
+<li><strong>JupyterLab Extensions</strong> – Simplified UI for managing Mercury apps.</li>
+</ul>
+<hr>
+<h2>User Flow</h2>
+<figure class="mermaid-figure"><div class="mermaid">flowchart LR
+    A[Researcher Login] --> B[JupyterHub Authentication]
+    B --> C[KubeSpawner launches User Pod]
+    C --> D[Custom Docker Image Loaded with Domain Libraries]
+    D --> E[Shared Satellite Data Volume Mounted]
+    E --> F[JupyterLab Interactive Environment]
+    F --> G[Jupyter Server Proxy Enables Access to Services]
+    G --> H[Mercury Converts Notebook into Web App]
+    H --> I[JupyterLab Extensions Manage Web Apps]
+    I --> J[Researcher Shares Interactive App with Peers]</div><figcaption>Diagram: flowchart LR</figcaption></figure>
+        </article>
+        <p><a href="https://kriyanshii.github.io/blog/interacitve-computing-environments">Open interactive version</a></p>
+      </main>
+    </noscript>
+    <noscript>
+      <main style="max-width:42rem;margin:2rem auto;padding:0 1.5rem;font-family:system-ui,sans-serif;line-height:1.6;color:#333">
+        <h1>Kriyanshi</h1>
+        <p>I work at the intersection of satellites, distributed systems, and the teams who need their data on time. At ISRO's Space Applications Centre, I build ingestion, scheduling, and processing pipelines for geostationary satellite data and design JupyterHub environments that make planetary and weather research more accessible.</p>
+        <p><strong>Work:</strong> Cloudraft (Kubernetes, n8n migration) · Space Applications Centre, ISRO (satellite data, JupyterHub, SeaDAS)</p>
+        <p><strong>Projects:</strong> <a href="https://visionboardit.art">VisionBoardIt</a> · <a href="https://github.com/dagu-org/dagu">Dagu</a> · <a href="https://github.com/kriyanshii/mit-6.5840">MapReduce</a> · <a href="https://sereneworkspace.netlify.app">Serene</a> · <a href="https://github.com/kriyanshii">more on GitHub</a></p>
+        <p><strong>Links:</strong> <a href="https://github.com/kriyanshii">GitHub</a> · <a href="https://x.com/kriyanshii">Twitter/X</a></p>
+        <p><a href="/blog">Blog</a> — Thoughts on software development and backend engineering.</p>
+        <p><em>This site uses JavaScript for the full experience. Enable JS or visit the links above.</em></p>
+      </main>
+    </noscript>
+    <div id="root"></div>
+    <script>
+      (function (l) {
+        if (l.search && l.search.startsWith('?/')) {
+          var decoded = l.search
+            .slice(2)
+            .split('&')
+            .map(function (s) {
+              return s.replace(/~and~/g, '&');
+            })
+            .join('?');
+          window.history.replaceState(null, null, '/' + decoded + l.hash);
+        }
+      })(window.location);
+    </script>
+  </body>
+</html>

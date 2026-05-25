@@ -1,0 +1,965 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <title>Using SSH Executor in Dagu | Kriyanshi</title>
+    <meta name="description" content="A Complete Guide" />
+    <link rel="canonical" href="https://kriyanshii.github.io/blog/blog-ssh-executor" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://kriyanshii.github.io/blog/blog-ssh-executor" />
+    <meta property="og:title" content="Using SSH Executor in Dagu" />
+    <meta property="og:description" content="A Complete Guide" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content="https://kriyanshii.github.io/og/blog-ssh-executor.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Using SSH Executor in Dagu" />
+    <meta name="twitter:description" content="A Complete Guide" />
+    <meta name="twitter:image" content="https://kriyanshii.github.io/og/blog-ssh-executor.png" />
+    <meta property="article:published_time" content="2025-11-02" />
+    <meta property="article:section" content="Tech" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Using SSH Executor in Dagu","description":"A Complete Guide","url":"https://kriyanshii.github.io/blog/blog-ssh-executor","datePublished":"2025-11-02","dateModified":"2025-11-02","image":"https://kriyanshii.github.io/og/blog-ssh-executor.png","author":{"@type":"Person","name":"Kriyanshi","url":"https://kriyanshii.github.io"},"publisher":{"@type":"Person","name":"Kriyanshi","url":"https://kriyanshii.github.io"},"articleSection":"Tech","mainEntityOfPage":{"@type":"WebPage","@id":"https://kriyanshii.github.io/blog/blog-ssh-executor"}}</script>
+<meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" sizes="32x32" href="/assets/favicon-Te9WZvHs.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+    
+    
+
+    
+    <link rel="stylesheet" crossorigin href="/assets/index-qfpOjz0d.css">
+    <style>
+      .static-blog { max-width: 48rem; margin: 0 auto; padding: 4rem 1.5rem; font-family: system-ui, sans-serif; line-height: 1.7; color: #374151; }
+      .static-blog h1 { font-size: 1.875rem; font-weight: 500; margin-bottom: 1.5rem; color: #111827; }
+      .static-blog h2 { font-size: 1.25rem; font-weight: 500; margin: 2rem 0 1rem; color: #111827; }
+      .static-blog p { margin-bottom: 1.25rem; }
+      .static-blog a { color: #2563eb; }
+      .static-blog figcaption { font-size: 0.875rem; color: #6b7280; margin: 0.5rem 0 1.5rem; font-style: italic; }
+      .static-blog .mermaid-figure { margin: 1.5rem 0; padding: 1rem; background: #f9fafb; border-radius: 0.5rem; }
+    </style>
+  </head>
+  <body>
+    <noscript>
+      <main class="static-blog">
+        
+        <article>
+          <h1>Using SSH Executor in Dagu</h1>
+          <p><time datetime="2025-11-02">2025-11-02</time> · Tech</p>
+          <p>Dagu is a powerful workflow engine that allows you to execute commands on remote servers using SSH. This capability is essential for tasks like remote deployments, server management, database backups, and distributed computing. In this comprehensive guide, we’ll explore how to leverage Dagu’s SSH executor to run commands securely on remote hosts.</p>
+<blockquote>
+<p><strong>Note</strong>: This guide is based on the current version of Dagu as of the latest release. Features and syntax may have evolved since earlier versions.</p>
+</blockquote>
+<h2>Table of Contents</h2>
+<ol>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#understanding-ssh-executor">Understanding SSH Executor</a></li>
+<li><a href="#basic-ssh-configuration">Basic SSH Configuration</a></li>
+<li><a href="#dag-level-vs-step-level-configuration">DAG-Level vs Step-Level Configuration</a></li>
+<li><a href="#authentication-methods">Authentication Methods</a></li>
+<li><a href="#real-world-examples">Real-World Examples</a></li>
+<li><a href="#security-best-practices">Security Best Practices</a></li>
+<li><a href="#common-patterns">Common Patterns</a></li>
+<li><a href="#troubleshooting">Troubleshooting</a></li>
+</ol>
+<h2>Prerequisites</h2>
+<p>Before diving into SSH execution, ensure you have:</p>
+<ul>
+<li><strong>Dagu Installed</strong>: If you haven’t installed Dagu yet, follow the <a href="https://docs.dagu.cloud/getting-started/installation">official installation guide</a>.</li>
+<li><strong>SSH Access</strong>: Valid SSH access to remote servers with appropriate credentials.</li>
+<li><strong>SSH Keys</strong>: A properly configured SSH key pair (recommended) or password authentication.</li>
+</ul>
+<h2>Understanding SSH Executor</h2>
+<p>The SSH executor in Dagu allows you to execute commands on remote machines over SSH connections. It provides a seamless way to integrate remote operations into your workflows without leaving your local Dagu instance.</p>
+<h3>How It Works</h3>
+<ol>
+<li>Dagu establishes an SSH connection to the remote host using the provided credentials</li>
+<li>Commands are executed in a dedicated SSH session</li>
+<li>Output (stdout/stderr) is captured and streamed back</li>
+<li>The session is automatically cleaned up after command completion</li>
+</ol>
+<h2>Basic SSH Configuration</h2>
+<p>At its simplest, SSH execution in Dagu requires just two fields: <code>user</code> and <code>host</code>. All other settings have sensible defaults.</p>
+<pre><code class="language-yaml">ssh:
+  user: deploy
+  host: server.example.com
+
+steps:
+  - echo &quot;Hello from remote server&quot;
+</code></pre>
+<p>This configuration will:</p>
+<ul>
+<li>Connect to <code>server.example.com</code> as user <code>deploy</code></li>
+<li>Use port 22 (default SSH port)</li>
+<li>Try standard SSH keys from <code>~/.ssh/id_rsa</code>, <code>~/.ssh/id_ecdsa</code>, <code>~/.ssh/id_ed25519</code>, or <code>~/.ssh/id_dsa</code></li>
+</ul>
+<h3>Complete Configuration Example</h3>
+<p>Here’s a full SSH configuration with all available options:</p>
+<pre><code class="language-yaml">ssh:
+  user: deploy                    # SSH username (required)
+  host: server.example.com        # Hostname or IP (required)
+  port: 2222                      # SSH port (default: 22)
+  key: ~/.ssh/custom_deploy_key   # Path to private key (optional)
+  password: mySecurePass          # Password (optional, not recommended)
+  strictHostKey: true             # Host key verification (default: true)
+  knownHostFile: ~/.ssh/known_hosts  # Known hosts file (default: ~/.ssh/known_hosts)
+
+steps:
+  - echo &quot;Running on remote server&quot;
+</code></pre>
+<h3>Configuration Options Explained</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>user</code></td>
+<td>Yes</td>
+<td>-</td>
+<td>SSH username for authentication</td>
+</tr>
+<tr>
+<td><code>host</code> or <code>ip</code></td>
+<td>Yes</td>
+<td>-</td>
+<td>Hostname or IP address of the remote server (both field names are supported)</td>
+</tr>
+<tr>
+<td><code>port</code></td>
+<td>No</td>
+<td><code>22</code></td>
+<td>SSH port number</td>
+</tr>
+<tr>
+<td><code>key</code></td>
+<td>No</td>
+<td>Auto-detect</td>
+<td>Path to SSH private key file</td>
+</tr>
+<tr>
+<td><code>password</code></td>
+<td>No</td>
+<td>-</td>
+<td>SSH password (key-based auth is recommended)</td>
+</tr>
+<tr>
+<td><code>strictHostKey</code></td>
+<td>No</td>
+<td><code>true</code></td>
+<td>Enable strict host key checking</td>
+</tr>
+<tr>
+<td><code>knownHostFile</code></td>
+<td>No</td>
+<td><code>~/.ssh/known_hosts</code></td>
+<td>Path to known_hosts file</td>
+</tr>
+</tbody>
+</table>
+<h2>DAG-Level vs Step-Level Configuration</h2>
+<p>Dagu provides flexibility in configuring SSH settings. You can define SSH configuration at two levels:</p>
+<h3>1. DAG-Level Configuration (Shared)</h3>
+<p>When you define SSH configuration at the DAG level, all steps inherit the same connection. This is perfect when all steps run on the same server.</p>
+<pre><code class="language-yaml"># All steps will execute on the same remote server
+ssh:
+  user: deploy
+  host: production.server.com
+  key: ~/.ssh/production_key
+
+steps:
+  - name: backup-database
+    command: pg_dump mydb &gt; backup.sql
+  
+  - name: deploy-application
+    command: |
+      git pull origin main
+      sudo systemctl restart myapp
+  
+  - name: verify-deployment
+    command: curl http://localhost:8080/health
+</code></pre>
+<h3>2. Step-Level Configuration (Individual)</h3>
+<p>You can override SSH configuration for specific steps when you need to connect to different servers within the same workflow.</p>
+<pre><code class="language-yaml"># Default configuration for most steps
+ssh:
+  user: deploy
+  host: app-server.com
+  key: ~/.ssh/app_key
+
+steps:
+  # Uses DAG-level configuration
+  - name: deploy-app
+    command: ./deploy.sh
+  
+  # Overrides SSH for this specific step
+  - name: sync-backup
+    command: rsync -av /backup backup-server:/archive/
+    executor:
+      type: ssh
+      config:
+        user: backup-admin
+        ip: backup-server.com  # 'ip' or 'host' both work
+        port: 2222
+        key: ~/.ssh/backup_key
+  
+  # Back to using DAG-level configuration
+  - name: send-notification
+    command: curl -X POST http://webhook.example.com/notify
+</code></pre>
+<h3>Inheritance Pattern</h3>
+<p>The SSH executor follows this priority order:</p>
+<ol>
+<li><strong>Step-level executor config</strong> (highest priority)</li>
+<li><strong>DAG-level SSH configuration</strong> (fallback)</li>
+<li><strong>Error if neither is configured</strong></li>
+</ol>
+<pre><code class="language-yaml">ssh:
+  user: common-user
+  host: common-host.com
+  key: ~/.ssh/common_key
+
+steps:
+  - name: step1
+    # Uses DAG-level: common-user@common-host.com
+    command: echo &quot;Step 1&quot;
+  
+  - name: step2
+    # Uses step-level override: special-user@special-host.com
+    executor:
+      type: ssh
+      config:
+        user: special-user
+        host: special-host.com
+        key: ~/.ssh/special_key
+    command: echo &quot;Step 2&quot;
+</code></pre>
+<h2>Authentication Methods</h2>
+<p>Dagu supports multiple authentication methods for SSH connections.</p>
+<h3>1. Key-Based Authentication (Recommended)</h3>
+<p>Key-based authentication is the most secure and recommended method.</p>
+<pre><code class="language-yaml">ssh:
+  user: deploy
+  host: server.example.com
+  key: ~/.ssh/id_rsa
+
+steps:
+  - command: echo &quot;Authenticated with key&quot;
+</code></pre>
+<h4>Auto-Detection</h4>
+<p>If you don’t specify a key, Dagu will automatically try these locations in order:</p>
+<ol>
+<li><code>~/.ssh/id_rsa</code></li>
+<li><code>~/.ssh/id_ecdsa</code></li>
+<li><code>~/.ssh/id_ed25519</code></li>
+<li><code>~/.ssh/id_dsa</code></li>
+</ol>
+<pre><code class="language-yaml"># This will automatically use one of the default keys if available
+ssh:
+  user: deploy
+  host: server.example.com
+  # No key specified - uses auto-detection
+
+steps:
+  - command: echo &quot;Using auto-detected key&quot;
+</code></pre>
+<h3>2. Password Authentication</h3>
+<p>Password authentication is supported but not recommended for security reasons.</p>
+<pre><code class="language-yaml">ssh:
+  user: deploy
+  host: server.example.com
+  password: mySecurePassword
+
+steps:
+  - command: echo &quot;Authenticated with password&quot;
+</code></pre>
+<p><strong>⚠️ Security Warning</strong>: Passwords in YAML files are visible in plain text. Consider using environment variables for sensitive credentials.</p>
+<h4>Using Environment Variables</h4>
+<pre><code class="language-yaml">ssh:
+  user: deploy
+  host: server.example.com
+  password: ${SSH_PASSWORD}
+
+steps:
+  - command: echo &quot;Using password from environment&quot;
+</code></pre>
+<p>Then set the environment variable:</p>
+<pre><code class="language-bash">export SSH_PASSWORD=&quot;your-secure-password&quot;
+dagu start my-workflow.yaml
+</code></pre>
+<h3>3. Mixed Authentication</h3>
+<p>You can also use a specific key with an optional passphrase (handled by SSH agent):</p>
+<pre><code class="language-yaml">ssh:
+  user: deploy
+  host: server.example.com
+  key: ~/.ssh/encrypted_key
+
+steps:
+  - command: echo &quot;Using key with passphrase&quot;
+</code></pre>
+<p>Make sure your SSH agent is running if using encrypted keys:</p>
+<pre><code class="language-bash">eval &quot;$(ssh-agent -s)&quot;
+ssh-add ~/.ssh/encrypted_key
+</code></pre>
+<h2>Real-World Examples</h2>
+<h3>Example 1: Database Backup and Archive</h3>
+<p>Automate database backups with remote storage archival.</p>
+<pre><code class="language-yaml">name: Database Backup Workflow
+schedule: &quot;0 2 * * *&quot;  # Daily at 2 AM
+
+ssh:
+  user: db-admin
+  host: db-server.production.com
+  key: ~/.ssh/db_key
+  strictHostKey: true
+
+steps:
+  - name: create-backup
+    command: |
+      pg_dump -U postgres production_db | gzip &gt; /backups/prod_$(date +%Y%m%d).sql.gz
+  
+  - name: transfer-to-archive
+    command: |
+      aws s3 cp /backups/prod_$(date +%Y%m%d).sql.gz \
+        s3://backup-archive/production/
+  
+  - name: cleanup-old-backups
+    command: |
+      find /backups -name &quot;prod_*.sql.gz&quot; -mtime +30 -delete
+      echo &quot;Old backups cleaned up&quot;
+</code></pre>
+<h3>Example 2: Multi-Server Deployment</h3>
+<p>Deploy to multiple servers with verification.</p>
+<pre><code class="language-yaml">name: Multi-Stack Deployment
+
+# Primary application server
+ssh:
+  user: deploy
+  host: app.production.com
+  key: ~/.ssh/production_key
+
+steps:
+  - name: deploy-frontend
+    command: |
+      cd /var/www/frontend
+      git pull origin main
+      npm run build
+      sudo systemctl restart nginx
+  
+  - name: deploy-backend
+    # Can also use backend.server.com with same credentials
+    command: |
+      cd /var/www/backend
+      git pull origin main
+      docker-compose up -d --build
+  
+  - name: update-database
+    # Different server, different configuration
+    executor:
+      type: ssh
+      config:
+        user: db-admin
+        host: db.production.com
+        key: ~/.ssh/db_admin_key
+    command: |
+      psql -U postgres -d production &lt;&lt; EOF
+        \i /opt/migrations/latest.sql
+        SELECT 'Migration complete';
+      EOF
+  
+  - name: health-check
+    # Back to primary server
+    command: |
+      curl -f http://localhost:8080/health || exit 1
+      echo &quot;All services healthy&quot;
+</code></pre>
+<h3>Example 3: Parallel Remote Operations</h3>
+<p>Execute operations in parallel across multiple servers.</p>
+<pre><code class="language-yaml">name: Parallel Server Maintenance
+
+steps:
+  - name: maintenance-start
+    command: echo &quot;Starting maintenance across all servers&quot;
+  
+  - name: update-app-server-1
+    executor:
+      type: ssh
+      config:
+        user: admin
+        host: app1.example.com
+        key: ~/.ssh/admin_key
+    command: |
+      sudo apt update &amp;&amp; sudo apt upgrade -y
+      sudo systemctl restart app
+  
+  - name: update-app-server-2
+    executor:
+      type: ssh
+      config:
+        user: admin
+        host: app2.example.com
+        key: ~/.ssh/admin_key
+    command: |
+      sudo apt update &amp;&amp; sudo apt upgrade -y
+      sudo systemctl restart app
+  
+  - name: update-app-server-3
+    executor:
+      type: ssh
+      config:
+        user: admin
+        host: app3.example.com
+        key: ~/.ssh/admin_key
+    command: |
+      sudo apt update &amp;&amp; sudo apt upgrade -y
+      sudo systemctl restart app
+  
+  # These three steps run in parallel
+  - name: verify-services
+    command: echo &quot;All maintenance complete&quot;
+    depends:
+      - update-app-server-1
+      - update-app-server-2
+      - update-app-server-3
+</code></pre>
+<h3>Example 4: CI/CD Integration</h3>
+<p>Integrate SSH execution into your CI/CD pipeline.</p>
+<pre><code class="language-yaml">name: Deploy to Staging
+
+env:
+  - APP_VERSION: ${version}
+
+ssh:
+  user: ${SSH_USER}
+  host: ${SSH_HOST}
+  key: ${SSH_KEY_PATH}
+  strictHostKey: false  # For dynamic/test environments
+
+steps:
+  - name: pull-latest-code
+    command: |
+      cd /opt/myapp
+      git fetch origin
+      git checkout ${APP_VERSION}
+  
+  - name: build-and-deploy
+    command: |
+      docker-compose down
+      docker-compose build
+      docker-compose up -d
+  
+  - name: run-migrations
+    command: |
+      docker-compose exec -T app npm run migrate
+  
+  - name: run-tests
+    command: |
+      docker-compose exec -T app npm test
+  
+  - name: notify-success
+    command: |
+      curl -X POST https://hooks.slack.com/services/YOUR/WEBHOOK/URL \
+        -d '{&quot;text&quot;:&quot;Deployment successful!&quot;}'
+  
+  onExit:
+    - name: notify-failure
+      if: ${DAGU_ERR}
+      command: |
+        curl -X POST https://hooks.slack.com/services/YOUR/WEBHOOK/URL \
+          -d '{&quot;text&quot;:&quot;Deployment failed: ${DAGU_ERR}&quot;}'
+</code></pre>
+<h3>Example 5: Data Processing Pipeline</h3>
+<p>Move and process data across servers.</p>
+<pre><code class="language-yaml">name: Data Processing Pipeline
+
+steps:
+  - name: collect-logs
+    executor:
+      type: ssh
+      config:
+        user: logger
+        host: log-collector.com
+        key: ~/.ssh/logger_key
+    command: |
+      tar -czf /tmp/logs_$(date +%Y%m%d).tar.gz /var/log/app
+      mv /tmp/logs_*.tar.gz /shared/logs/
+  
+  - name: process-logs
+    executor:
+      type: ssh
+      config:
+        user: processor
+        host: analytics-server.com
+        key: ~/.ssh/processor_key
+    command: |
+      cd /opt/analytics
+      ./process_logs.sh /shared/logs/*.tar.gz
+      python3 generate_report.py
+  
+  - name: archive-results
+    executor:
+      type: ssh
+      config:
+        user: archiver
+        host: storage-server.com
+        key: ~/.ssh/storage_key
+    command: |
+      aws s3 sync /opt/analytics/reports/ \
+        s3://analytics-archive/$(date +%Y)/$(date +%m)/
+</code></pre>
+<h2>Security Best Practices</h2>
+<h3>1. Use Key-Based Authentication</h3>
+<p>Always prefer SSH keys over passwords:</p>
+<pre><code class="language-yaml"># Good ✅
+ssh:
+  user: deploy
+  host: server.example.com
+  key: ~/.ssh/id_rsa
+
+# Avoid ❌
+ssh:
+  user: deploy
+  host: server.example.com
+  password: plaintext-password
+</code></pre>
+<h3>2. Enable Host Key Verification</h3>
+<p>Keep strict host key checking enabled (it’s the default):</p>
+<pre><code class="language-yaml"># Good ✅ - Default behavior
+ssh:
+  user: deploy
+  host: server.example.com
+  strictHostKey: true  # Explicit for clarity
+
+# Only for development/testing ❌
+ssh:
+  user: deploy
+  host: test-server.local
+  strictHostKey: false
+</code></pre>
+<h3>3. Use Environment Variables for Secrets</h3>
+<p>Never hardcode credentials in YAML files:</p>
+<pre><code class="language-yaml"># Good ✅
+ssh:
+  user: ${SSH_USER}
+  host: ${SSH_HOST}
+  key: ${SSH_KEY_PATH}
+
+# Bad ❌
+ssh:
+  user: myusername
+  host: myserver.com
+  password: mypassword123
+</code></pre>
+<h3>4. Restrict SSH Key Permissions</h3>
+<p>Ensure your SSH private keys have correct permissions:</p>
+<pre><code class="language-bash">chmod 600 ~/.ssh/id_rsa
+chmod 644 ~/.ssh/id_rsa.pub
+</code></pre>
+<h3>5. Use Dedicated Deployment Keys</h3>
+<p>Create separate SSH keys for deployments:</p>
+<pre><code class="language-bash">ssh-keygen -t ed25519 -f ~/.ssh/deploy_key -C &quot;dagu-deployment&quot;
+</code></pre>
+<p>Then reference them in your workflows:</p>
+<pre><code class="language-yaml">ssh:
+  user: deploy
+  host: production.com
+  key: ~/.ssh/deploy_key
+</code></pre>
+<h3>6. Rotate Keys Regularly</h3>
+<p>Periodically rotate SSH keys and update configurations:</p>
+<pre><code class="language-yaml"># Version your keys
+ssh:
+  user: deploy
+  host: production.com
+  key: ~/.ssh/deploy_key_v2
+</code></pre>
+<h3>7. Use SSH Config for Consistency</h3>
+<p>Create an SSH config file for reusable configurations:</p>
+<pre><code class="language-bash"># ~/.ssh/config
+Host production
+  HostName production.example.com
+  User deploy
+  IdentityFile ~/.ssh/deploy_key
+  Port 2222
+
+Host staging
+  HostName staging.example.com
+  User deploy
+  IdentityFile ~/.ssh/deploy_key
+</code></pre>
+<p>Then reference in Dagu (if your SSH client supports it):</p>
+<pre><code class="language-yaml"># Note: Dagu uses direct SSH connections, 
+# but you can still reference the host alias
+ssh:
+  user: deploy
+  host: production
+  key: ~/.ssh/deploy_key
+</code></pre>
+<h2>Common Patterns</h2>
+<h3>Pattern 1: Fail-Safe Remote Operations</h3>
+<p>Add error handling and rollback capabilities:</p>
+<pre><code class="language-yaml">name: Safe Deployment
+
+ssh:
+  user: deploy
+  host: production.com
+  key: ~/.ssh/deploy_key
+
+steps:
+  - name: pre-deployment-check
+    command: |
+      test -f /opt/app/backup.tar.gz || exit 1
+      echo &quot;Pre-deployment check passed&quot;
+  
+  - name: create-backup
+    command: tar -czf /tmp/app_backup_$(date +%s).tar.gz /opt/app/
+  
+  - name: deployment
+    command: |
+      cd /opt/app
+      git pull origin main
+  
+  - name: verification
+    command: |
+      curl -f http://localhost:8080/health || {
+        echo &quot;Health check failed, rolling back...&quot;
+        exit 1
+      }
+  
+  onExit:
+    - name: rollback
+      if: ${DAGU_ERR}
+      command: |
+        LATEST_BACKUP=$(ls -t /tmp/app_backup_*.tar.gz | head -1)
+        tar -xzf &quot;$LATEST_BACKUP&quot; -C /
+        sudo systemctl restart app
+        echo &quot;Rolled back to backup: $LATEST_BACKUP&quot;
+</code></pre>
+<h3>Pattern 2: Blue-Green Deployment</h3>
+<p>Implement zero-downtime deployments:</p>
+<pre><code class="language-yaml">name: Blue-Green Deployment
+
+ssh:
+  user: deploy
+  host: production.com
+  key: ~/.ssh/deploy_key
+
+steps:
+  - name: deploy-green
+    command: |
+      cd /opt/app-green
+      git pull origin main
+      docker-compose up -d --build
+  
+  - name: health-check-green
+    command: |
+      for i in {1..10}; do
+        curl -f http://green.example.com/health &amp;&amp; break
+        sleep 5
+      done || exit 1
+  
+  - name: switch-traffic
+    command: |
+      # Update load balancer to point to green
+      kubectl patch service app -p '{&quot;spec&quot;:{&quot;selector&quot;:{&quot;version&quot;:&quot;green&quot;}}}'
+  
+  - name: health-check-blue
+    command: |
+      sleep 60  # Wait for connections to drain
+      for i in {1..10}; do
+        curl -f http://blue.example.com/metrics || exit 0
+      done
+  
+  - name: scale-down-blue
+    command: |
+      kubectl scale deployment app-blue --replicas=0
+</code></pre>
+<h3>Pattern 3: Conditional Remote Execution</h3>
+<p>Use environment detection for different targets:</p>
+<pre><code class="language-yaml">name: Environment-Aware Deployment
+
+env:
+  - ENVIRONMENT: ${environment:-staging}
+
+ssh:
+  user: deploy
+  host: ${HOST}
+  key: ~/.ssh/deploy_key
+
+steps:
+  - name: detect-environment
+    command: |
+      if [ &quot;${ENVIRONMENT}&quot; == &quot;production&quot; ]; then
+        HOST=&quot;prod.example.com&quot;
+      elif [ &quot;${ENVIRONMENT}&quot; == &quot;staging&quot; ]; then
+        HOST=&quot;staging.example.com&quot;
+      else
+        HOST=&quot;dev.example.com&quot;
+      fi
+      echo &quot;Deploying to: $HOST&quot;
+  
+  - name: deploy-to-environment
+    command: |
+      cd /opt/app
+      git checkout ${ENVIRONMENT}
+      ./deploy.sh
+</code></pre>
+<h3>Pattern 4: Batch Operations</h3>
+<p>Execute the same operation across multiple targets:</p>
+<pre><code class="language-yaml">name: Batch Server Update
+
+steps:
+  - name: update-server-01
+    executor:
+      type: ssh
+      config:
+        user: admin
+        host: server-01.cluster.internal
+        key: ~/.ssh/cluster_key
+    command: sudo apt update &amp;&amp; sudo apt upgrade -y
+  
+  - name: update-server-02
+    executor:
+      type: ssh
+      config:
+        user: admin
+        host: server-02.cluster.internal
+        key: ~/.ssh/cluster_key
+    command: sudo apt update &amp;&amp; sudo apt upgrade -y
+  
+  - name: update-server-03
+    executor:
+      type: ssh
+      config:
+        user: admin
+        host: server-03.cluster.internal
+        key: ~/.ssh/cluster_key
+    command: sudo apt update &amp;&amp; sudo apt upgrade -y
+  
+  - name: verify-cluster
+    command: echo &quot;All servers updated&quot;
+    depends:
+      - update-server-01
+      - update-server-02
+      - update-server-03
+</code></pre>
+<h2>Troubleshooting</h2>
+<h3>Common Issues and Solutions</h3>
+<h4>1. “SSH configuration is not found”</h4>
+<p>This error occurs when neither DAG-level nor step-level SSH configuration is provided.</p>
+<p><strong>Solution</strong>: Add SSH configuration either at DAG level or step level:</p>
+<pre><code class="language-yaml"># Option 1: DAG level
+ssh:
+  user: deploy
+  host: server.example.com
+
+steps:
+  - command: echo &quot;This works now&quot;
+</code></pre>
+<pre><code class="language-yaml"># Option 2: Step level
+steps:
+  - command: echo &quot;This works now&quot;
+    executor:
+      type: ssh
+      config:
+        user: deploy
+        host: server.example.com
+</code></pre>
+<h4>2. “No authentication method available”</h4>
+<p>This happens when no SSH key or password is provided.</p>
+<p><strong>Solutions</strong>:</p>
+<ul>
+<li>
+<p>Specify a key explicitly:</p>
+<pre><code class="language-yaml">ssh:
+  user: deploy
+  host: server.example.com
+  key: ~/.ssh/id_rsa
+</code></pre>
+</li>
+<li>
+<p>Ensure default keys exist:</p>
+<pre><code class="language-bash">ls ~/.ssh/id_rsa ~/.ssh/id_ed25519 ~/.ssh/id_ecdsa
+</code></pre>
+</li>
+<li>
+<p>Use password (not recommended):</p>
+<pre><code class="language-yaml">ssh:
+  user: deploy
+  host: server.example.com
+  password: ${SSH_PASSWORD}
+</code></pre>
+</li>
+</ul>
+<h4>3. Host Key Verification Failure</h4>
+<p>SSH refuses to connect due to host key mismatch.</p>
+<p><strong>Solutions</strong>:</p>
+<ul>
+<li>
+<p><strong>Production</strong>: Verify the host key is correct:</p>
+<pre><code class="language-bash">ssh-keyscan server.example.com &gt;&gt; ~/.ssh/known_hosts
+</code></pre>
+</li>
+<li>
+<p><strong>Development</strong>: Disable strict checking (not recommended for production):</p>
+<pre><code class="language-yaml">ssh:
+  user: deploy
+  host: server.example.com
+  strictHostKey: false
+</code></pre>
+</li>
+</ul>
+<h4>4. Permission Denied</h4>
+<p>SSH authentication fails.</p>
+<p><strong>Checklist</strong>:</p>
+<ul>
+<li>Verify username is correct</li>
+<li>Ensure SSH key has correct permissions (600)</li>
+<li>Test SSH connection manually:<pre><code class="language-bash">ssh -i ~/.ssh/id_rsa user@server.example.com
+</code></pre>
+</li>
+<li>Check if the key is added to authorized_keys on remote server</li>
+</ul>
+<h4>5. Connection Timeout</h4>
+<p>Cannot establish SSH connection.</p>
+<p><strong>Checklist</strong>:</p>
+<ul>
+<li>Verify host/port is correct</li>
+<li>Check firewall rules allow SSH traffic</li>
+<li>Test network connectivity:<pre><code class="language-bash">telnet server.example.com 22
+</code></pre>
+</li>
+<li>Verify SSH service is running on remote host:<pre><code class="language-bash">ssh user@server.example.com &quot;sudo systemctl status sshd&quot;
+</code></pre>
+</li>
+</ul>
+<h4>6. Command Not Found on Remote Server</h4>
+<p>Remote commands fail with “command not found”.</p>
+<p><strong>Solution</strong>: Use full paths or set environment:</p>
+<pre><code class="language-yaml">steps:
+  - command: /usr/local/bin/myapp --version
+  # OR
+  - command: |
+      export PATH=/usr/local/bin:$PATH
+      myapp --version
+</code></pre>
+<h4>7. Script Field Not Supported</h4>
+<p>SSH executor doesn’t support the <code>script</code> field.</p>
+<p><strong>Solution</strong>: Use <code>command</code> with multi-line syntax:</p>
+<pre><code class="language-yaml"># Not supported ❌
+steps:
+  - name: backup
+    script: |
+      tar -czf backup.tar.gz /data
+
+# Supported ✅
+steps:
+  - name: backup
+    command: |
+      tar -czf backup.tar.gz /data
+</code></pre>
+<h3>Debugging Tips</h3>
+<h4>1. Enable Verbose Output</h4>
+<p>Test your SSH connection manually with verbose output:</p>
+<pre><code class="language-bash">ssh -vvv -i ~/.ssh/id_rsa user@server.example.com
+</code></pre>
+<h4>2. Dry Run Workflow</h4>
+<p>Use Dagu’s dry-run feature to validate configuration:</p>
+<pre><code class="language-bash">dagu dry ssh-workflow.yaml
+</code></pre>
+<h4>3. Test Individual Steps</h4>
+<p>Execute a single step with verbose logging:</p>
+<pre><code class="language-yaml"># Add this step first to test connectivity
+steps:
+  - name: test-connection
+    command: echo &quot;SSH connection successful&quot;
+</code></pre>
+<pre><code class="language-bash">dagu start ssh-workflow.yaml
+</code></pre>
+<h4>4. Check Logs</h4>
+<p>View detailed execution logs:</p>
+<pre><code class="language-bash">dagu status ssh-workflow
+dagu logs ssh-workflow
+</code></pre>
+<h2>Best Practices Summary</h2>
+<p>✅ <strong>Do:</strong></p>
+<ul>
+<li>Use key-based authentication for security</li>
+<li>Enable strict host key checking in production</li>
+<li>Use environment variables for sensitive credentials</li>
+<li>Test SSH connections manually before using in workflows</li>
+<li>Create dedicated SSH keys for automation</li>
+<li>Set proper permissions on SSH keys (600)</li>
+<li>Use descriptive step names</li>
+<li>Add error handling and rollback mechanisms</li>
+<li>Document SSH configurations</li>
+<li>Rotate SSH keys periodically</li>
+</ul>
+<p>❌ <strong>Don’t:</strong></p>
+<ul>
+<li>Hardcode passwords in YAML files</li>
+<li>Disable strict host key checking in production</li>
+<li>Use the same SSH key for multiple services</li>
+<li>Share SSH keys across team members</li>
+<li>Store SSH keys in version control</li>
+<li>Use script field with SSH executor</li>
+<li>Ignore authentication failures</li>
+<li>Skip security best practices</li>
+<li>Use SSH for high-frequency operations without connection pooling</li>
+</ul>
+<h2>Conclusion</h2>
+<p>Dagu’s SSH executor is a powerful feature that enables remote command execution seamlessly integrated into your workflows. By following the patterns and best practices outlined in this guide, you can:</p>
+<ul>
+<li><strong>Automate remote operations</strong> across multiple servers</li>
+<li><strong>Maintain security</strong> with key-based authentication and host verification</li>
+<li><strong>Build resilient workflows</strong> with proper error handling</li>
+<li><strong>Scale your infrastructure</strong> operations efficiently</li>
+</ul>
+<p>Whether you’re deploying applications, managing databases, processing logs, or orchestrating distributed systems, the SSH executor provides the flexibility and reliability you need.</p>
+<p>For more information, refer to the <a href="https://docs.dagu.cloud/features/executors/ssh">official Dagu documentation</a>.</p>
+<h2>Additional Resources</h2>
+<ul>
+<li><a href="https://docs.dagu.cloud/">Dagu Official Documentation</a></li>
+<li><a href="https://wiki.archlinux.org/title/SSH_keys">SSH Best Practices</a></li>
+<li><a href="https://yaml.org/spec/">YAML Specification</a></li>
+<li><a href="https://crontab.guru/">Cron Expression Guide</a></li>
+</ul>
+<p>Happy automating! 🚀</p>
+
+        </article>
+        <p><a href="https://kriyanshii.github.io/blog/blog-ssh-executor">Open interactive version</a></p>
+      </main>
+    </noscript>
+    <noscript>
+      <main style="max-width:42rem;margin:2rem auto;padding:0 1.5rem;font-family:system-ui,sans-serif;line-height:1.6;color:#333">
+        <h1>Kriyanshi</h1>
+        <p>I work at the intersection of satellites, distributed systems, and the teams who need their data on time. At ISRO's Space Applications Centre, I build ingestion, scheduling, and processing pipelines for geostationary satellite data and design JupyterHub environments that make planetary and weather research more accessible.</p>
+        <p><strong>Work:</strong> Cloudraft (Kubernetes, n8n migration) · Space Applications Centre, ISRO (satellite data, JupyterHub, SeaDAS)</p>
+        <p><strong>Projects:</strong> <a href="https://visionboardit.art">VisionBoardIt</a> · <a href="https://github.com/dagu-org/dagu">Dagu</a> · <a href="https://github.com/kriyanshii/mit-6.5840">MapReduce</a> · <a href="https://sereneworkspace.netlify.app">Serene</a> · <a href="https://github.com/kriyanshii">more on GitHub</a></p>
+        <p><strong>Links:</strong> <a href="https://github.com/kriyanshii">GitHub</a> · <a href="https://x.com/kriyanshii">Twitter/X</a></p>
+        <p><a href="/blog">Blog</a> — Thoughts on software development and backend engineering.</p>
+        <p><em>This site uses JavaScript for the full experience. Enable JS or visit the links above.</em></p>
+      </main>
+    </noscript>
+    <div id="root"></div>
+    <script>
+      (function (l) {
+        if (l.search && l.search.startsWith('?/')) {
+          var decoded = l.search
+            .slice(2)
+            .split('&')
+            .map(function (s) {
+              return s.replace(/~and~/g, '&');
+            })
+            .join('?');
+          window.history.replaceState(null, null, '/' + decoded + l.hash);
+        }
+      })(window.location);
+    </script>
+  </body>
+</html>

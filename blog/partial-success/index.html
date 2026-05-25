@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <title>Understanding Partial Success in DAG Systems | Kriyanshi</title>
+    <meta name="description" content="Building Resilient Workflows" />
+    <link rel="canonical" href="https://kriyanshii.github.io/blog/partial-success" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://kriyanshii.github.io/blog/partial-success" />
+    <meta property="og:title" content="Understanding Partial Success in DAG Systems" />
+    <meta property="og:description" content="Building Resilient Workflows" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content="https://kriyanshii.github.io/og/partial-success.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Understanding Partial Success in DAG Systems" />
+    <meta name="twitter:description" content="Building Resilient Workflows" />
+    <meta name="twitter:image" content="https://kriyanshii.github.io/og/partial-success.png" />
+    <meta property="article:published_time" content="2025-09-28" />
+    <meta property="article:section" content="Tech" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Understanding Partial Success in DAG Systems","description":"Building Resilient Workflows","url":"https://kriyanshii.github.io/blog/partial-success","datePublished":"2025-09-28","dateModified":"2025-09-28","image":"https://kriyanshii.github.io/og/partial-success.png","author":{"@type":"Person","name":"Kriyanshi","url":"https://kriyanshii.github.io"},"publisher":{"@type":"Person","name":"Kriyanshi","url":"https://kriyanshii.github.io"},"articleSection":"Tech","mainEntityOfPage":{"@type":"WebPage","@id":"https://kriyanshii.github.io/blog/partial-success"}}</script>
+<meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" sizes="32x32" href="/assets/favicon-Te9WZvHs.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+    
+    
+
+    
+    <link rel="stylesheet" crossorigin href="/assets/index-qfpOjz0d.css">
+    <style>
+      .static-blog { max-width: 48rem; margin: 0 auto; padding: 4rem 1.5rem; font-family: system-ui, sans-serif; line-height: 1.7; color: #374151; }
+      .static-blog h1 { font-size: 1.875rem; font-weight: 500; margin-bottom: 1.5rem; color: #111827; }
+      .static-blog h2 { font-size: 1.25rem; font-weight: 500; margin: 2rem 0 1rem; color: #111827; }
+      .static-blog p { margin-bottom: 1.25rem; }
+      .static-blog a { color: #2563eb; }
+      .static-blog figcaption { font-size: 0.875rem; color: #6b7280; margin: 0.5rem 0 1.5rem; font-style: italic; }
+      .static-blog .mermaid-figure { margin: 1.5rem 0; padding: 1rem; background: #f9fafb; border-radius: 0.5rem; }
+    </style>
+  </head>
+  <body>
+    <noscript>
+      <main class="static-blog">
+        
+        <article>
+          <h1>Understanding Partial Success in DAG Systems</h1>
+          <p><time datetime="2025-09-28">2025-09-28</time> · Tech</p>
+          <p><em>This is the first post in a series where I explore and explain the powerful features of <a href="https://github.com/dagu-org/dagu">Dagu</a>, a modern workflow orchestration platform. In this series, we’ll dive deep into the capabilities that make Dagu an excellent choice for building robust, production-ready data pipelines and automation workflows. From advanced error handling and retry mechanisms to distributed execution and monitoring, each post will provide practical insights and real-world examples to help you master workflow orchestration with Dagu.</em></p>
+<h2>Introduction</h2>
+<p>In the world of workflow orchestration, not all failures are created equal. Sometimes, a workflow can achieve its primary objectives even when some non-critical steps fail. This is where <strong>partial success</strong> becomes a powerful concept for building resilient, fault-tolerant systems.</p>
+<p>Partial success represents a nuanced execution state where a DAG (Directed Acyclic Graph) completes its primary objectives despite encountering some failures that were explicitly allowed to continue. Unlike traditional binary success/failure states, partial success acknowledges that modern workflows often have optional components, fallback mechanisms, and non-critical operations that shouldn’t halt the entire process.</p>
+<h2>What is Partial Success?</h2>
+<p>Partial success is a DAG execution status that indicates:</p>
+<ul>
+<li><strong>Primary objectives were achieved</strong>: The core business logic completed successfully</li>
+<li><strong>Some non-critical failures occurred</strong>: Certain steps failed but were configured to continue</li>
+<li><strong>Workflow completed gracefully</strong>: The DAG reached a terminal state without being aborted</li>
+</ul>
+<p>This concept is particularly valuable in scenarios where:</p>
+<ul>
+<li>Optional cleanup tasks fail but don’t affect the main process</li>
+<li>Non-critical monitoring or logging steps encounter issues</li>
+<li>Fallback mechanisms are in place for known failure scenarios</li>
+<li>Multi-cloud or multi-region deployments where some regions may be unavailable</li>
+</ul>
+<h2>How Partial Success Works in DAG Systems</h2>
+<h3>The Implementation Logic</h3>
+<p>Based on the DAG scheduler implementation, partial success is determined through a sophisticated two-pass algorithm:</p>
+<pre><code class="language-go">// First pass: Check if any failed node is NOT allowed to continue
+for _, node := range g.nodes {
+    if node.State().Status == status.NodeError {
+        if !node.ShouldContinue(ctx) {
+            // Found a failed node that was NOT allowed to continue
+            // This disqualifies the DAG from being partial success
+            return false
+        }
+    }
+}
+
+// Second pass: Check for partial success conditions
+for _, node := range g.nodes {
+    switch node.State().Status {
+    case status.NodeSuccess:
+        hasSuccessfulNodes = true
+    case status.NodeError:
+        if node.ShouldContinue(ctx) &amp;&amp; !node.ShouldMarkSuccess(ctx) {
+            hasFailuresWithContinueOn = true
+        }
+    case status.NodePartialSuccess:
+        hasFailuresWithContinueOn = true
+        hasSuccessfulNodes = true
+    }
+}
+
+// Partial success requires:
+// 1. At least one failed node with continueOn (some non-critical failures)
+// 2. No failed nodes without continueOn (checked in first pass)
+return hasSuccessfulNodes &amp;&amp; hasFailuresWithContinueOn
+</code></pre>
+<h3>Key Requirements for Partial Success</h3>
+<p>For a DAG to achieve partial success status, it must meet these criteria:</p>
+<ol>
+<li><strong>At least one successful node</strong>: The workflow must have completed some primary work</li>
+<li><strong>At least one failed node with <code>continueOn</code></strong>: Some non-critical failures occurred but were allowed to continue</li>
+<li><strong>No critical failures</strong>: No failed nodes without <code>continueOn</code> configuration</li>
+<li><strong>Graceful completion</strong>: The DAG reached a terminal state without being aborted</li>
+</ol>
+<h3>Status Hierarchy and Event Handlers</h3>
+<p>Partial success is treated as a success state for event handling purposes:</p>
+<pre><code class="language-go">switch sc.Status(ctx, graph) {
+case status.Success:
+    eventHandlers = append(eventHandlers, digraph.HandlerOnSuccess)
+
+case status.PartialSuccess:
+    // PartialSuccess is treated as success since primary work was completed
+    // despite some non-critical failures that were allowed to continue
+    eventHandlers = append(eventHandlers, digraph.HandlerOnSuccess)
+
+case status.Error:
+    eventHandlers = append(eventHandlers, digraph.HandlerOnFailure)
+}
+</code></pre>
+<p>This means that <code>onSuccess</code> handlers will execute for both full success and partial success, while <code>onFailure</code> handlers only run for true failures.</p>
+<h2>Real-World Use Cases</h2>
+<h3>1. Multi-Cloud Deployment Strategy</h3>
+<pre><code class="language-yaml">steps:
+  - name: deploy-aws
+    command: aws-deploy.sh
+    continueOn:
+      failure: true # Continue even if AWS deployment fails
+
+  - name: deploy-gcp
+    command: gcp-deploy.sh
+    continueOn:
+      failure: true # Continue even if GCP deployment fails
+
+  - name: verify-deployment
+    command: verify-deployment.sh
+    # This step must succeed - no continueOn
+</code></pre>
+<p><strong>Scenario</strong>: Deploy to multiple cloud providers for redundancy. If AWS fails but GCP succeeds, the deployment is still considered successful.</p>
+<p><strong>Partial Success Outcome</strong>: The workflow completes with partial success, indicating that at least one cloud deployment succeeded while the other failed but was allowed to continue.</p>
+<h3>2. Data Pipeline with Optional Enhancements</h3>
+<pre><code class="language-yaml">steps:
+  - name: extract-data
+    command: extract-from-source.sh
+
+  - name: transform-data
+    command: transform-data.sh
+    depends: [extract-data]
+
+  - name: load-data
+    command: load-to-warehouse.sh
+    depends: [transform-data]
+
+  - name: generate-analytics
+    command: generate-analytics.sh
+    depends: [load-data]
+    continueOn:
+      failure: true # Analytics are nice-to-have
+
+  - name: send-notifications
+    command: send-notifications.sh
+    depends: [load-data]
+    continueOn:
+      failure: true # Notifications are optional
+</code></pre>
+<p><strong>Scenario</strong>: A data pipeline where the core ETL process (extract, transform, load) is critical, but analytics generation and notifications are optional enhancements.</p>
+<p><strong>Partial Success Outcome</strong>: If analytics generation fails but the core data pipeline succeeds, the workflow achieves partial success.</p>
+<h3>3. Service Health Monitoring with Fallbacks</h3>
+<pre><code class="language-yaml">steps:
+  - name: check-primary-service
+    command: curl -f https://primary.example.com/health
+    continueOn:
+      exitCode: [0, 22, 7] # 22=HTTP error, 7=connection failed
+
+  - name: check-secondary-service
+    command: curl -f https://secondary.example.com/health
+    preconditions:
+      - condition: &quot;${CHECK_PRIMARY_SERVICE_EXIT_CODE}&quot;
+        expected: &quot;re:[1-9][0-9]*&quot; # Only if primary failed
+    continueOn:
+      exitCode: [0, 22, 7]
+
+  - name: alert-oncall
+    command: alert-oncall.sh
+    continueOn:
+      failure: true # Alerting failure shouldn't stop monitoring
+</code></pre>
+<p><strong>Scenario</strong>: Monitor multiple service instances with fallback mechanisms. If the primary service is down but the secondary is healthy, the monitoring workflow should continue.</p>
+<p><strong>Partial Success Outcome</strong>: The workflow completes with partial success if the secondary service is healthy, even if the primary service check failed.</p>
+<h3>4. Database Migration with Known Warnings</h3>
+<pre><code class="language-yaml">steps:
+  - name: run-migration
+    command: migrate-database.sh
+    continueOn:
+      output:
+        - &quot;re:WARNING:.*already exists&quot;
+        - &quot;re:NOTICE:.*will be created&quot;
+      exitCode: [0, 1] # 1 might indicate warnings
+
+  - name: verify-migration
+    command: verify-database.sh
+    depends: [run-migration]
+
+  - name: update-schema-version
+    command: update-schema-version.sh
+    depends: [verify-migration]
+</code></pre>
+<p><strong>Scenario</strong>: Database migrations often produce warnings for existing objects or notices for new objects. These are expected and shouldn’t fail the migration.</p>
+<p><strong>Partial Success Outcome</strong>: The migration completes successfully even if it produces expected warnings, resulting in partial success status.</p>
+<h3>5. Cleanup and Maintenance Tasks</h3>
+<pre><code class="language-yaml">steps:
+  - name: process-main-task
+    command: process-data.sh
+
+  - name: cleanup-temp-files
+    command: rm -rf /tmp/processing-*
+    continueOn:
+      failure: true # Cleanup failure shouldn't affect main task
+
+  - name: archive-logs
+    command: archive-logs.sh
+    continueOn:
+      failure: true # Archiving is optional
+
+  - name: send-completion-notification
+    command: send-notification.sh
+    continueOn:
+      failure: true # Notification failure is non-critical
+</code></pre>
+<p><strong>Scenario</strong>: A main processing task followed by optional cleanup and notification steps. The core business logic is the main task, while cleanup and notifications are nice-to-have.</p>
+<p><strong>Partial Success Outcome</strong>: If the main task succeeds but cleanup or notifications fail, the workflow achieves partial success.</p>
+<h2>Best Practices for Partial Success</h2>
+<h3>1. Clear Intent and Documentation</h3>
+<p>Always document why certain steps are configured with <code>continueOn</code>:</p>
+<pre><code class="language-yaml">steps:
+  - name: optional-cache-warmup
+    command: warmup-cache.sh
+    continueOn:
+      failure: true
+    # This step is optional - cache warmup failure doesn't affect core functionality
+</code></pre>
+<h3>2. Use <code>markSuccess</code> Judiciously</h3>
+<p>The <code>markSuccess</code> flag should be used carefully as it changes how dependent steps perceive the step’s status:</p>
+<pre><code class="language-yaml">steps:
+  - name: step-a
+    command: exit 1
+    continueOn:
+      failure: true
+      markSuccess: false  # Default - dependent steps see it as failed
+
+  - name: step-b
+    command: echo &quot;Step A status: failed&quot;
+    depends: [step-a]  # Runs because of continueOn
+
+  - name: step-c
+    command: exit 1
+    continueOn:
+      failure: true
+      markSuccess: true  # Override status
+
+  - name: step-d
+    command: echo &quot;Step C status: success&quot;
+    depends: [step-c]  # Sees step-c as successful
+</code></pre>
+<h3>3. Combine with Retry Policies</h3>
+<p>Use retry policies before falling back to <code>continueOn</code>:</p>
+<pre><code class="language-yaml">steps:
+  - name: flaky-service
+    command: call-service.sh
+    retryPolicy:
+      limit: 3
+      intervalSec: 5
+    continueOn:
+      exitCode: [503] # Continue if still 503 after retries
+</code></pre>
+<h3>4. Monitor Partial Success Rates</h3>
+<p>Track partial success rates to identify patterns:</p>
+<pre><code class="language-yaml">handlerOn:
+  success:
+    command: |
+      if [ &quot;${DAG_STATUS}&quot; = &quot;partial success&quot; ]; then
+        echo &quot;Workflow completed with partial success - some non-critical steps failed&quot;
+        # Log to monitoring system
+      fi
+</code></pre>
+<h3>5. Use Specific Exit Codes and Output Patterns</h3>
+<p>Be specific about which failures should continue:</p>
+<pre><code class="language-yaml">steps:
+  - name: security-scan
+    command: security-scanner.sh
+    continueOn:
+      exitCode: [0, 4, 8] # 0=clean, 4=warnings, 8=info
+      output:
+        - &quot;re:LOW SEVERITY:&quot;
+        - &quot;re:INFORMATIONAL:&quot;
+</code></pre>
+<h2>Benefits of Partial Success</h2>
+<h3>1. Improved Resilience</h3>
+<p>Partial success allows workflows to be more resilient to non-critical failures, reducing the need for manual intervention and retries.</p>
+<h3>2. Better Resource Utilization</h3>
+<p>Instead of failing entire workflows due to optional step failures, partial success enables better resource utilization by completing the core work.</p>
+<h3>3. Clearer Status Reporting</h3>
+<p>Partial success provides a more nuanced status that distinguishes between critical failures and non-critical issues, enabling better monitoring and alerting.</p>
+<h3>4. Graceful Degradation</h3>
+<p>Workflows can degrade gracefully, providing reduced functionality rather than complete failure when some components are unavailable.</p>
+<h3>5. Reduced False Alerts</h3>
+<p>By distinguishing between critical and non-critical failures, partial success reduces false alerts and improves signal-to-noise ratio in monitoring systems.</p>
+<h2>Conclusion</h2>
+<p>Partial success is a powerful concept that enables the creation of resilient, fault-tolerant workflows. By allowing non-critical steps to fail while still considering the overall workflow successful, DAG systems can better handle the complexities of modern distributed systems.</p>
+<p>The key to effective use of partial success lies in:</p>
+<ul>
+<li><strong>Clear identification</strong> of which steps are critical vs. optional</li>
+<li><strong>Proper configuration</strong> of <code>continueOn</code> conditions</li>
+<li><strong>Thoughtful use</strong> of <code>markSuccess</code> flags</li>
+<li><strong>Comprehensive monitoring</strong> of partial success rates</li>
+<li><strong>Good documentation</strong> of the intended behavior</li>
+</ul>
+<p>When implemented correctly, partial success transforms workflows from brittle, all-or-nothing processes into robust, adaptive systems that can handle real-world complexities while still achieving their primary objectives.</p>
+<p>This approach is particularly valuable in scenarios involving:</p>
+<ul>
+<li>Multi-cloud deployments</li>
+<li>Data pipelines with optional enhancements</li>
+<li>Service monitoring with fallbacks</li>
+<li>Database operations with expected warnings</li>
+<li>Cleanup and maintenance tasks</li>
+</ul>
+<p>By embracing partial success, organizations can build more reliable, maintainable, and resilient workflow systems that better reflect the reality of distributed computing environments.</p>
+
+        </article>
+        <p><a href="https://kriyanshii.github.io/blog/partial-success">Open interactive version</a></p>
+      </main>
+    </noscript>
+    <noscript>
+      <main style="max-width:42rem;margin:2rem auto;padding:0 1.5rem;font-family:system-ui,sans-serif;line-height:1.6;color:#333">
+        <h1>Kriyanshi</h1>
+        <p>I work at the intersection of satellites, distributed systems, and the teams who need their data on time. At ISRO's Space Applications Centre, I build ingestion, scheduling, and processing pipelines for geostationary satellite data and design JupyterHub environments that make planetary and weather research more accessible.</p>
+        <p><strong>Work:</strong> Cloudraft (Kubernetes, n8n migration) · Space Applications Centre, ISRO (satellite data, JupyterHub, SeaDAS)</p>
+        <p><strong>Projects:</strong> <a href="https://visionboardit.art">VisionBoardIt</a> · <a href="https://github.com/dagu-org/dagu">Dagu</a> · <a href="https://github.com/kriyanshii/mit-6.5840">MapReduce</a> · <a href="https://sereneworkspace.netlify.app">Serene</a> · <a href="https://github.com/kriyanshii">more on GitHub</a></p>
+        <p><strong>Links:</strong> <a href="https://github.com/kriyanshii">GitHub</a> · <a href="https://x.com/kriyanshii">Twitter/X</a></p>
+        <p><a href="/blog">Blog</a> — Thoughts on software development and backend engineering.</p>
+        <p><em>This site uses JavaScript for the full experience. Enable JS or visit the links above.</em></p>
+      </main>
+    </noscript>
+    <div id="root"></div>
+    <script>
+      (function (l) {
+        if (l.search && l.search.startsWith('?/')) {
+          var decoded = l.search
+            .slice(2)
+            .split('&')
+            .map(function (s) {
+              return s.replace(/~and~/g, '&');
+            })
+            .join('?');
+          window.history.replaceState(null, null, '/' + decoded + l.hash);
+        }
+      })(window.location);
+    </script>
+  </body>
+</html>

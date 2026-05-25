@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <title>Open source contributions to Dagu in year 2024-2025 | Kriyanshi</title>
+    <meta name="description" content="A Complete Guide" />
+    <link rel="canonical" href="https://kriyanshii.github.io/blog/open-source-contributions" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://kriyanshii.github.io/blog/open-source-contributions" />
+    <meta property="og:title" content="Open source contributions to Dagu in year 2024-2025" />
+    <meta property="og:description" content="A Complete Guide" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content="https://kriyanshii.github.io/og/open-source-contributions.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Open source contributions to Dagu in year 2024-2025" />
+    <meta name="twitter:description" content="A Complete Guide" />
+    <meta name="twitter:image" content="https://kriyanshii.github.io/og/open-source-contributions.png" />
+    <meta property="article:published_time" content="2026-01-26" />
+    <meta property="article:section" content="Tech" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Open source contributions to Dagu in year 2024-2025","description":"A Complete Guide","url":"https://kriyanshii.github.io/blog/open-source-contributions","datePublished":"2026-01-26","dateModified":"2026-01-26","image":"https://kriyanshii.github.io/og/open-source-contributions.png","author":{"@type":"Person","name":"Kriyanshi","url":"https://kriyanshii.github.io"},"publisher":{"@type":"Person","name":"Kriyanshi","url":"https://kriyanshii.github.io"},"articleSection":"Tech","mainEntityOfPage":{"@type":"WebPage","@id":"https://kriyanshii.github.io/blog/open-source-contributions"}}</script>
+<meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" sizes="32x32" href="/assets/favicon-Te9WZvHs.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+    
+    
+
+    
+    <link rel="stylesheet" crossorigin href="/assets/index-qfpOjz0d.css">
+    <style>
+      .static-blog { max-width: 48rem; margin: 0 auto; padding: 4rem 1.5rem; font-family: system-ui, sans-serif; line-height: 1.7; color: #374151; }
+      .static-blog h1 { font-size: 1.875rem; font-weight: 500; margin-bottom: 1.5rem; color: #111827; }
+      .static-blog h2 { font-size: 1.25rem; font-weight: 500; margin: 2rem 0 1rem; color: #111827; }
+      .static-blog p { margin-bottom: 1.25rem; }
+      .static-blog a { color: #2563eb; }
+      .static-blog figcaption { font-size: 0.875rem; color: #6b7280; margin: 0.5rem 0 1.5rem; font-style: italic; }
+      .static-blog .mermaid-figure { margin: 1.5rem 0; padding: 1rem; background: #f9fafb; border-radius: 0.5rem; }
+    </style>
+  </head>
+  <body>
+    <noscript>
+      <main class="static-blog">
+        
+        <article>
+          <h1>Open source contributions to Dagu in year 2024-2025</h1>
+          <p><time datetime="2026-01-26">2026-01-26</time> · Tech</p>
+          <p><strong>Contributor:</strong> kriyanshi / kriyanshii<br>
+<strong>Total Commits:</strong> 42 authored + 2 co-authored<br>
+<strong>Contribution Period:</strong> February 2025 - December 2025<br>
+<strong>Project:</strong> Dagu - A workflow scheduler and orchestrator</p>
+<hr>
+<h2>📊 Overview Statistics</h2>
+<ul>
+<li><strong>Total Commits:</strong> 42 direct contributions</li>
+<li><strong>Co-authored Commits:</strong> 2 additional contributions</li>
+<li><strong>Files Changed:</strong> 149 files</li>
+<li><strong>Lines Inserted:</strong> 13,545 lines</li>
+<li><strong>Lines Deleted:</strong> 9,424 lines</li>
+<li><strong>Net Contribution:</strong> +4,121 lines</li>
+<li><strong>Primary Areas:</strong> Backend (Go), Frontend (TypeScript/React), API Design</li>
+<li><strong>Most Active Months:</strong> November 2025 (12 commits), August 2025 (8 commits), December 2025 (7 commits)</li>
+</ul>
+<hr>
+<h2>🌟 Major Features &amp; Enhancements</h2>
+<h3>1. <strong>Queue Management System</strong> (Feb 2025 - Oct 2025)</h3>
+<ul>
+<li><strong>Initial Implementation</strong> (#535): Built comprehensive queue functionality for DAG scheduling
+<ul>
+<li>Added queue persistence layer (<code>internal/persistence/queue/</code>)</li>
+<li>Implemented queue statistics tracking (<code>internal/persistence/stats/</code>)</li>
+<li>Modified scheduler to support queuing mechanisms</li>
+<li>Enhanced agent to handle queued DAG runs</li>
+</ul>
+</li>
+<li><strong>Queue Override Feature</strong>: Added CLI flag and API body support for queue overrides</li>
+<li><strong>Clear Queue Functionality</strong> (#1298): Implemented UI and API endpoints for clearing queues</li>
+<li><strong>Enhanced Queue UI</strong>: Built comprehensive queue management interface with real-time updates</li>
+</ul>
+<h3>2. <strong>Advanced Search &amp; Filtering</strong> (Aug 2025 - Nov 2025)</h3>
+<ul>
+<li><strong>Status-wise Search</strong>: Implemented comprehensive search functionality with status filtering
+<ul>
+<li>Created <code>StatusSearchTabs</code> component for intuitive UI</li>
+<li>Added backend API support for status-based filtering</li>
+<li>Integrated pagination with status filters</li>
+</ul>
+</li>
+<li><strong>Enhanced DAG Search</strong>: Improved search experience across the DAG list page</li>
+<li><strong>Real-time Status Updates</strong>: Added live updates for running and queued DAGs with end date tracking</li>
+</ul>
+<h3>3. <strong>DAG Run Management</strong> (Oct 2025 - Dec 2025)</h3>
+<ul>
+<li><strong>Reschedule from History</strong> (#1347): Allow initiating fresh DAG runs with different Run IDs from history</li>
+<li><strong>Enqueue from Spec</strong> (#1346): New API endpoint for enqueuing DAG runs from specifications
+<ul>
+<li>Added comprehensive API documentation</li>
+<li>Built UI integration in DAGActions component</li>
+<li>Created extensive test coverage</li>
+</ul>
+</li>
+<li><strong>Prevent Duplicate Runs</strong>: Implemented deduplication logic to prevent duplicate DAG runs with same name and parameters
+<ul>
+<li>Added sophisticated parameter hashing and comparison</li>
+<li>Created 233 lines of tests for edge cases</li>
+<li>Enhanced both CLI and API endpoints</li>
+</ul>
+</li>
+</ul>
+<h3>4. <strong>DAG Configuration Enhancements</strong> (Aug 2025)</h3>
+<ul>
+<li><strong>Lock Parameters &amp; Run ID</strong> (#1105): Added DAG configuration to lock parameters and prevent modifications
+<ul>
+<li>Modified DAG schema with new configuration options</li>
+<li>Enhanced StartDAGModal UI to respect locked configurations</li>
+<li>Updated API definitions and transformers</li>
+</ul>
+</li>
+</ul>
+<h3>5. <strong>Step-level Features</strong> (Nov 2025 - Dec 2025)</h3>
+<ul>
+<li><strong>Step Timeout</strong> (#1026): Added <code>timeoutSec</code> configuration at the step level
+<ul>
+<li>Updated API schemas (v1 and v2)</li>
+<li>Modified spec builder and loader</li>
+<li>Enhanced runtime scheduler to enforce timeouts</li>
+<li>Updated JSON schema documentation</li>
+</ul>
+</li>
+<li><strong>Disable Step Retry</strong>: Implemented logic to disable step retry while DAG is running
+<ul>
+<li>Modified <code>NodeStatusTableRow</code> component</li>
+</ul>
+</li>
+</ul>
+<h3>6. <strong>Running/Failed Steps List</strong> (#1401, Nov 2025)</h3>
+<ul>
+<li>Enhanced DAG runs page to display running and failed steps</li>
+<li>Modified API v2 schema and transformers</li>
+<li>Updated DAGRunTable and DAGRunGroupedView components</li>
+<li>Improved visibility into DAG execution state</li>
+</ul>
+<h3>7. <strong>JQ Executor Enhancement</strong> (#1391, Nov 2025)</h3>
+<ul>
+<li>Extended JQ executor with raw output option</li>
+<li>Added comprehensive test coverage (394 lines in jq_test.go)</li>
+<li>Created integration tests (188 lines)</li>
+</ul>
+<h3>8. <strong>Chain Mode Dependency Warning</strong> (#1265, Oct 2025)</h3>
+<ul>
+<li>Implemented warning/notice system for explicit dependencies in chain mode DAGs</li>
+<li>Enhanced DAG editor UI with 207 lines of improvements</li>
+</ul>
+<hr>
+<h2>🐛 Bug Fixes &amp; Improvements</h2>
+<h3>UI/Frontend Fixes</h3>
+<ul>
+<li><strong>Fixed Zoom Out DAG Rendering</strong> (#1380): Resolved mermaid diagram rendering issues at different zoom levels</li>
+<li><strong>Fixed Linting Issues</strong>: Multiple commits addressing code quality and linting errors</li>
+<li><strong>Queue File Parsing</strong> (#1437): Attempted and reverted changes to parse queue file content for actual DAG names</li>
+</ul>
+<h3>Build &amp; Development</h3>
+<ul>
+<li><strong>Updated Makefile</strong> (#901): Enhanced build-ui target for better frontend build process</li>
+<li><strong>Solved CL Errors</strong>: Fixed command-line errors in various components</li>
+</ul>
+<hr>
+<h2>📁 Areas of Contribution</h2>
+<h3>Backend (Go)</h3>
+<ul>
+<li><strong>API Development</strong>: Extensive work on v1 and v2 API definitions and implementations</li>
+<li><strong>Command Layer</strong>: Enhanced CLI commands (start, retry, restart, enqueue, dry-run)</li>
+<li><strong>Persistence Layer</strong>: Built queue and stats persistence systems</li>
+<li><strong>Core Runtime</strong>: Modified scheduler, agent, and node execution logic</li>
+<li><strong>Utilities</strong>: Created string utilities for parameter handling and comparison</li>
+</ul>
+<h3>Frontend (TypeScript/React)</h3>
+<ul>
+<li><strong>DAG Management</strong>: Enhanced DAG list, search, and execution interfaces</li>
+<li><strong>Queue Management</strong>: Built comprehensive queue viewing and management UI</li>
+<li><strong>DAG Runs</strong>: Improved DAG run history, filtering, and action capabilities</li>
+<li><strong>Components</strong>: Created reusable components for status tabs, queue cards, and action modals</li>
+</ul>
+<h3>Documentation &amp; Configuration</h3>
+<ul>
+<li>Updated API documentation</li>
+<li>Enhanced CLI documentation</li>
+<li>Modified JSON schemas for DAG definitions</li>
+<li>Updated README and feature documentation</li>
+</ul>
+<hr>
+<h2>📈 Timeline of Contributions</h2>
+<p><strong>Q1 2025 (Feb - Apr)</strong></p>
+<ul>
+<li>Initial queue functionality implementation</li>
+<li>Build process improvements</li>
+</ul>
+<p><strong>Q2 2025 (Aug - Sep)</strong></p>
+<ul>
+<li>Status-wise search implementation</li>
+<li>DAG configuration locking features</li>
+<li>Queue override functionality</li>
+<li>Enhanced search capabilities</li>
+</ul>
+<p><strong>Q3 2025 (Oct - Nov)</strong></p>
+<ul>
+<li>DAG run enqueuing from spec</li>
+<li>Rescheduling from history</li>
+<li>Queue clearing functionality</li>
+<li>JQ executor enhancements</li>
+<li>Step-level timeout configuration</li>
+<li>Comprehensive test coverage additions</li>
+</ul>
+<p><strong>Q4 2025 (Dec)</strong></p>
+<ul>
+<li>Duplicate DAG run prevention</li>
+<li>Step retry controls</li>
+<li>Linting and code quality improvements</li>
+</ul>
+<hr>
+<h2>🎯 Key Impact Areas</h2>
+<ol>
+<li><strong>User Experience</strong>: Significantly improved search, filtering, and DAG management workflows</li>
+<li><strong>Reliability</strong>: Added deduplication and timeout controls for more robust execution</li>
+<li><strong>Flexibility</strong>: Queue management and override capabilities for advanced scheduling</li>
+<li><strong>Developer Experience</strong>: Enhanced API design, comprehensive test coverage, and better documentation</li>
+<li><strong>Performance</strong>: Optimized frontend components and backend processing</li>
+</ol>
+<hr>
+<h2>🤝 Collaboration</h2>
+<ul>
+<li>Co-authored 2 commits with YotaHamada (<a href="mailto:yohamta@gmail.com">yohamta@gmail.com</a>):
+<ul>
+<li>feat(ui): allow rescheduling DAG-run (#1381)</li>
+<li>feat: add <code>--from-run-id</code> option to start command (#1378)</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2>📝 Technical Highlights</h2>
+<ul>
+<li><strong>Full-stack Development</strong>: Competent across Go backend, TypeScript/React frontend, and API design</li>
+<li><strong>Testing</strong>: Consistently added comprehensive test coverage (e.g., 233 tests for params, 394 for JQ)</li>
+<li><strong>Code Quality</strong>: Regular linting fixes and adherence to project standards</li>
+<li><strong>Feature Ownership</strong>: Led multiple features from API design through implementation to UI integration</li>
+<li><strong>Problem Solving</strong>: Tackled complex issues like parameter deduplication, queue management, and real-time updates</li>
+</ul>
+<hr>
+
+        </article>
+        <p><a href="https://kriyanshii.github.io/blog/open-source-contributions">Open interactive version</a></p>
+      </main>
+    </noscript>
+    <noscript>
+      <main style="max-width:42rem;margin:2rem auto;padding:0 1.5rem;font-family:system-ui,sans-serif;line-height:1.6;color:#333">
+        <h1>Kriyanshi</h1>
+        <p>I work at the intersection of satellites, distributed systems, and the teams who need their data on time. At ISRO's Space Applications Centre, I build ingestion, scheduling, and processing pipelines for geostationary satellite data and design JupyterHub environments that make planetary and weather research more accessible.</p>
+        <p><strong>Work:</strong> Cloudraft (Kubernetes, n8n migration) · Space Applications Centre, ISRO (satellite data, JupyterHub, SeaDAS)</p>
+        <p><strong>Projects:</strong> <a href="https://visionboardit.art">VisionBoardIt</a> · <a href="https://github.com/dagu-org/dagu">Dagu</a> · <a href="https://github.com/kriyanshii/mit-6.5840">MapReduce</a> · <a href="https://sereneworkspace.netlify.app">Serene</a> · <a href="https://github.com/kriyanshii">more on GitHub</a></p>
+        <p><strong>Links:</strong> <a href="https://github.com/kriyanshii">GitHub</a> · <a href="https://x.com/kriyanshii">Twitter/X</a></p>
+        <p><a href="/blog">Blog</a> — Thoughts on software development and backend engineering.</p>
+        <p><em>This site uses JavaScript for the full experience. Enable JS or visit the links above.</em></p>
+      </main>
+    </noscript>
+    <div id="root"></div>
+    <script>
+      (function (l) {
+        if (l.search && l.search.startsWith('?/')) {
+          var decoded = l.search
+            .slice(2)
+            .split('&')
+            .map(function (s) {
+              return s.replace(/~and~/g, '&');
+            })
+            .join('?');
+          window.history.replaceState(null, null, '/' + decoded + l.hash);
+        }
+      })(window.location);
+    </script>
+  </body>
+</html>
