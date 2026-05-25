@@ -14,10 +14,10 @@ export function BlogPost() {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
+    return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
+      day: 'numeric',
     });
   };
 
@@ -48,10 +48,8 @@ export function BlogPost() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#fafafa] dark:bg-[#1a1a1a] relative">
-        <div className="max-w-2xl mx-auto px-6 py-16">
-          Loading...
-        </div>
+      <div className="max-w-3xl mx-auto px-6 pb-16">
+        <p className="text-[15px] text-gray-500 dark:text-gray-400">Loading...</p>
       </div>
     );
   }
@@ -61,7 +59,7 @@ export function BlogPost() {
   }
 
   return (
-    <div className="min-h-screen bg-[#fafafa] dark:bg-[#1a1a1a] relative">
+    <div className="max-w-3xl mx-auto px-6 pb-16">
       <PageSeo
         title={post.title}
         description={post.description}
@@ -73,48 +71,50 @@ export function BlogPost() {
         tag={post.tag}
       />
 
-      {/* Back button - Desktop Only */}
-      <div className="hidden lg:block fixed top-24 left-6 z-40">
-        <Link 
-          to="/blog"
-          className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
-        >
-          <ArrowLeft size={16} className="mr-1" />
-          Back to Blog
-        </Link>
-      </div>
+      <header className="mb-12 pb-8 border-b border-gray-100 dark:border-gray-800">
+        <div className="flex justify-end mb-6">
+          <Link
+            to="/blog"
+            className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 -mr-2.5 text-[13px] font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-white dark:hover:bg-[#242424] hover:shadow-sm transition-all group"
+          >
+            <ArrowLeft
+              size={14}
+              className="transition-transform group-hover:-translate-x-0.5"
+            />
+            Blog
+          </Link>
+        </div>
 
-      {/* Main Content */}
-      <div className="max-w-4xl mx-auto px-6 py-16">
-        <article className="prose prose-gray dark:prose-invert max-w-none">
-          <h1 className="text-3xl font-medium mb-8 text-gray-900 dark:text-gray-100">
-            {post.title}
-          </h1>
+        <h1 className="text-2xl font-medium mb-4 text-gray-900 dark:text-gray-100 leading-snug">
+          {post.title}
+        </h1>
 
-          <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-12">
-            <time dateTime={post.date}>{formatDate(post.date)}</time>
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
-              {post.tag}
-            </span>
-          </div>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-gray-500 dark:text-gray-400">
+          <time dateTime={post.date}>{formatDate(post.date)}</time>
+          <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
+            {post.tag}
+          </span>
+        </div>
+      </header>
 
-          <div 
-            className="text-gray-700 dark:text-gray-300 leading-relaxed
-              [&>p]:mb-6 
-              [&>h1]:text-2xl [&>h1]:font-medium [&>h1]:mb-4 
-              [&>h2]:text-xl [&>h2]:font-medium [&>h2]:mb-4 
-              [&>h3]:text-lg [&>h3]:font-medium [&>h3]:mb-3
+      <article className="prose max-w-none">
+        <div
+          className="text-[15px] text-gray-800 dark:text-gray-300 leading-relaxed
+              [&>p]:mb-6
+              [&>h2]:text-xl [&>h2]:font-medium [&>h2]:mb-4 [&>h2]:mt-10 [&>h2]:text-gray-900 [&>h2]:dark:text-gray-100
+              [&>h3]:text-lg [&>h3]:font-medium [&>h3]:mb-3 [&>h3]:mt-8 [&>h3]:text-gray-900 [&>h3]:dark:text-gray-100
               [&>ul]:mb-6 [&>ul]:list-disc [&>ul]:pl-6
               [&>ol]:mb-6 [&>ol]:list-decimal [&>ol]:pl-6
               [&>li]:mb-2
+              [&>hr]:my-10 [&>hr]:border-gray-100 [&>hr]:dark:border-gray-800
               [&>blockquote]:border-l-4 [&>blockquote]:border-gray-200 [&>blockquote]:dark:border-gray-700 [&>blockquote]:pl-4 [&>blockquote]:italic [&>blockquote]:mb-6
               [&_img]:max-w-full [&_img]:h-auto [&_img]:rounded-lg [&_img]:my-8 [&_img]:shadow-md [&_img]:dark:shadow-gray-800
               [&>p>img]:mx-auto [&>p>img]:block
-              [&_.mermaid-figure]:my-8 [&_.mermaid-figure]:mx-auto [&_.mermaid-figure]:max-w-full"
-            dangerouslySetInnerHTML={{ __html: post.content }} 
-          />
-        </article>
-      </div>
+              [&_.mermaid-figure]:my-8 [&_.mermaid-figure]:mx-auto [&_.mermaid-figure]:max-w-full
+              [&>p>em]:block [&>p>em]:text-[13px] [&>p>em]:text-gray-500 [&>p>em]:dark:text-gray-400 [&>p>em]:not-italic [&>p>em]:mb-4"
+          dangerouslySetInnerHTML={{ __html: post.content }}
+        />
+      </article>
     </div>
   );
 }

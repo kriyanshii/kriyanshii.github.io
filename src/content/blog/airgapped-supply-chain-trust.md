@@ -2,7 +2,7 @@
 title: What Air-Gapped Systems Taught Me About Software Supply-Chain Trust
 date: 2026-05-20
 tag: Tech
-description: Lessons from building secure JupyterHub environments in air-gapped systems at ISRO — on software supply-chain trust, source builds, and reproducible scientific computing.
+description: Lessons from building secure JupyterHub environments in air-gapped systems at ISRO on software supply-chain trust, source builds, and reproducible scientific computing.
 ---
 
 ## Introduction
@@ -11,7 +11,7 @@ A few days ago, I was reading [Chainguard’s article on preventing malware in C
 
 It reminded me of some of the work we did while building secure JupyterHub environments for scientific workloads at SAC, ISRO.
 
-Building JupyterHub in partially air-gapped environments at ISRO taught me that software supply-chain trust is really about visibility — not just security policy.
+Building JupyterHub in partially air-gapped environments at ISRO taught me that software supply-chain trust is really about visibility, not just security policy.
 
 At the time, I never thought about it in terms like “software supply-chain security” or “artifact provenance.” We were mostly trying to make scientific computing work reliably inside partially air-gapped environments. Looking back now, I realize many of the operational constraints we dealt with naturally pushed us toward questions the industry is now formalizing much more explicitly.
 
@@ -105,7 +105,7 @@ A large part of the environment depended on libraries like Astropy, Skyfield, an
 
 At first, the environment looked manageable. Most libraries installed normally until geospatial tooling entered the picture.
 
-*Figure: Scientific Python packages depend on C/C++ extensions, Fortran libraries, compiler toolchains, and OS-level dependencies — each layer can introduce build failures in isolated environments.*
+*Figure: Scientific Python packages depend on C/C++ extensions, Fortran libraries, compiler toolchains, and OS-level dependencies; each layer can introduce build failures in isolated environments.*
 
 ```mermaid
 flowchart LR
@@ -171,7 +171,7 @@ One practical decision we made fairly early was locking Python versions and buil
 
 Scientific stacks are difficult enough without uncontrolled upgrades introducing additional instability.
 
-Keeping runtimes predictable reduced rebuild complexity, minimized subtle incompatibilities, and made debugging far more survivable in constrained environments where iteration cycles were naturally slower. That same instinct — designing for predictable failure modes rather than hoping workflows succeed — shows up in [building resilient workflows](/blog/partial-success) more broadly.
+Keeping runtimes predictable reduced rebuild complexity, minimized subtle incompatibilities, and made debugging far more survivable in constrained environments where iteration cycles were naturally slower. That same instinct, designing for predictable failure modes rather than hoping workflows succeed, shows up in [building resilient workflows](/blog/partial-success) more broadly.
 
 ---
 
@@ -208,7 +208,7 @@ Even developer experience started looking different under those constraints.
 
 The goal was not only to secure infrastructure. Researchers still needed environments that were usable. We spent considerable effort building persistent notebook environments, reproducible Python setups, isolated workloads, and workflows like one-click notebook-to-webpage conversion because security constraints alone are not enough to make a platform useful.
 
-*Figure: Security constraints shaped platform design — persistent notebooks, reproducible environments, isolated workloads, and self-service workflows together produced a usable scientific platform.*
+*Figure: Security constraints shaped platform design: persistent notebooks, reproducible environments, isolated workloads, and self-service workflows together produced a usable scientific platform.*
 
 ```mermaid
 flowchart TD
