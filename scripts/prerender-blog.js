@@ -114,7 +114,7 @@ ${headAssets}
       .static-blog h1 { font-size: 1.875rem; font-weight: 500; margin-bottom: 1.5rem; color: #111827; }
       .static-blog h2 { font-size: 1.25rem; font-weight: 500; margin: 2rem 0 1rem; color: #111827; }
       .static-blog p { margin-bottom: 1.25rem; }
-      .static-blog a { color: #2563eb; }
+      .static-blog a { color: #2563eb; font-weight: 500; text-decoration: underline; text-decoration-color: rgba(147, 197, 253, 0.8); text-underline-offset: 3px; }
       .static-blog figcaption { font-size: 0.875rem; color: #6b7280; margin: 0.5rem 0 1.5rem; font-style: italic; }
       .static-blog .mermaid-figure { margin: 1.5rem 0; padding: 1rem; background: #f9fafb; border-radius: 0.5rem; }
       .static-blog .mermaid-diagram { display: block; max-width: 100%; height: auto; margin: 0 auto; }
