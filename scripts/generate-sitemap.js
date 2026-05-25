@@ -5,33 +5,45 @@
  * Helps crawlers and agents discover all pages.
  */
 
-import { readdirSync, writeFileSync, existsSync } from 'fs';
+import { readFileSync, readdirSync, writeFileSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import frontMatter from 'front-matter';
+import { normalizeDate } from './lib/dates.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const SITE_URL = 'https://kriyanshii.github.io';
 const DIST_DIR = join(__dirname, '..', 'dist');
 const BLOG_DIR = join(__dirname, '..', 'src', 'content', 'blog');
 
-function getBlogSlugs() {
+function getBlogPosts() {
   if (!existsSync(BLOG_DIR)) return [];
+
   return readdirSync(BLOG_DIR)
-    .filter((f) => f.endsWith('.md'))
-    .map((f) => f.replace(/\.md$/, ''));
+    .filter((file) => file.endsWith('.md'))
+    .map((file) => {
+      const slug = file.replace(/\.md$/, '');
+      const raw = readFileSync(join(BLOG_DIR, file), 'utf8');
+      const { attributes } = frontMatter(raw);
+      return {
+        slug,
+        lastmod: normalizeDate(attributes.date),
+      };
+    });
 }
 
 function buildSitemap() {
-  const slugs = getBlogSlugs();
+  const posts = getBlogPosts();
   const today = new Date().toISOString().split('T')[0];
 
   const urls = [
-    { loc: '/', priority: '1.0', changefreq: 'weekly' },
-    { loc: '/blog', priority: '0.9', changefreq: 'weekly' },
-    ...slugs.map((slug) => ({
-      loc: `/blog/${slug}`,
+    { loc: '/', priority: '1.0', changefreq: 'weekly', lastmod: today },
+    { loc: '/blog', priority: '0.9', changefreq: 'weekly', lastmod: today },
+    ...posts.map((post) => ({
+      loc: `/blog/${post.slug}`,
       priority: '0.8',
       changefreq: 'monthly',
+      lastmod: post.lastmod,
     })),
   ];
 
@@ -42,7 +54,7 @@ ${urls
     (u) =>
       `  <url>
     <loc>${SITE_URL}${u.loc}</loc>
-    <lastmod>${today}</lastmod>
+    <lastmod>${u.lastmod}</lastmod>
     <changefreq>${u.changefreq}</changefreq>
     <priority>${u.priority}</priority>
   </url>`

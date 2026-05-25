@@ -1,6 +1,8 @@
 import  { useEffect, useState } from 'react';
 // import type { LinkProps } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { PageSeo } from '../components/PageSeo';
+import { DEFAULT_OG_IMAGE, SITE_URL } from '../constants/site';
 import { BlogPost } from '../types';
 import { getAllPosts } from '../utils/blog';
 
@@ -57,6 +59,13 @@ export function Blog() {
 
   return (
     <div className="max-w-3xl mx-auto px-6">
+      <PageSeo
+        title="Blog"
+        description="Thoughts and insights on software development, backend engineering, distributed systems, and interactive computing."
+        canonical={`${SITE_URL}/blog`}
+        ogImage={DEFAULT_OG_IMAGE}
+      />
+
       <header className="mb-16">
         <h1 className="text-2xl font-medium mb-4 dark:text-white">Blog</h1>
         <p className="text-[15px] leading-relaxed text-gray-800 dark:text-gray-300">

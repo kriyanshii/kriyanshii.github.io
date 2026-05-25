@@ -16,6 +16,7 @@ export interface ProjectItem {
     content: string;
     description: string;
     tag: 'Tech' | 'Life' | 'Other';
+    ogImage?: string;
     isNew?: boolean;
   }
   
@@ -24,4 +25,5 @@ export interface ProjectItem {
     date: string;
     tag: 'Tech' | 'Life' | 'Other';
     description: string;
+    ogImage?: string;
   }

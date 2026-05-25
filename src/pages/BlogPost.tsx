@@ -3,6 +3,8 @@ import mermaid from 'mermaid';
 import svgPanZoom from 'svg-pan-zoom';
 import { ArrowLeft } from 'lucide-react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import { PageSeo } from '../components/PageSeo';
+import { AUTHOR_NAME, postOgImageUrl, postUrl } from '../constants/site';
 import { BlogPost as BlogPostType } from '../types';
 import { getPostBySlug } from '../utils/blog';
 
@@ -368,6 +370,17 @@ export function BlogPost() {
 
   return (
     <div className="min-h-screen bg-[#fafafa] dark:bg-[#1a1a1a] relative">
+      <PageSeo
+        title={post.title}
+        description={post.description}
+        canonical={postUrl(post.slug)}
+        ogType="article"
+        ogImage={postOgImageUrl(post.slug, post.ogImage)}
+        publishedTime={post.date}
+        author={AUTHOR_NAME}
+        tag={post.tag}
+      />
+
       {/* Back button - Desktop Only */}
       <div className="hidden lg:block fixed top-24 left-6 z-40">
         <Link 
@@ -387,7 +400,7 @@ export function BlogPost() {
           </h1>
 
           <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-12">
-            <time>{formatDate(post.date)}</time>
+            <time dateTime={post.date}>{formatDate(post.date)}</time>
             <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
               {post.tag}
             </span>

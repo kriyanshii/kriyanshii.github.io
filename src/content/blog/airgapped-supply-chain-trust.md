@@ -1,17 +1,17 @@
 ---
-title: Supply Chain Trust in Air-Gapped Environments
+title: What Air-Gapped Systems Taught Me About Software Supply-Chain Trust
 date: 2026-05-20
 tag: Tech
-description: Lessons from building secure JupyterHub environments at ISRO
+description: Lessons from building secure JupyterHub environments in air-gapped systems at ISRO — on software supply-chain trust, source builds, and reproducible scientific computing.
 ---
-
-# What building in air-gapped environments taught me about supply-chain trust
 
 ## Introduction
 
 A few days ago, I was reading [Chainguard’s article on preventing malware in Chainguard Libraries](https://www.chainguard.dev/unchained/how-does-chainguard-prevent-malware-in-chainguard-libraries). Their emphasis on building binaries directly from source rather than inheriting trust from opaque upstream artifacts felt strangely familiar.
 
 It reminded me of some of the work we did while building secure JupyterHub environments for scientific workloads at SAC, ISRO.
+
+Building JupyterHub in partially air-gapped environments at ISRO taught me that software supply-chain trust is really about visibility — not just security policy.
 
 At the time, I never thought about it in terms like “software supply-chain security” or “artifact provenance.” We were mostly trying to make scientific computing work reliably inside partially air-gapped environments. Looking back now, I realize many of the operational constraints we dealt with naturally pushed us toward questions the industry is now formalizing much more explicitly.
 
@@ -24,6 +24,8 @@ The first thing air-gapped systems change is your relationship with the internet
 In most engineering environments today, the network quietly becomes part of the runtime. Dependencies are downloaded dynamically. Container images are pulled from registries without much thought. Package managers resolve transitive dependencies invisibly. Trust is inherited passively because the surrounding ecosystem is designed to feel frictionless.
 
 Inside constrained systems, that abstraction disappears very quickly.
+
+*Figure: Artifacts move from an internet-connected acquisition machine through controlled transfer into the air-gapped build environment, then into custom UBI9 container images and JupyterHub.*
 
 ```mermaid
 flowchart LR
@@ -70,6 +72,8 @@ A simple `pip install` no longer feels lightweight. Every dependency introduces 
 
 ## Trust Boundaries
 
+*Figure: External internet sources feed an artifact acquisition machine; only approved artifacts cross the trust boundary into the air-gapped environment for source builds and controlled deployment.*
+
 ```mermaid
 flowchart TD
 
@@ -97,9 +101,11 @@ Not because source builds are automatically safer, but because they exposed more
 
 Scientific Python ecosystems amplified this in ways I did not fully appreciate initially.
 
-A large part of the environment depended on libraries like Astropy, Skyfield, and SunPy, along with geospatial tooling around GDAL and several native dependencies sitting underneath the Python layer.
+A large part of the environment depended on libraries like Astropy, Skyfield, and SunPy, along with geospatial tooling around GDAL and several native dependencies sitting underneath the Python layer. Much of this work lives in the same design space as the [interactive computing platform](/blog/interacitve-computing-environments) we built for open science workloads in India.
 
 At first, the environment looked manageable. Most libraries installed normally until geospatial tooling entered the picture.
+
+*Figure: Scientific Python packages depend on C/C++ extensions, Fortran libraries, compiler toolchains, and OS-level dependencies — each layer can introduce build failures in isolated environments.*
 
 ```mermaid
 flowchart LR
@@ -139,6 +145,8 @@ Dependency drift stopped feeling like maintenance overhead and started feeling m
 
 ## Source Builds vs Prebuilt Binaries
 
+*Figure: Prebuilt binaries hide build assumptions and linked libraries, reducing trust; source builds expose compilation steps and dependencies, increasing confidence.*
+
 ```mermaid
 flowchart TD
 
@@ -163,11 +171,13 @@ One practical decision we made fairly early was locking Python versions and buil
 
 Scientific stacks are difficult enough without uncontrolled upgrades introducing additional instability.
 
-Keeping runtimes predictable reduced rebuild complexity, minimized subtle incompatibilities, and made debugging far more survivable in constrained environments where iteration cycles were naturally slower.
+Keeping runtimes predictable reduced rebuild complexity, minimized subtle incompatibilities, and made debugging far more survivable in constrained environments where iteration cycles were naturally slower. That same instinct — designing for predictable failure modes rather than hoping workflows succeed — shows up in [building resilient workflows](/blog/partial-success) more broadly.
 
 ---
 
 ## Locked Runtimes and Reproducibility
+
+*Figure: Locking Python versions and controlling the runtime reduces dependency drift, leading to deterministic builds and operational stability.*
 
 ```mermaid
 flowchart LR
@@ -198,6 +208,8 @@ Even developer experience started looking different under those constraints.
 
 The goal was not only to secure infrastructure. Researchers still needed environments that were usable. We spent considerable effort building persistent notebook environments, reproducible Python setups, isolated workloads, and workflows like one-click notebook-to-webpage conversion because security constraints alone are not enough to make a platform useful.
 
+*Figure: Security constraints shaped platform design — persistent notebooks, reproducible environments, isolated workloads, and self-service workflows together produced a usable scientific platform.*
+
 ```mermaid
 flowchart TD
 
@@ -224,6 +236,8 @@ Looking back, I do not think air-gapped systems necessarily made development har
 
 They simply made inherited trust assumptions impossible to ignore.
 
+*Figure: Air-gapped constraints force visibility, which leads to understanding, controlled dependencies, deterministic systems, and operational trust.*
+
 ```mermaid
 flowchart LR
 
@@ -241,4 +255,4 @@ F[Air-Gapped Constraints] --> A
 
 I also had the opportunity to speak publicly about parts of this infrastructure work and the JupyterHub ecosystem we built around constrained scientific workloads. Looking back, many of the operational concerns discussed there now feel closely connected to broader conversations around software trust, reproducibility, and infrastructure design.
 
-[Watch the talk on YouTube](https://www.youtube.com/live/NyQced4oJVM?t=9548s)
+[Watch my talk on building JupyterHub for air-gapped scientific workloads](https://www.youtube.com/live/NyQced4oJVM?t=9548s)

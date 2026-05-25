@@ -2,6 +2,12 @@ import frontMatter from 'front-matter';
 import MarkdownIt from 'markdown-it';
 import type { BlogPost, BlogFrontmatter } from '../types';
 
+function normalizeDate(value: string | Date): string {
+  if (typeof value === 'string') return value.split('T')[0];
+  if (value instanceof Date) return value.toISOString().split('T')[0];
+  return String(value).split('T')[0];
+}
+
 const md = new MarkdownIt({
   html: true,
   breaks: true,
@@ -51,10 +57,11 @@ export async function getAllPosts(): Promise<BlogPost[]> {
         return {
           slug,
           title: attributes.title,
-          date: attributes.date,
+          date: normalizeDate(attributes.date),
           content: md.render(body),
           description: attributes.description || body.slice(0, 150) + '...',
           tag: attributes.tag,
+          ogImage: attributes.ogImage,
           isNew: new Date(attributes.date) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) // New if less than 7 days old
         } as BlogPost;
       } catch (error) {
@@ -87,10 +94,11 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
     return {
       slug,
       title: attributes.title,
-      date: attributes.date,
+      date: normalizeDate(attributes.date),
       content: md.render(body),
       description: attributes.description || body.slice(0, 150) + '...',
       tag: attributes.tag,
+      ogImage: attributes.ogImage,
       isNew: new Date(attributes.date) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
     } as BlogPost;
   } catch (error) {

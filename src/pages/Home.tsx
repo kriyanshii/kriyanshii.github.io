@@ -1,4 +1,6 @@
 import { Github, Twitter, Presentation } from "lucide-react";
+import { PageSeo } from "../components/PageSeo";
+import { DEFAULT_DESCRIPTION, DEFAULT_OG_IMAGE, SITE_TAGLINE, SITE_URL } from "../constants/site";
 import { ProjectItem } from "../types";
 import { Timeline } from "../components/Timeline";
 
@@ -118,6 +120,12 @@ export function Home() {
 
 	return (
 		<div className="max-w-3xl mx-auto px-6">
+			<PageSeo
+				title={SITE_TAGLINE}
+				description={DEFAULT_DESCRIPTION}
+				canonical={`${SITE_URL}/`}
+				ogImage={DEFAULT_OG_IMAGE}
+			/>
 			<header className="mb-10 flex flex-col sm:flex-row gap-6 sm:justify-between sm:items-start">
 					<p className="text-[15px] leading-relaxed text-gray-800 dark:text-gray-300">
 					I work at the intersection of satellites, distributed systems, and the teams who need their data on time. At ISRO’s Space Applications Centre, I build ingestion, scheduling, and processing pipelines for geostationary satellite data and design JupyterHub environments that make planetary and weather research more accessible. I like running production and development setups on air-gapped and on-prem systems end to end—from build to deployment; it’s my guilty pleasure. Lately, I’ve been exploring and customizing SeaDAS to help scientists get more out of Earth observation data. 🌍✨
