@@ -89,10 +89,17 @@ function extractHeadAssets(indexHtml) {
     .replace(/<meta property="og:[^"]+"[^>]*>/gi, '')
     .replace(/<link rel="canonical"[^>]*>/gi, '')
     .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/gi, '')
-    .replace(/<!-- Open Graph -->[\s\S]*?<!-- JSON-LD:[\s\S]*?<\/script>/i, '');
+    // Strip leftover SEO comment blocks only — do NOT use a broad regex that
+    // reaches past ld+json into the Vite module script tag.
+    .replace(/<!-- Open Graph -->[\s\S]*?<!-- Twitter Card -->/i, '')
+    .replace(/<!-- JSON-LD:[\s\S]*?-->/i, '');
 
   const body = bodyMatch[1];
-  return { headAssets: head.trim(), bodyAssets: body.trim() };
+  const headAssets = head.trim();
+  if (!headAssets.includes('type="module"')) {
+    throw new Error('extractHeadAssets: Vite module script missing from dist/index.html head');
+  }
+  return { headAssets, bodyAssets: body.trim() };
 }
 
 function buildStaticPage({ headAssets, bodyAssets, pageMeta, mainContent }) {
