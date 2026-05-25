@@ -1,10 +1,23 @@
+---
+title: Supply Chain Trust in Air-Gapped Environments
+date: 2026-05-20
+tag: Tech
+description: Lessons from building secure JupyterHub environments at ISRO
+---
+
 # What building in air-gapped environments taught me about supply-chain trust
+
+## Introduction
 
 A few days ago, I was reading [Chainguard’s article on preventing malware in Chainguard Libraries](https://www.chainguard.dev/unchained/how-does-chainguard-prevent-malware-in-chainguard-libraries). Their emphasis on building binaries directly from source rather than inheriting trust from opaque upstream artifacts felt strangely familiar.
 
 It reminded me of some of the work we did while building secure JupyterHub environments for scientific workloads at SAC, ISRO.
 
 At the time, I never thought about it in terms like “software supply-chain security” or “artifact provenance.” We were mostly trying to make scientific computing work reliably inside partially air-gapped environments. Looking back now, I realize many of the operational constraints we dealt with naturally pushed us toward questions the industry is now formalizing much more explicitly.
+
+---
+
+## Air-Gapped Workflow
 
 The first thing air-gapped systems change is your relationship with the internet itself.
 
@@ -53,6 +66,10 @@ That workflow changes how you think about software almost immediately.
 
 A simple `pip install` no longer feels lightweight. Every dependency introduces questions around compatibility, reproducibility, runtime behavior, and operational trust boundaries. The movement of artifacts itself becomes important because software no longer enters the environment invisibly.
 
+---
+
+## Trust Boundaries
+
 ```mermaid
 flowchart TD
 
@@ -73,6 +90,10 @@ H --> I[Controlled Deployment]
 Over time, source builds started feeling easier to trust than binaries we did not fully understand.
 
 Not because source builds are automatically safer, but because they exposed more of the system. Compilation steps became visible. Linked libraries became visible. Runtime incompatibilities became visible. Hidden assumptions became visible.
+
+---
+
+## Scientific Python Dependencies
 
 Scientific Python ecosystems amplified this in ways I did not fully appreciate initially.
 
@@ -114,6 +135,10 @@ In normal internet-connected environments, package managers hide most dependency
 
 Dependency drift stopped feeling like maintenance overhead and started feeling more like operational uncertainty.
 
+---
+
+## Source Builds vs Prebuilt Binaries
+
 ```mermaid
 flowchart TD
 
@@ -140,6 +165,10 @@ Scientific stacks are difficult enough without uncontrolled upgrades introducing
 
 Keeping runtimes predictable reduced rebuild complexity, minimized subtle incompatibilities, and made debugging far more survivable in constrained environments where iteration cycles were naturally slower.
 
+---
+
+## Locked Runtimes and Reproducibility
+
 ```mermaid
 flowchart LR
 
@@ -160,6 +189,10 @@ We built our custom images on top of UBI9 largely because it provided a stable a
 What I find interesting now is how many modern supply-chain-security conversations revolve around operational realities that constrained systems naturally expose.
 
 At the time, we were not implementing SBOM pipelines, signed artifacts, provenance frameworks, or attestation systems explicitly. But many of the underlying concerns were already present. Questions around dependency trust, deterministic environments, artifact control, and reproducibility emerged naturally once internet access stopped being treated as invisible infrastructure.
+
+---
+
+## Platform Engineering Under Constraints
 
 Even developer experience started looking different under those constraints.
 
@@ -204,18 +237,8 @@ F[Air-Gapped Constraints] --> A
 
 ---
 
-## Further context
+## Further Context
 
 I also had the opportunity to speak publicly about parts of this infrastructure work and the JupyterHub ecosystem we built around constrained scientific workloads. Looking back, many of the operational concerns discussed there now feel closely connected to broader conversations around software trust, reproducibility, and infrastructure design.
 
-[Add your talk/video link here]
-
----
-
-## SEO Meta Title
-
-What Building Air-Gapped Systems Taught Me About Software Supply-Chain Trust
-
-## SEO Meta Description
-
-Lessons from building secure JupyterHub environments in air-gapped systems and how they changed my understanding of software trust.
+[Watch the talk on YouTube](https://www.youtube.com/live/NyQced4oJVM?t=9548s)
