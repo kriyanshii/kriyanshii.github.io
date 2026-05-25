@@ -10,6 +10,7 @@ import { fileURLToPath } from 'url';
 import frontMatter from 'front-matter';
 import { renderMarkdown, stripLeadingH1 } from './lib/markdown.mjs';
 import { normalizeDate } from './lib/dates.mjs';
+import { postOgImageUrl } from './lib/og-image.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const SITE_URL = 'https://kriyanshii.github.io';
@@ -158,7 +159,7 @@ function prerenderBlog() {
 
   for (const post of posts) {
     const canonical = `${SITE_URL}/blog/${post.slug}`;
-    const ogImage = `${SITE_URL}/og/${post.slug}.svg`;
+    const ogImage = postOgImageUrl(SITE_URL, post.slug);
     const pageMeta = buildHeadMeta({
       title: post.title,
       description: post.description,

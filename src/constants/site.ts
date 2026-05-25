@@ -17,5 +17,5 @@ export function postUrl(slug: string): string {
 
 export function postOgImageUrl(slug: string, customImage?: string): string {
   if (customImage) return absoluteUrl(customImage);
-  return `${SITE_URL}/og/${slug}.svg`;
+  return `${SITE_URL}/og/${slug}.png`;
 }
