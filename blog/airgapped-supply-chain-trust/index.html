@@ -4,21 +4,21 @@
     <meta charset="UTF-8" />
 
     <title>What Air-Gapped Systems Taught Me About Software Supply-Chain Trust | Kriyanshi</title>
-    <meta name="description" content="Lessons from building secure JupyterHub environments in air-gapped systems at ISRO — on software supply-chain trust, source builds, and reproducible scientific computing." />
+    <meta name="description" content="Lessons from building secure JupyterHub environments in air-gapped systems at ISRO on software supply-chain trust, source builds, and reproducible scientific computing." />
     <link rel="canonical" href="https://kriyanshii.github.io/blog/airgapped-supply-chain-trust" />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://kriyanshii.github.io/blog/airgapped-supply-chain-trust" />
     <meta property="og:title" content="What Air-Gapped Systems Taught Me About Software Supply-Chain Trust" />
-    <meta property="og:description" content="Lessons from building secure JupyterHub environments in air-gapped systems at ISRO — on software supply-chain trust, source builds, and reproducible scientific computing." />
+    <meta property="og:description" content="Lessons from building secure JupyterHub environments in air-gapped systems at ISRO on software supply-chain trust, source builds, and reproducible scientific computing." />
     <meta property="og:locale" content="en_US" />
     <meta property="og:image" content="https://kriyanshii.github.io/og/airgapped-supply-chain-trust.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="What Air-Gapped Systems Taught Me About Software Supply-Chain Trust" />
-    <meta name="twitter:description" content="Lessons from building secure JupyterHub environments in air-gapped systems at ISRO — on software supply-chain trust, source builds, and reproducible scientific computing." />
+    <meta name="twitter:description" content="Lessons from building secure JupyterHub environments in air-gapped systems at ISRO on software supply-chain trust, source builds, and reproducible scientific computing." />
     <meta name="twitter:image" content="https://kriyanshii.github.io/og/airgapped-supply-chain-trust.png" />
     <meta property="article:published_time" content="2026-05-20" />
     <meta property="article:section" content="Tech" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"What Air-Gapped Systems Taught Me About Software Supply-Chain Trust","description":"Lessons from building secure JupyterHub environments in air-gapped systems at ISRO — on software supply-chain trust, source builds, and reproducible scientific computing.","url":"https://kriyanshii.github.io/blog/airgapped-supply-chain-trust","datePublished":"2026-05-20","dateModified":"2026-05-20","image":"https://kriyanshii.github.io/og/airgapped-supply-chain-trust.png","author":{"@type":"Person","name":"Kriyanshi","url":"https://kriyanshii.github.io"},"publisher":{"@type":"Person","name":"Kriyanshi","url":"https://kriyanshii.github.io"},"articleSection":"Tech","mainEntityOfPage":{"@type":"WebPage","@id":"https://kriyanshii.github.io/blog/airgapped-supply-chain-trust"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"What Air-Gapped Systems Taught Me About Software Supply-Chain Trust","description":"Lessons from building secure JupyterHub environments in air-gapped systems at ISRO on software supply-chain trust, source builds, and reproducible scientific computing.","url":"https://kriyanshii.github.io/blog/airgapped-supply-chain-trust","datePublished":"2026-05-20","dateModified":"2026-05-20","image":"https://kriyanshii.github.io/og/airgapped-supply-chain-trust.png","author":{"@type":"Person","name":"Kriyanshi","url":"https://kriyanshii.github.io"},"publisher":{"@type":"Person","name":"Kriyanshi","url":"https://kriyanshii.github.io"},"articleSection":"Tech","mainEntityOfPage":{"@type":"WebPage","@id":"https://kriyanshii.github.io/blog/airgapped-supply-chain-trust"}}</script>
 <meta charset="UTF-8" />
     <link rel="icon" type="image/x-icon" sizes="32x32" href="/assets/favicon-Te9WZvHs.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -34,8 +34,8 @@
 
     
     
-    <script type="module" crossorigin src="/assets/index-USFUFphW.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-Car3eJGq.css">
+    <script type="module" crossorigin src="/assets/index-BVSvAbX9.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-DSBS9jEh.css">
     <style>
       .static-blog { max-width: 48rem; margin: 0 auto; padding: 4rem 1.5rem; font-family: system-ui, sans-serif; line-height: 1.7; color: #374151; }
       .static-blog h1 { font-size: 1.875rem; font-weight: 500; margin-bottom: 1.5rem; color: #111827; }
@@ -57,7 +57,7 @@
           <h2>Introduction</h2>
 <p>A few days ago, I was reading <a href="https://www.chainguard.dev/unchained/how-does-chainguard-prevent-malware-in-chainguard-libraries">Chainguard’s article on preventing malware in Chainguard Libraries</a>. Their emphasis on building binaries directly from source rather than inheriting trust from opaque upstream artifacts felt strangely familiar.</p>
 <p>It reminded me of some of the work we did while building secure JupyterHub environments for scientific workloads at SAC, ISRO.</p>
-<p>Building JupyterHub in partially air-gapped environments at ISRO taught me that software supply-chain trust is really about visibility — not just security policy.</p>
+<p>Building JupyterHub in partially air-gapped environments at ISRO taught me that software supply-chain trust is really about visibility, not just security policy.</p>
 <p>At the time, I never thought about it in terms like “software supply-chain security” or “artifact provenance.” We were mostly trying to make scientific computing work reliably inside partially air-gapped environments. Looking back now, I realize many of the operational constraints we dealt with naturally pushed us toward questions the industry is now formalizing much more explicitly.</p>
 <hr>
 <h2>Air-Gapped Workflow</h2>
@@ -78,7 +78,7 @@
 <p>Scientific Python ecosystems amplified this in ways I did not fully appreciate initially.</p>
 <p>A large part of the environment depended on libraries like Astropy, Skyfield, and SunPy, along with geospatial tooling around GDAL and several native dependencies sitting underneath the Python layer. Much of this work lives in the same design space as the <a href="/blog/interacitve-computing-environments">interactive computing platform</a> we built for open science workloads in India.</p>
 <p>At first, the environment looked manageable. Most libraries installed normally until geospatial tooling entered the picture.</p>
-<p><em>Figure: Scientific Python packages depend on C/C++ extensions, Fortran libraries, compiler toolchains, and OS-level dependencies — each layer can introduce build failures in isolated environments.</em></p>
+<p><em>Figure: Scientific Python packages depend on C/C++ extensions, Fortran libraries, compiler toolchains, and OS-level dependencies; each layer can introduce build failures in isolated environments.</em></p>
 <figure class="mermaid-figure"><img src="/diagrams/airgapped-supply-chain-trust/2.svg" alt="Diagram" class="mermaid-diagram" loading="lazy" /></figure><p>GDAL in particular became a recurring source of operational pain.</p>
 <p>Sometimes a build would succeed on one system and fail silently inside another environment with an almost identical dependency graph. Other times the Python environment itself looked healthy while a missing <code>.so</code> dependency several layers below quietly broke runtime behavior. There were cases where the compiler version was technically compatible, but linked against libraries the isolated runtime environment could not properly resolve later.</p>
 <p>A surprising amount of engineering time went into tracing dependency behavior rather than writing application code.</p>
@@ -90,7 +90,7 @@
 <p><em>Figure: Prebuilt binaries hide build assumptions and linked libraries, reducing trust; source builds expose compilation steps and dependencies, increasing confidence.</em></p>
 <figure class="mermaid-figure"><img src="/diagrams/airgapped-supply-chain-trust/3.svg" alt="Diagram" class="mermaid-diagram" loading="lazy" /></figure><p>One practical decision we made fairly early was locking Python versions and building the environment around a controlled runtime combination. Initially it felt like operational convenience. Over time it became clear it was actually a way of reducing uncertainty inside an already fragile ecosystem.</p>
 <p>Scientific stacks are difficult enough without uncontrolled upgrades introducing additional instability.</p>
-<p>Keeping runtimes predictable reduced rebuild complexity, minimized subtle incompatibilities, and made debugging far more survivable in constrained environments where iteration cycles were naturally slower. That same instinct — designing for predictable failure modes rather than hoping workflows succeed — shows up in <a href="/blog/partial-success">building resilient workflows</a> more broadly.</p>
+<p>Keeping runtimes predictable reduced rebuild complexity, minimized subtle incompatibilities, and made debugging far more survivable in constrained environments where iteration cycles were naturally slower. That same instinct, designing for predictable failure modes rather than hoping workflows succeed, shows up in <a href="/blog/partial-success">building resilient workflows</a> more broadly.</p>
 <hr>
 <h2>Locked Runtimes and Reproducibility</h2>
 <p><em>Figure: Locking Python versions and controlling the runtime reduces dependency drift, leading to deterministic builds and operational stability.</em></p>
@@ -102,7 +102,7 @@
 <h2>Platform Engineering Under Constraints</h2>
 <p>Even developer experience started looking different under those constraints.</p>
 <p>The goal was not only to secure infrastructure. Researchers still needed environments that were usable. We spent considerable effort building persistent notebook environments, reproducible Python setups, isolated workloads, and workflows like one-click notebook-to-webpage conversion because security constraints alone are not enough to make a platform useful.</p>
-<p><em>Figure: Security constraints shaped platform design — persistent notebooks, reproducible environments, isolated workloads, and self-service workflows together produced a usable scientific platform.</em></p>
+<p><em>Figure: Security constraints shaped platform design: persistent notebooks, reproducible environments, isolated workloads, and self-service workflows together produced a usable scientific platform.</em></p>
 <figure class="mermaid-figure"><img src="/diagrams/airgapped-supply-chain-trust/5.svg" alt="Diagram" class="mermaid-diagram" loading="lazy" /></figure><p>That experience changed how I think about platform engineering more broadly.</p>
 <p>Infrastructure systems are also trust systems. And trust is often shaped less by explicit security policy and more by operational design decisions quietly accumulating underneath developer workflows.</p>
 <p>Looking back, I do not think air-gapped systems necessarily made development harder.</p>
