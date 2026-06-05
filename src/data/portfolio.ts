@@ -135,7 +135,7 @@ export const opensourceHighlights = [
   {
     project: 'Dagu',
     summary:
-      '42+ commits across queue management, DAG run controls, search/filter UX, step timeouts, and API design.',
+      'Co-authored Dagu\'s queue management system (v1.17.0), 20 merged PRs, and 16 GitHub release credits — queue tooling, Helm/Kubernetes deployment, DAG run controls, and API design.',
     links: [
       { label: 'Contributions on GitHub', href: 'https://github.com/dagu-org/dagu/commits/main/?author=kriyanshii' },
       { label: 'Write-up on this site', href: '/blog/open-source-contributions' },
