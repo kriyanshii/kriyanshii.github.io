@@ -3,22 +3,22 @@
   <head>
     <meta charset="UTF-8" />
 
-    <title>Open source contributions to Dagu in year 2024-2025 | Kriyanshi</title>
-    <meta name="description" content="A Complete Guide" />
+    <title>Open Source Contributions to Dagu | Kriyanshi</title>
+    <meta name="description" content="A summary of my contributions to Dagu — co-authoring the queue system, 20 merged PRs, 16 GitHub release credits, and production-ready features across Go, React, and Kubernetes." />
     <link rel="canonical" href="https://kriyanshii.github.io/blog/open-source-contributions" />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://kriyanshii.github.io/blog/open-source-contributions" />
-    <meta property="og:title" content="Open source contributions to Dagu in year 2024-2025" />
-    <meta property="og:description" content="A Complete Guide" />
+    <meta property="og:title" content="Open Source Contributions to Dagu" />
+    <meta property="og:description" content="A summary of my contributions to Dagu — co-authoring the queue system, 20 merged PRs, 16 GitHub release credits, and production-ready features across Go, React, and Kubernetes." />
     <meta property="og:locale" content="en_US" />
     <meta property="og:image" content="https://kriyanshii.github.io/og/open-source-contributions.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Open source contributions to Dagu in year 2024-2025" />
-    <meta name="twitter:description" content="A Complete Guide" />
+    <meta name="twitter:title" content="Open Source Contributions to Dagu" />
+    <meta name="twitter:description" content="A summary of my contributions to Dagu — co-authoring the queue system, 20 merged PRs, 16 GitHub release credits, and production-ready features across Go, React, and Kubernetes." />
     <meta name="twitter:image" content="https://kriyanshii.github.io/og/open-source-contributions.png" />
     <meta property="article:published_time" content="2026-01-26" />
     <meta property="article:section" content="Tech" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Open source contributions to Dagu in year 2024-2025","description":"A Complete Guide","url":"https://kriyanshii.github.io/blog/open-source-contributions","datePublished":"2026-01-26","dateModified":"2026-01-26","image":"https://kriyanshii.github.io/og/open-source-contributions.png","author":{"@type":"Person","name":"Kriyanshi","url":"https://kriyanshii.github.io"},"publisher":{"@type":"Person","name":"Kriyanshi","url":"https://kriyanshii.github.io"},"articleSection":"Tech","mainEntityOfPage":{"@type":"WebPage","@id":"https://kriyanshii.github.io/blog/open-source-contributions"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Open Source Contributions to Dagu","description":"A summary of my contributions to Dagu — co-authoring the queue system, 20 merged PRs, 16 GitHub release credits, and production-ready features across Go, React, and Kubernetes.","url":"https://kriyanshii.github.io/blog/open-source-contributions","datePublished":"2026-01-26","dateModified":"2026-01-26","image":"https://kriyanshii.github.io/og/open-source-contributions.png","author":{"@type":"Person","name":"Kriyanshi","url":"https://kriyanshii.github.io"},"publisher":{"@type":"Person","name":"Kriyanshi","url":"https://kriyanshii.github.io"},"articleSection":"Tech","mainEntityOfPage":{"@type":"WebPage","@id":"https://kriyanshii.github.io/blog/open-source-contributions"}}</script>
 <meta charset="UTF-8" />
     <link rel="icon" type="image/x-icon" sizes="32x32" href="/assets/favicon-Te9WZvHs.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -35,7 +35,7 @@
     
     
     <script defer src="https://cloud.umami.is/script.js" data-website-id="6487df11-3901-40bc-bbfd-f93f7cfcb4a3"></script>
-    <script type="module" crossorigin src="/assets/index-k8N2Ax_T.js"></script>
+    <script type="module" crossorigin src="/assets/index-D_jQYWxQ.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-BipjYZ81.css">
     <style>
       .static-blog { max-width: 48rem; margin: 0 auto; padding: 4rem 1.5rem; font-family: system-ui, sans-serif; line-height: 1.7; color: #374151; }
@@ -53,209 +53,518 @@
       <main class="static-blog">
         
         <article>
-          <h1>Open source contributions to Dagu in year 2024-2025</h1>
+          <h1>Open Source Contributions to Dagu</h1>
           <p><time datetime="2026-01-26">2026-01-26</time> · Tech</p>
-          <p><strong>Contributor:</strong> kriyanshi / kriyanshii<br>
-<strong>Total Commits:</strong> 42 authored + 2 co-authored<br>
-<strong>Contribution Period:</strong> February 2025 - December 2025<br>
-<strong>Project:</strong> Dagu - A workflow scheduler and orchestrator</p>
+          <p><em>This post complements my other writing on <a href="https://github.com/dagucloud/dagu">Dagu</a>, including <a href="/blog/partial-success">partial success in DAG systems</a> and <a href="/blog/blog-ssh-executor">using the SSH executor</a>. Where those posts explain how Dagu works, this one documents what I’ve contributed upstream.</em></p>
+<h2>Introduction</h2>
+<p>I started contributing to <a href="https://github.com/dagucloud/dagu">Dagu</a> in early 2024. Dagu is a self-contained workflow orchestration engine — DAG-based, YAML-defined, and shipped as a single Go binary with a built-in web UI. It sits in a familiar space: lighter than Airflow, more capable than Cron, and practical for teams that want orchestration without standing up a heavy control plane.</p>
+<p>The largest piece of work was <strong>co-authoring Dagu’s queue management system</strong>, shipped in <a href="https://docs.dagu.sh/overview/changelog#v1170-2025-06-18">v1.17.0</a> and credited in the official changelog under <em>Queue functionality implementation</em>. Since then I’ve landed <strong>20 merged pull requests</strong>, with <strong>16 GitHub release credits</strong> across 8 release pages — often co-authored with maintainer Yota Hamada.</p>
+<p>This post is a map of that work: what shipped, where it was credited, and what’s still in flight.</p>
 <hr>
-<h2>📊 Overview Statistics</h2>
+<h2>At a Glance</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th style="text-align:right">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Merged pull requests</td>
+<td style="text-align:right"><strong>20</strong> (+ co-authored core queue system)</td>
+</tr>
+<tr>
+<td>GitHub releases crediting you</td>
+<td style="text-align:right"><strong>16</strong> across 8 release pages</td>
+</tr>
+<tr>
+<td>Commits on <code>main</code></td>
+<td style="text-align:right"><strong>21</strong></td>
+</tr>
+<tr>
+<td>Lines added</td>
+<td style="text-align:right"><strong>~4,700</strong></td>
+</tr>
+<tr>
+<td>Lines removed</td>
+<td style="text-align:right"><strong>~1,200</strong></td>
+</tr>
+<tr>
+<td>Files touched</td>
+<td style="text-align:right"><strong>133</strong></td>
+</tr>
+<tr>
+<td>Primary stacks</td>
+<td style="text-align:right">Go, React/TypeScript, OpenAPI, Helm/Kubernetes</td>
+</tr>
+</tbody>
+</table>
+<h3>By area</h3>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th style="text-align:right">PRs</th>
+<th style="text-align:right">Approx. lines added</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Runtime &amp; executors</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">~2,200</td>
+</tr>
+<tr>
+<td>API &amp; backend services</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">~1,000</td>
+</tr>
+<tr>
+<td>UI / frontend</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">~350</td>
+</tr>
+<tr>
+<td>Infrastructure &amp; DevOps</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right">~730</td>
+</tr>
+<tr>
+<td>Core configuration</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">~400</td>
+</tr>
+</tbody>
+</table>
+<p>Activity was sparse in 2024, then accelerated through 2025 — with a major queue merge in <strong>May 2025</strong>, a busy <strong>November 2025</strong> (API, jq executor, timeouts, DAG runs UI), and <strong>February–May 2026</strong> (Helm chart, scheduler capacity fixes, schema param defaults).</p>
+<hr>
+<h2>About Dagu</h2>
+<p>Dagu runs workflows defined as directed acyclic graphs in YAML. A single binary handles scheduling, execution, and the web UI — no external database required. It supports local, queue-based, and distributed execution, with 18+ built-in step executors: shell, Docker, HTTP, SSH, jq, SQL, sub-DAGs, and more.</p>
+<p><strong>Stack:</strong> Go 1.26 · React 19 · TypeScript · Chi (REST) · gRPC · OpenAPI · Helm · Tailwind CSS</p>
+<p>If you’re new to the project, the <a href="https://docs.dagu.sh">docs</a> are a good starting point.</p>
+<hr>
+<h2>Featured Contributions</h2>
+<h3>Queue Management System — <a href="https://docs.dagu.sh/overview/changelog#v1170-2025-06-18">v1.17.0</a> · Co-authored <a href="https://github.com/dagucloud/dagu/pull/940">#940</a></h3>
+<p><strong>Original implementation:</strong> <a href="https://github.com/dagu-org/dagu/pull/690">#690</a> (issue <a href="https://github.com/dagucloud/dagu/issues/535">#535</a>)<br>
+<strong>Merged to main:</strong> May 24, 2025 · <strong>Released in:</strong> <a href="https://docs.dagu.sh/overview/changelog#v1170-2025-06-18">v1.17.0 (June 18, 2025)</a></p>
+<p>Co-authored the core queue system that lets Dagu run workflows with controlled concurrency — one of the project’s major v1.17.0 features. The official changelog credits <strong>@kriyanshii</strong> under <em>Queue functionality implementation</em>.</p>
+<p>What it introduced:</p>
 <ul>
-<li><strong>Total Commits:</strong> 42 direct contributions</li>
-<li><strong>Co-authored Commits:</strong> 2 additional contributions</li>
-<li><strong>Files Changed:</strong> 149 files</li>
-<li><strong>Lines Inserted:</strong> 13,545 lines</li>
-<li><strong>Lines Deleted:</strong> 9,424 lines</li>
-<li><strong>Net Contribution:</strong> +4,121 lines</li>
-<li><strong>Primary Areas:</strong> Backend (Go), Frontend (TypeScript/React), API Design</li>
-<li><strong>Most Active Months:</strong> November 2025 (12 commits), August 2025 (8 commits), December 2025 (7 commits)</li>
+<li><code>dagu enqueue</code> / <code>dagu dequeue</code> CLI commands</li>
+<li>File-based persistent queue with priority and standard queues</li>
+<li><code>Queued</code> workflow status and scheduler queue worker</li>
+<li>Queue management UI (enqueue/dequeue from the Web UI)</li>
+<li>Enqueue API for programmatic queueing</li>
+</ul>
+<p>Foundational load-control primitive — queues, concurrency limits, and distributed workers all build on it. Original prototype ~847 lines across 21 files; shipped via <a href="https://github.com/dagucloud/dagu/pull/940">#940</a> with ~5,200 lines across 115 files. Co-authored with Yota Hamada (integration &amp; merge).</p>
+<hr>
+<h3>Production-Ready Helm Chart for Kubernetes — <a href="https://github.com/dagucloud/dagu/pull/1613">#1613</a> · <a href="https://github.com/dagucloud/dagu/releases/tag/v2.0.2">v2.0.2</a></h3>
+<p>Complete Helm chart for deploying Dagu on Kubernetes — configurable values, service definitions, and deployment templates. First-class K8s install path: <strong>16 files, ~683 lines added</strong>.</p>
+<hr>
+<h3>Scheduler Global Queue Capacity on Retry — <a href="https://github.com/dagucloud/dagu/pull/1676">#1676</a> · <a href="https://github.com/dagucloud/dagu/releases/tag/v2.0.2">v2.0.2</a></h3>
+<p>Retries now respect global queue capacity limits, preventing overflow when failed runs are re-queued. <strong>13 files, ~497 lines.</strong> Co-authored with Yota Hamada.</p>
+<hr>
+<h3>Enqueue DAGRun from Spec API — <a href="https://github.com/dagucloud/dagu/pull/1375">#1375</a> · <a href="https://github.com/dagucloud/dagu/releases/tag/v1.24.0">v1.24.0</a></h3>
+<p>REST endpoint to enqueue a DAG run from a YAML spec, without a pre-existing on-disk DAG file. <strong>5 files, ~648 lines.</strong> Co-authored with Yota Hamada.</p>
+<hr>
+<h3>jq Executor <code>raw-output</code> Option — <a href="https://github.com/dagucloud/dagu/pull/1392">#1392</a> · <a href="https://github.com/dagucloud/dagu/releases/tag/v1.24.2">v1.24.2</a></h3>
+<p><code>raw-output</code> option for unquoted string output, matching <code>jq -r</code> behavior. <strong>3 files, ~634 lines</strong> including tests. Co-authored with Yota Hamada.</p>
+<hr>
+<h3>Step-Level <code>timeoutSec</code> — <a href="https://github.com/dagucloud/dagu/pull/1412">#1412</a> · <a href="https://github.com/dagucloud/dagu/releases/tag/v1.24.8">v1.24.8</a></h3>
+<p>Per-step timeout configuration, independent of DAG-level timeouts. <strong>15 files, ~440 lines.</strong> Co-authored with Yota Hamada.</p>
+<hr>
+<h3>Custom Exit Codes on Retry — <a href="https://github.com/dagucloud/dagu/pull/902">#902</a> · <a href="https://github.com/dagucloud/dagu/releases/tag/v1.16.8">v1.16.8</a></h3>
+<p>Define which exit codes trigger a step retry — retry on transient failures, not expected ones. <strong>7 files, ~624 lines.</strong></p>
+<hr>
+<h3>Lock Parameters and Run ID — <a href="https://github.com/dagucloud/dagu/pull/1176">#1176</a> · <a href="https://github.com/dagucloud/dagu/releases/tag/v1.20.0">v1.20.0</a></h3>
+<p>DAG-level config to lock parameters and run IDs during re-runs or scheduled executions. <strong>12 files, ~383 lines.</strong> Co-authored with Yota Hamada.</p>
+<hr>
+<h3>Clear Queue Functionality — <a href="https://github.com/dagucloud/dagu/pull/1299">#1299</a> · <a href="https://github.com/dagucloud/dagu/releases/tag/v1.22.10">v1.22.10</a></h3>
+<p>REST API plus UI controls on <code>/queues</code> for draining stuck queue entries. <strong>4 files, ~262 lines.</strong> Co-authored with Yota Hamada.</p>
+<hr>
+<h3>Running/Failed Steps on DAG Runs Page — <a href="https://github.com/dagucloud/dagu/pull/1420">#1420</a> · <a href="https://github.com/dagucloud/dagu/releases/tag/v1.24.11">v1.24.11</a></h3>
+<p>Inline running and failed step names on the DAG runs list — faster triage without drilling into details. <strong>4 files, ~177 lines.</strong></p>
+<hr>
+<h3>Queue Override on Enqueue — <a href="https://github.com/dagucloud/dagu/pull/1240">#1240</a> · <a href="https://github.com/dagucloud/dagu/releases/tag/v1.22.3">v1.22.3</a></h3>
+<p>Override the target queue when enqueuing a DAG run, via CLI flag and API request body. <strong>15 files, ~118 lines.</strong></p>
+<hr>
+<h3><code>--from-run-id</code> CLI Flag — Co-authored <a href="https://github.com/dagucloud/dagu/pull/1378">#1378</a> · <a href="https://github.com/dagucloud/dagu/releases/tag/v1.24.0">v1.24.0</a></h3>
+<p><code>--from-run-id</code> on the <code>start</code> command — new runs inherit context from a previous DAG run history entry. Co-authored with Yota Hamada.</p>
+<hr>
+<h3>Disable Step Retry While DAG Is Running — <a href="https://github.com/dagucloud/dagu/pull/1447">#1447</a> · <a href="https://github.com/dagucloud/dagu/releases/tag/v1.26.2">v1.26.2</a></h3>
+<p>Disabled per-step retry controls in the Web UI during active execution — avoids conflicting retry actions mid-run. <strong>1 file, ~10 lines.</strong></p>
+<hr>
+<h3>Fix Dequeue Queue Name in Runtime — <a href="https://github.com/dagucloud/dagu/pull/1481">#1481</a> · <a href="https://github.com/dagucloud/dagu/releases/tag/v1.26.4">v1.26.4</a></h3>
+<p>Fixed the runtime <code>Dequeue</code> command builder to pass the queue name as a positional argument. API-initiated dequeue was failing because the CLI expected <code>dagu dequeue &lt;queue-name&gt;</code> but the name was omitted. <strong>2 files, ~23 lines.</strong></p>
+<hr>
+<h3>Fix Empty Schema Params for Eval Defaults — <a href="https://github.com/dagucloud/dagu/pull/2173">#2173</a> · <a href="https://github.com/dagucloud/dagu/releases/tag/v2.7.2">v2.7.2</a></h3>
+<p>Start/Enqueue modal now omits empty parameter values from the request payload, so eval-backed defaults (e.g. <code>${NOW}</code>) resolve correctly instead of being overridden by blank strings. <strong>2 files, ~20 lines.</strong></p>
+<hr>
+<h2>All Merged Pull Requests</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:right">#</th>
+<th>Title</th>
+<th>Date</th>
+<th>Release</th>
+<th style="text-align:right">+Lines</th>
+<th>Area</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">—</td>
+<td><strong>Queue management system</strong> (co-authored <a href="https://github.com/dagucloud/dagu/pull/940">#940</a>)</td>
+<td>2025-05</td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.17.0-beta.1">v1.17.0</a></td>
+<td style="text-align:right">~5,200</td>
+<td>Core / Scheduler</td>
+</tr>
+<tr>
+<td style="text-align:right"><a href="https://github.com/dagucloud/dagu/pull/558">558</a></td>
+<td>Configurable DAG status display</td>
+<td>2024-04</td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.13.0">v1.13.0</a></td>
+<td style="text-align:right">16</td>
+<td>UI / Core</td>
+</tr>
+<tr>
+<td style="text-align:right"><a href="https://github.com/dagucloud/dagu/pull/765">765</a></td>
+<td>Improved parameter handling</td>
+<td>2025-01</td>
+<td>—</td>
+<td style="text-align:right">14</td>
+<td>Core</td>
+</tr>
+<tr>
+<td style="text-align:right"><a href="https://github.com/dagucloud/dagu/pull/805">805</a></td>
+<td>Headless mode support</td>
+<td>2025-02</td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.16.1">v1.16.1</a></td>
+<td style="text-align:right">42</td>
+<td>CLI / Infra</td>
+</tr>
+<tr>
+<td style="text-align:right"><a href="https://github.com/dagucloud/dagu/pull/899">899</a></td>
+<td>DAG graph zoom in/out</td>
+<td>2025-04</td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.16.8">v1.16.8</a></td>
+<td style="text-align:right">84</td>
+<td>UI</td>
+</tr>
+<tr>
+<td style="text-align:right"><a href="https://github.com/dagucloud/dagu/pull/904">904</a></td>
+<td>Makefile <code>build-ui</code> target</td>
+<td>2025-04</td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.16.8">v1.16.8</a></td>
+<td style="text-align:right">6</td>
+<td>DevOps</td>
+</tr>
+<tr>
+<td style="text-align:right"><a href="https://github.com/dagucloud/dagu/pull/902">902</a></td>
+<td>Custom exit codes on retry</td>
+<td>2025-04</td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.16.8">v1.16.8</a></td>
+<td style="text-align:right">624</td>
+<td>Runtime</td>
+</tr>
+<tr>
+<td style="text-align:right"><a href="https://github.com/dagucloud/dagu/pull/1126">1126</a></td>
+<td>Remove hardcoded paginator limit</td>
+<td>2025-07</td>
+<td>—</td>
+<td style="text-align:right">4</td>
+<td>API</td>
+</tr>
+<tr>
+<td style="text-align:right"><a href="https://github.com/dagucloud/dagu/pull/1176">1176</a></td>
+<td>Lock parameters and run ID</td>
+<td>2025-08</td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.20.0">v1.20.0</a></td>
+<td style="text-align:right">383</td>
+<td>Core / API</td>
+</tr>
+<tr>
+<td style="text-align:right"><a href="https://github.com/dagucloud/dagu/pull/1240">1240</a></td>
+<td>Queue override on enqueue (CLI + API)</td>
+<td>2025-09</td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.22.3">v1.22.3</a></td>
+<td style="text-align:right">118</td>
+<td>API / CLI</td>
+</tr>
+<tr>
+<td style="text-align:right"><a href="https://github.com/dagucloud/dagu/pull/1299">1299</a></td>
+<td>Clear queue functionality</td>
+<td>2025-10</td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.22.10">v1.22.10</a></td>
+<td style="text-align:right">262</td>
+<td>API / UI</td>
+</tr>
+<tr>
+<td style="text-align:right"><a href="https://github.com/dagucloud/dagu/pull/1375">1375</a></td>
+<td>Enqueue DAGRun from spec API</td>
+<td>2025-11</td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.24.0">v1.24.0</a></td>
+<td style="text-align:right">648</td>
+<td>API</td>
+</tr>
+<tr>
+<td style="text-align:right"><a href="https://github.com/dagucloud/dagu/pull/1378">1378</a></td>
+<td><code>--from-run-id</code> CLI flag (co-authored)</td>
+<td>2025-11</td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.24.0">v1.24.0</a></td>
+<td style="text-align:right">—</td>
+<td>CLI</td>
+</tr>
+<tr>
+<td style="text-align:right"><a href="https://github.com/dagucloud/dagu/pull/1383">1383</a></td>
+<td>Fix DAG zoom-out rendering</td>
+<td>2025-11</td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.24.0">v1.24.0</a></td>
+<td style="text-align:right">26</td>
+<td>UI</td>
+</tr>
+<tr>
+<td style="text-align:right"><a href="https://github.com/dagucloud/dagu/pull/1392">1392</a></td>
+<td>jq executor <code>raw-output</code> option</td>
+<td>2025-11</td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.24.2">v1.24.2</a></td>
+<td style="text-align:right">634</td>
+<td>Runtime</td>
+</tr>
+<tr>
+<td style="text-align:right"><a href="https://github.com/dagucloud/dagu/pull/1412">1412</a></td>
+<td>Step-level <code>timeoutSec</code></td>
+<td>2025-11</td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.24.8">v1.24.8</a></td>
+<td style="text-align:right">440</td>
+<td>Runtime</td>
+</tr>
+<tr>
+<td style="text-align:right"><a href="https://github.com/dagucloud/dagu/pull/1420">1420</a></td>
+<td>Running/failed steps on DAG runs page</td>
+<td>2025-11</td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.24.11">v1.24.11</a></td>
+<td style="text-align:right">177</td>
+<td>UI</td>
+</tr>
+<tr>
+<td style="text-align:right"><a href="https://github.com/dagucloud/dagu/pull/1447">1447</a></td>
+<td>Disable step retry while DAG is running</td>
+<td>2025-12</td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.26.2">v1.26.2</a></td>
+<td style="text-align:right">10</td>
+<td>UI</td>
+</tr>
+<tr>
+<td style="text-align:right"><a href="https://github.com/dagucloud/dagu/pull/1481">1481</a></td>
+<td>Fix queue name in dequeue command</td>
+<td>2025-12</td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.26.4">v1.26.4</a></td>
+<td style="text-align:right">23</td>
+<td>Runtime</td>
+</tr>
+<tr>
+<td style="text-align:right"><a href="https://github.com/dagucloud/dagu/pull/1613">1613</a></td>
+<td>Production-ready Helm chart</td>
+<td>2026-02</td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v2.0.2">v2.0.2</a></td>
+<td style="text-align:right">683</td>
+<td>Infra</td>
+</tr>
+<tr>
+<td style="text-align:right"><a href="https://github.com/dagucloud/dagu/pull/1676">1676</a></td>
+<td>Scheduler queue capacity on retry</td>
+<td>2026-02</td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v2.0.2">v2.0.2</a></td>
+<td style="text-align:right">497</td>
+<td>Scheduler</td>
+</tr>
+<tr>
+<td style="text-align:right"><a href="https://github.com/dagucloud/dagu/pull/2173">2173</a></td>
+<td>Fix empty schema params for eval defaults</td>
+<td>2026-05</td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v2.7.2">v2.7.2</a></td>
+<td style="text-align:right">20</td>
+<td>UI</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>GitHub Release Credits</h2>
+<p>Mentions of <strong>@kriyanshii</strong> across <a href="https://github.com/dagucloud/dagu/releases">dagucloud/dagu releases</a> (16 releases on 8 pages):</p>
+<table>
+<thead>
+<tr>
+<th>Page</th>
+<th>Release</th>
+<th>What you’re credited for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/dagucloud/dagu/releases">1</a></td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v2.7.2">v2.7.2</a></td>
+<td>Schema params eval-defaults fix (<a href="https://github.com/dagucloud/dagu/pull/2173">#2173</a>)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/dagucloud/dagu/releases?page=6">6</a></td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v2.0.2">v2.0.2</a></td>
+<td>Helm chart (<a href="https://github.com/dagucloud/dagu/pull/1613">#1613</a>), queue capacity on retry (<a href="https://github.com/dagucloud/dagu/pull/1676">#1676</a>), tag-wise search (<a href="https://github.com/dagucloud/dagu/issues/1494">#1494</a>); special thanks for v2.0.0 feedback</td>
+</tr>
+<tr>
+<td><a href="https://github.com/dagucloud/dagu/releases?page=7">7</a></td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.26.4">v1.26.4</a></td>
+<td>Dequeue fix (<a href="https://github.com/dagucloud/dagu/pull/1481">#1481</a>), singleton flag request (<a href="https://github.com/dagucloud/dagu/issues/1460">#1460</a>)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/dagucloud/dagu/releases?page=7">7</a></td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.26.2">v1.26.2</a></td>
+<td>Stop step retry UI (<a href="https://github.com/dagucloud/dagu/pull/1447">#1447</a>), queued DAGs bug report (<a href="https://github.com/dagucloud/dagu/issues/1437">#1437</a>)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/dagucloud/dagu/releases?page=7">7</a></td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.24.11">v1.24.11</a></td>
+<td>Running/failed steps list (<a href="https://github.com/dagucloud/dagu/pull/1420">#1420</a>)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/dagucloud/dagu/releases?page=7">7</a></td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.24.8">v1.24.8</a></td>
+<td>Step-level <code>timeoutSec</code> (<a href="https://github.com/dagucloud/dagu/pull/1412">#1412</a>)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/dagucloud/dagu/releases?page=8">8</a></td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.24.2">v1.24.2</a></td>
+<td>jq raw-output (<a href="https://github.com/dagucloud/dagu/pull/1392">#1392</a>)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/dagucloud/dagu/releases?page=8">8</a></td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.24.0">v1.24.0</a></td>
+<td><code>--from-run-id</code> co-author (<a href="https://github.com/dagucloud/dagu/pull/1378">#1378</a>), inline spec enqueue (<a href="https://github.com/dagucloud/dagu/pull/1375">#1375</a>), zoom-out fix (<a href="https://github.com/dagucloud/dagu/issues/1380">#1380</a>)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/dagucloud/dagu/releases?page=8">8</a></td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.23.0">v1.23.0</a></td>
+<td>Queue override + clear queue (<a href="https://github.com/dagucloud/dagu/pull/1240">#1240</a>, <a href="https://github.com/dagucloud/dagu/pull/1299">#1299</a>)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/dagucloud/dagu/releases?page=8">8</a></td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.22.10">v1.22.10</a></td>
+<td>Clear queue UI (<a href="https://github.com/dagucloud/dagu/pull/1299">#1299</a>)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/dagucloud/dagu/releases?page=9">9</a></td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.22.3">v1.22.3</a></td>
+<td>Queue override on enqueue (<a href="https://github.com/dagucloud/dagu/pull/1240">#1240</a>)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/dagucloud/dagu/releases?page=9">9</a></td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.20.0">v1.20.0</a></td>
+<td>Lock parameters &amp; run ID (<a href="https://github.com/dagucloud/dagu/pull/1176">#1176</a>)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/dagucloud/dagu/releases?page=12">12</a></td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.17.0-beta.1">v1.17.0-beta.1</a></td>
+<td>Queue functionality implementation (co-authored <a href="https://github.com/dagucloud/dagu/pull/940">#940</a>)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/dagucloud/dagu/releases?page=13">13</a></td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.16.8">v1.16.8</a></td>
+<td>Zoom in/out (<a href="https://github.com/dagucloud/dagu/pull/899">#899</a>), Makefile (<a href="https://github.com/dagucloud/dagu/pull/904">#904</a>), custom exit codes (<a href="https://github.com/dagucloud/dagu/pull/902">#902</a>)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/dagucloud/dagu/releases?page=13">13</a></td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.16.1">v1.16.1</a></td>
+<td>Headless mode (<a href="https://github.com/dagucloud/dagu/pull/805">#805</a>)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/dagucloud/dagu/releases?page=15">15</a></td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.13.0">v1.13.0</a></td>
+<td>Configurable DAG status (<a href="https://github.com/dagucloud/dagu/pull/558">#558</a>) — first contribution</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Note:</strong> <a href="https://github.com/dagucloud/dagu/releases/tag/v1.17.0">v1.17.0</a> stable credits the queue system in the <a href="https://docs.dagu.sh/overview/changelog#v1170-2025-06-18">docs changelog</a> but not in the GitHub release body. <a href="https://github.com/dagucloud/dagu/pull/765">#765</a> and <a href="https://github.com/dagucloud/dagu/pull/1126">#1126</a> are merged but not called out in any GitHub release notes.</p>
+</blockquote>
+<hr>
+<h2>Community &amp; Issue Credits</h2>
+<p>Credited in release notes without direct code PR authorship:</p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Type</th>
+<th>Release</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/dagucloud/dagu/issues/1494">#1494</a> Tag-wise search for DAG runs</td>
+<td>Feature request (shipped in <a href="https://github.com/dagucloud/dagu/pull/1576">#1576</a>)</td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v2.0.2">v2.0.2</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/dagucloud/dagu/issues/1460">#1460</a> Singleton enqueue flag</td>
+<td>Feature request</td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.26.4">v1.26.4</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/dagucloud/dagu/issues/1437">#1437</a> Queued DAGs not starting</td>
+<td>Bug report</td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v1.26.2">v1.26.2</a></td>
+</tr>
+<tr>
+<td>v2.0.0 development cycle</td>
+<td>Feedback &amp; ideas (special thanks)</td>
+<td><a href="https://github.com/dagucloud/dagu/releases/tag/v2.0.2">v2.0.2</a></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>What This Work Touches</h2>
+<ul>
+<li><strong>Backend (Go):</strong> Queue scheduler, REST API design, executor plugins, runtime engine, OpenAPI codegen</li>
+<li><strong>Frontend (React/TypeScript):</strong> Queue management UI, DAG visualization, run monitoring, form/schema handling</li>
+<li><strong>DevOps:</strong> Helm charts, Kubernetes manifests, Makefile tooling, headless/CLI modes</li>
+<li><strong>Testing:</strong> Executor test suites, API integration patterns, race-detection CI compatibility</li>
+<li><strong>Open source process:</strong> Issue-driven development, PR review cycles, co-authored features with maintainers</li>
 </ul>
 <hr>
-<h2>🌟 Major Features &amp; Enhancements</h2>
-<h3>1. <strong>Queue Management System</strong> (Feb 2025 - Oct 2025)</h3>
-<ul>
-<li><strong>Initial Implementation</strong> (#535): Built comprehensive queue functionality for DAG scheduling
-<ul>
-<li>Added queue persistence layer (<code>internal/persistence/queue/</code>)</li>
-<li>Implemented queue statistics tracking (<code>internal/persistence/stats/</code>)</li>
-<li>Modified scheduler to support queuing mechanisms</li>
-<li>Enhanced agent to handle queued DAG runs</li>
-</ul>
-</li>
-<li><strong>Queue Override Feature</strong>: Added CLI flag and API body support for queue overrides</li>
-<li><strong>Clear Queue Functionality</strong> (#1298): Implemented UI and API endpoints for clearing queues</li>
-<li><strong>Enhanced Queue UI</strong>: Built comprehensive queue management interface with real-time updates</li>
-</ul>
-<h3>2. <strong>Advanced Search &amp; Filtering</strong> (Aug 2025 - Nov 2025)</h3>
-<ul>
-<li><strong>Status-wise Search</strong>: Implemented comprehensive search functionality with status filtering
-<ul>
-<li>Created <code>StatusSearchTabs</code> component for intuitive UI</li>
-<li>Added backend API support for status-based filtering</li>
-<li>Integrated pagination with status filters</li>
-</ul>
-</li>
-<li><strong>Enhanced DAG Search</strong>: Improved search experience across the DAG list page</li>
-<li><strong>Real-time Status Updates</strong>: Added live updates for running and queued DAGs with end date tracking</li>
-</ul>
-<h3>3. <strong>DAG Run Management</strong> (Oct 2025 - Dec 2025)</h3>
-<ul>
-<li><strong>Reschedule from History</strong> (#1347): Allow initiating fresh DAG runs with different Run IDs from history</li>
-<li><strong>Enqueue from Spec</strong> (#1346): New API endpoint for enqueuing DAG runs from specifications
-<ul>
-<li>Added comprehensive API documentation</li>
-<li>Built UI integration in DAGActions component</li>
-<li>Created extensive test coverage</li>
-</ul>
-</li>
-<li><strong>Prevent Duplicate Runs</strong>: Implemented deduplication logic to prevent duplicate DAG runs with same name and parameters
-<ul>
-<li>Added sophisticated parameter hashing and comparison</li>
-<li>Created 233 lines of tests for edge cases</li>
-<li>Enhanced both CLI and API endpoints</li>
-</ul>
-</li>
-</ul>
-<h3>4. <strong>DAG Configuration Enhancements</strong> (Aug 2025)</h3>
-<ul>
-<li><strong>Lock Parameters &amp; Run ID</strong> (#1105): Added DAG configuration to lock parameters and prevent modifications
-<ul>
-<li>Modified DAG schema with new configuration options</li>
-<li>Enhanced StartDAGModal UI to respect locked configurations</li>
-<li>Updated API definitions and transformers</li>
-</ul>
-</li>
-</ul>
-<h3>5. <strong>Step-level Features</strong> (Nov 2025 - Dec 2025)</h3>
-<ul>
-<li><strong>Step Timeout</strong> (#1026): Added <code>timeoutSec</code> configuration at the step level
-<ul>
-<li>Updated API schemas (v1 and v2)</li>
-<li>Modified spec builder and loader</li>
-<li>Enhanced runtime scheduler to enforce timeouts</li>
-<li>Updated JSON schema documentation</li>
-</ul>
-</li>
-<li><strong>Disable Step Retry</strong>: Implemented logic to disable step retry while DAG is running
-<ul>
-<li>Modified <code>NodeStatusTableRow</code> component</li>
-</ul>
-</li>
-</ul>
-<h3>6. <strong>Running/Failed Steps List</strong> (#1401, Nov 2025)</h3>
-<ul>
-<li>Enhanced DAG runs page to display running and failed steps</li>
-<li>Modified API v2 schema and transformers</li>
-<li>Updated DAGRunTable and DAGRunGroupedView components</li>
-<li>Improved visibility into DAG execution state</li>
-</ul>
-<h3>7. <strong>JQ Executor Enhancement</strong> (#1391, Nov 2025)</h3>
-<ul>
-<li>Extended JQ executor with raw output option</li>
-<li>Added comprehensive test coverage (394 lines in jq_test.go)</li>
-<li>Created integration tests (188 lines)</li>
-</ul>
-<h3>8. <strong>Chain Mode Dependency Warning</strong> (#1265, Oct 2025)</h3>
-<ul>
-<li>Implemented warning/notice system for explicit dependencies in chain mode DAGs</li>
-<li>Enhanced DAG editor UI with 207 lines of improvements</li>
-</ul>
+<h2>Still in Progress</h2>
+<table>
+<thead>
+<tr>
+<th>Issue</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/dagucloud/dagu/issues/1265">#1265</a></td>
+<td>Warning for explicit dependencies in chain-mode DAGs</td>
+</tr>
+<tr>
+<td><a href="https://github.com/dagucloud/dagu/issues/1347">#1347</a></td>
+<td>Start fresh DAGRun with a different run ID from history</td>
+</tr>
+<tr>
+<td>—</td>
+<td>Status-wise search enhancements on DAG runs page</td>
+</tr>
+</tbody>
+</table>
 <hr>
-<h2>🐛 Bug Fixes &amp; Improvements</h2>
-<h3>UI/Frontend Fixes</h3>
+<h2>Links</h2>
 <ul>
-<li><strong>Fixed Zoom Out DAG Rendering</strong> (#1380): Resolved mermaid diagram rendering issues at different zoom levels</li>
-<li><strong>Fixed Linting Issues</strong>: Multiple commits addressing code quality and linting errors</li>
-<li><strong>Queue File Parsing</strong> (#1437): Attempted and reverted changes to parse queue file content for actual DAG names</li>
+<li><strong>GitHub:</strong> <a href="https://github.com/kriyanshii">@kriyanshii</a></li>
+<li><strong>Project:</strong> <a href="https://github.com/dagucloud/dagu">dagucloud/dagu</a></li>
+<li><strong>Documentation:</strong> <a href="https://docs.dagu.sh">docs.dagu.sh</a></li>
+<li><strong>Releases:</strong> <a href="https://github.com/dagucloud/dagu/releases">github.com/dagucloud/dagu/releases</a></li>
+<li><strong>All PRs:</strong> <a href="https://github.com/kriyanshii?q=dagu">github.com/kriyanshii?q=dagu</a></li>
 </ul>
-<h3>Build &amp; Development</h3>
-<ul>
-<li><strong>Updated Makefile</strong> (#901): Enhanced build-ui target for better frontend build process</li>
-<li><strong>Solved CL Errors</strong>: Fixed command-line errors in various components</li>
-</ul>
-<hr>
-<h2>📁 Areas of Contribution</h2>
-<h3>Backend (Go)</h3>
-<ul>
-<li><strong>API Development</strong>: Extensive work on v1 and v2 API definitions and implementations</li>
-<li><strong>Command Layer</strong>: Enhanced CLI commands (start, retry, restart, enqueue, dry-run)</li>
-<li><strong>Persistence Layer</strong>: Built queue and stats persistence systems</li>
-<li><strong>Core Runtime</strong>: Modified scheduler, agent, and node execution logic</li>
-<li><strong>Utilities</strong>: Created string utilities for parameter handling and comparison</li>
-</ul>
-<h3>Frontend (TypeScript/React)</h3>
-<ul>
-<li><strong>DAG Management</strong>: Enhanced DAG list, search, and execution interfaces</li>
-<li><strong>Queue Management</strong>: Built comprehensive queue viewing and management UI</li>
-<li><strong>DAG Runs</strong>: Improved DAG run history, filtering, and action capabilities</li>
-<li><strong>Components</strong>: Created reusable components for status tabs, queue cards, and action modals</li>
-</ul>
-<h3>Documentation &amp; Configuration</h3>
-<ul>
-<li>Updated API documentation</li>
-<li>Enhanced CLI documentation</li>
-<li>Modified JSON schemas for DAG definitions</li>
-<li>Updated README and feature documentation</li>
-</ul>
-<hr>
-<h2>📈 Timeline of Contributions</h2>
-<p><strong>Q1 2025 (Feb - Apr)</strong></p>
-<ul>
-<li>Initial queue functionality implementation</li>
-<li>Build process improvements</li>
-</ul>
-<p><strong>Q2 2025 (Aug - Sep)</strong></p>
-<ul>
-<li>Status-wise search implementation</li>
-<li>DAG configuration locking features</li>
-<li>Queue override functionality</li>
-<li>Enhanced search capabilities</li>
-</ul>
-<p><strong>Q3 2025 (Oct - Nov)</strong></p>
-<ul>
-<li>DAG run enqueuing from spec</li>
-<li>Rescheduling from history</li>
-<li>Queue clearing functionality</li>
-<li>JQ executor enhancements</li>
-<li>Step-level timeout configuration</li>
-<li>Comprehensive test coverage additions</li>
-</ul>
-<p><strong>Q4 2025 (Dec)</strong></p>
-<ul>
-<li>Duplicate DAG run prevention</li>
-<li>Step retry controls</li>
-<li>Linting and code quality improvements</li>
-</ul>
-<hr>
-<h2>🎯 Key Impact Areas</h2>
-<ol>
-<li><strong>User Experience</strong>: Significantly improved search, filtering, and DAG management workflows</li>
-<li><strong>Reliability</strong>: Added deduplication and timeout controls for more robust execution</li>
-<li><strong>Flexibility</strong>: Queue management and override capabilities for advanced scheduling</li>
-<li><strong>Developer Experience</strong>: Enhanced API design, comprehensive test coverage, and better documentation</li>
-<li><strong>Performance</strong>: Optimized frontend components and backend processing</li>
-</ol>
-<hr>
-<h2>🤝 Collaboration</h2>
-<ul>
-<li>Co-authored 2 commits with YotaHamada (<a href="mailto:yohamta@gmail.com">yohamta@gmail.com</a>):
-<ul>
-<li>feat(ui): allow rescheduling DAG-run (#1381)</li>
-<li>feat: add <code>--from-run-id</code> option to start command (#1378)</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h2>📝 Technical Highlights</h2>
-<ul>
-<li><strong>Full-stack Development</strong>: Competent across Go backend, TypeScript/React frontend, and API design</li>
-<li><strong>Testing</strong>: Consistently added comprehensive test coverage (e.g., 233 tests for params, 394 for JQ)</li>
-<li><strong>Code Quality</strong>: Regular linting fixes and adherence to project standards</li>
-<li><strong>Feature Ownership</strong>: Led multiple features from API design through implementation to UI integration</li>
-<li><strong>Problem Solving</strong>: Tackled complex issues like parameter deduplication, queue management, and real-time updates</li>
-</ul>
-<hr>
 
         </article>
         <p><a href="https://kriyanshii.github.io/blog/open-source-contributions">Open interactive version</a></p>
