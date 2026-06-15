@@ -1,0 +1,909 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <title>From &quot;Play My Workout Playlist&quot; to a Real Android Tap Plan | Kriyanshi</title>
+    <meta name="description" content="How a 3B-parameter model turns messy phone requests into replayable UI automation without shipping your life to a cloud API." />
+    <link rel="canonical" href="https://kriyanshii.github.io/blog/android-skill-router" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://kriyanshii.github.io/blog/android-skill-router" />
+    <meta property="og:title" content="From &quot;Play My Workout Playlist&quot; to a Real Android Tap Plan" />
+    <meta property="og:description" content="How a 3B-parameter model turns messy phone requests into replayable UI automation without shipping your life to a cloud API." />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content="https://kriyanshii.github.io/og/android-skill-router.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="From &quot;Play My Workout Playlist&quot; to a Real Android Tap Plan" />
+    <meta name="twitter:description" content="How a 3B-parameter model turns messy phone requests into replayable UI automation without shipping your life to a cloud API." />
+    <meta name="twitter:image" content="https://kriyanshii.github.io/og/android-skill-router.png" />
+    <meta property="article:published_time" content="2026-06-16" />
+    <meta property="article:section" content="Tech" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"From \"Play My Workout Playlist\" to a Real Android Tap Plan","description":"How a 3B-parameter model turns messy phone requests into replayable UI automation without shipping your life to a cloud API.","url":"https://kriyanshii.github.io/blog/android-skill-router","datePublished":"2026-06-16","dateModified":"2026-06-16","image":"https://kriyanshii.github.io/og/android-skill-router.png","author":{"@type":"Person","name":"Kriyanshi","url":"https://kriyanshii.github.io"},"publisher":{"@type":"Person","name":"Kriyanshi","url":"https://kriyanshii.github.io"},"articleSection":"Tech","mainEntityOfPage":{"@type":"WebPage","@id":"https://kriyanshii.github.io/blog/android-skill-router"}}</script>
+<meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" sizes="32x32" href="/assets/favicon-Te9WZvHs.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="6487df11-3901-40bc-bbfd-f93f7cfcb4a3"></script>
+    <script type="module" crossorigin src="/assets/index-BsEVbem-.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BipjYZ81.css">
+    <style>
+      .static-blog { max-width: 48rem; margin: 0 auto; padding: 4rem 1.5rem; font-family: system-ui, sans-serif; line-height: 1.7; color: #374151; }
+      .static-blog h1 { font-size: 1.875rem; font-weight: 500; margin-bottom: 1.5rem; color: #111827; }
+      .static-blog h2 { font-size: 1.25rem; font-weight: 500; margin: 2rem 0 1rem; color: #111827; }
+      .static-blog p { margin-bottom: 1.25rem; }
+      .static-blog a { color: #2563eb; font-weight: 500; text-decoration: underline; text-decoration-color: rgba(147, 197, 253, 0.8); text-underline-offset: 3px; }
+      .static-blog figcaption { font-size: 0.875rem; color: #6b7280; margin: 0.5rem 0 1.5rem; font-style: italic; }
+      .static-blog .mermaid-figure { margin: 1.5rem 0; padding: 1rem; background: #f9fafb; border-radius: 0.5rem; }
+      .static-blog .mermaid-diagram { display: block; max-width: 100%; height: auto; margin: 0 auto; }
+    </style>
+  </head>
+  <body>
+    <noscript>
+      <main class="static-blog">
+        
+        <article>
+          <h1>From &quot;Play My Workout Playlist&quot; to a Real Android Tap Plan</h1>
+          <p><time datetime="2026-06-16">2026-06-16</time> · Tech</p>
+          <p>Built for the <a href="https://huggingface.co/build-small-hackathon">Build Small Hackathon</a> Backyard AI track, sponsored by Modal. Also published on <a href="https://huggingface.co/blog/build-small-hackathon/android-skill-router">Hugging Face</a>.</p>
+<h2>Introduction</h2>
+<p>How does a 3B-parameter model turn messy phone requests into replayable UI automation without shipping your life to a cloud API?</p>
+<hr>
+<h2>The Problem with Phone Automation Today</h2>
+<p>You say: <em>“text mom on whatsapp i’m on my way.”</em></p>
+<p>A voice assistant might reply with a web search, a generic “I can’t do that,” or a cloud API call that only works if WhatsApp cooperates. What you actually want is simpler and more direct: open WhatsApp, find Mom, type the message, send it.</p>
+<p>That gap between <strong>natural language</strong> and <strong>deterministic UI actions on a real device</strong> is what <strong>Android Skill Router</strong> is built to close.</p>
+<h3>Why cloud agents fall short for personal automation</h3>
+<p>Most phone automation today follows one of two paths:</p>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Strength</th>
+<th>Weakness</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Cloud voice assistants</strong></td>
+<td>Understand broad language</td>
+<td>Can’t tap your apps; privacy concerns; needs network</td>
+</tr>
+<tr>
+<td><strong>Macro/script tools</strong></td>
+<td>Deterministic replay</td>
+<td>Require exact trigger phrases; no natural language</td>
+</tr>
+<tr>
+<td><strong>Vision-based agents</strong></td>
+<td>Flexible</td>
+<td>Slow, expensive, hallucinate UI coordinates</td>
+</tr>
+</tbody>
+</table>
+<p>Android Skill Router takes a third path: <strong>a small local classifier that understands messy language, paired with pre-recorded UI trajectories that an accessibility runtime replays exactly.</strong></p>
+<p>The core insight:</p>
+<blockquote>
+<p>You don’t need a 70B frontier model to <em>do</em> the tapping. You need a 3B model to understand <em>what you mean</em>, then hand off to a fixed replay plan.</p>
+</blockquote>
+<pre><code>&quot;play my workout playlist&quot;
+    → spotify_play_playlist
+    → trajectories/spotify_play_playlist.json
+    → Pocket Automator replays taps on device
+</code></pre>
+<p>This is the classifier layer of the <strong><a href="https://github.com/kriyanshii/pocket-automator">Pocket Automator</a></strong> stack: record once on your phone, route forever with a tiny local model.</p>
+<hr>
+<h2>The Architecture: Classify, Route, Replay</h2>
+<p>The system has three layers, each deliberately small and composable.</p>
+<p><em>Figure: Natural language prompts flow through a fine-tuned classifier into skill routing and trajectory replay.</em></p>
+<figure class="mermaid-figure"><img src="/diagrams/android-skill-router/0.svg" alt="Diagram" class="mermaid-diagram" loading="lazy" /></figure><h3>Layer 1: Intent classifier</h3>
+<p>A fine-tuned <strong>Qwen2.5-3B-Instruct</strong> model receives a user prompt and returns structured JSON:</p>
+<pre><code class="language-json">{
+  &quot;skill&quot;: &quot;whatsapp_send_message&quot;,
+  &quot;parameters&quot;: {
+    &quot;contact&quot;: &quot;mom&quot;,
+    &quot;message&quot;: &quot;i'm on my way&quot;
+  }
+}
+</code></pre>
+<p>The model handles slang, typos, incomplete phrasing, and app disambiguation (WhatsApp vs Gmail vs Slack). It never invents UI steps. It only picks from 15 known skills and extracts parameter slots.</p>
+<h3>Layer 2: Skill router</h3>
+<p>A deterministic lookup table maps skill names to trajectory files:</p>
+<pre><code class="language-python">SKILL_TO_TRAJECTORY = {
+    &quot;whatsapp_send_message&quot;: &quot;trajectories/whatsapp_send_message.json&quot;,
+    &quot;spotify_play_playlist&quot;: &quot;trajectories/spotify_play_playlist.json&quot;,
+    # ... 15 skills total
+}
+</code></pre>
+<p>If the model returns <code>whatsapp_send_message</code>, the router loads <code>trajectories/whatsapp_send_message.json</code>. No guessing, no hallucination. If the skill doesn’t exist or the file is missing, the system fails loudly with a clear error.</p>
+<p>The router also includes <strong>defensive parsing</strong>: skill aliases (<code>send_whatsapp</code> → <code>whatsapp_send_message</code>), JSON extraction from noisy model output, and keyword fallbacks when the model returns an unknown label.</p>
+<h3>Layer 3: Trajectory replay</h3>
+<p>Each trajectory is a JSON file exported from <strong><a href="https://github.com/kriyanshii/pocket-automator">Pocket Automator</a></strong>, an Android accessibility recorder. It contains:</p>
+<ul>
+<li>A <strong>task description</strong> (the original human intent)</li>
+<li>The <strong>target app package</strong> (<code>com.whatsapp</code>, <code>com.spotify.music</code>, etc.)</li>
+<li>A sequence of <strong>steps</strong>, each with a full UI tree snapshot and an action</li>
+</ul>
+<p>Example step from a WhatsApp trajectory:</p>
+<pre><code class="language-json">{
+  &quot;timestamp&quot;: 4024,
+  &quot;screen&quot;: { /* full accessibility tree */ },
+  &quot;action&quot;: {
+    &quot;type&quot;: &quot;click&quot;,
+    &quot;resourceId&quot;: &quot;com.motorola.launcher3:id/icon&quot;,
+    &quot;contentDescription&quot;: &quot;WhatsApp&quot;,
+    &quot;path&quot;: [0, 0, 0, 0, 2, 0, 0]
+  },
+  &quot;packageName&quot;: &quot;com.motorola.launcher3&quot;
+}
+</code></pre>
+<p>Action types include <code>click</code>, <code>set_text</code>, and scroll gestures. Pocket Automator resolves nodes at replay time using resource IDs, content descriptions, and tree paths, so minor UI changes don’t break the flow.</p>
+<h3>The separation of concerns</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Responsibility</th>
+<th>Can fail?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Language model</td>
+<td>Understand intent</td>
+<td>Gracefully; fallbacks exist</td>
+</tr>
+<tr>
+<td>Skill router</td>
+<td>Map intent → file</td>
+<td>Never; deterministic lookup</td>
+</tr>
+<tr>
+<td>Trajectory</td>
+<td>Store ground-truth UI steps</td>
+<td>Never; fixed recording</td>
+</tr>
+<tr>
+<td>Pocket Automator</td>
+<td>Execute on device</td>
+<td>Only if UI changed drastically</td>
+</tr>
+</tbody>
+</table>
+<p>This is the design bet: <strong>language understanding is fuzzy; automation must be exact.</strong></p>
+<hr>
+<h2>Recording UI Flows on Android</h2>
+<p>Every skill starts on hardware you own. No synthetic UI trees, no emulated taps, real recordings from a real Motorola device.</p>
+<h3>Pocket Automator: the Android recorder</h3>
+<p><strong><a href="https://github.com/kriyanshii/pocket-automator">Pocket Automator</a></strong> is an Android accessibility app that:</p>
+<ol>
+<li><strong>Records</strong> taps, text input, and scrolls while you use any app</li>
+<li><strong>Captures</strong> the full accessibility tree at each step (node IDs, bounds, class names, text)</li>
+<li><strong>Exports</strong> recordings as JSON for training pipelines</li>
+<li><strong>Replays</strong> saved recordings with smart node resolution</li>
+</ol>
+<p>Requirements: Android 10+ (API 29), accessibility service enabled, overlay permission.</p>
+<h3>The recording workflow</h3>
+<ol>
+<li>Open Pocket Automator and tap <strong>Record</strong></li>
+<li>Name your task (e.g., “message hi to biraj on WhatsApp”)</li>
+<li>Perform the task naturally on your phone</li>
+<li>Stop recording from the floating overlay</li>
+<li>Export the JSON to your development machine</li>
+<li>Place it in <code>trajectories/</code> and run <code>scripts/generate_skill_dataset.py</code></li>
+</ol>
+<p>The script reads each trajectory’s <code>task</code> and <code>app</code> fields, derives a snake_case skill name, and writes <code>data/skills.jsonl</code>:</p>
+<pre><code class="language-json">{&quot;skill&quot;: &quot;whatsapp_send_message&quot;, &quot;task&quot;: &quot;message hi to biraj on WhatsApp&quot;}
+{&quot;skill&quot;: &quot;spotify_play_playlist&quot;, &quot;task&quot;: &quot;play liked songs playlist from Spotify&quot;}
+{&quot;skill&quot;: &quot;create_alarm&quot;, &quot;task&quot;: &quot;create alarm for 7 am tomorrow&quot;}
+</code></pre>
+<p>Skill name derivation uses app package and task keywords, WhatsApp tasks become <code>whatsapp_send_message</code>, Spotify pause tasks become <code>spotify_pause</code>, and so on.</p>
+<h3>The 15 skills</h3>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>App</th>
+<th>Example task</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>create_alarm</code></td>
+<td>Clock</td>
+<td>Set alarm for 7 am tomorrow</td>
+</tr>
+<tr>
+<td><code>calendar_create_event</code></td>
+<td>Calendar</td>
+<td>Create event tomorrow 4 pm</td>
+</tr>
+<tr>
+<td><code>wifi_enable</code></td>
+<td>Settings</td>
+<td>Enable Wi-Fi</td>
+</tr>
+<tr>
+<td><code>bluetooth_enable</code></td>
+<td>Settings</td>
+<td>Turn on Bluetooth</td>
+</tr>
+<tr>
+<td><code>whatsapp_send_message</code></td>
+<td>WhatsApp</td>
+<td>Message a contact</td>
+</tr>
+<tr>
+<td><code>gmail_send_email</code></td>
+<td>Gmail</td>
+<td>Send email to recipient</td>
+</tr>
+<tr>
+<td><code>slack_open_channel</code></td>
+<td>Slack</td>
+<td>Open a channel</td>
+</tr>
+<tr>
+<td><code>spotify_play_playlist</code></td>
+<td>Spotify</td>
+<td>Play a playlist</td>
+</tr>
+<tr>
+<td><code>spotify_search_play</code></td>
+<td>Spotify</td>
+<td>Search and play music</td>
+</tr>
+<tr>
+<td><code>spotify_pause</code></td>
+<td>Spotify</td>
+<td>Pause playback</td>
+</tr>
+<tr>
+<td><code>uber_request_ride</code></td>
+<td>Uber</td>
+<td>Request ride to destination</td>
+</tr>
+<tr>
+<td><code>youtube_search</code></td>
+<td>YouTube</td>
+<td>Search for videos</td>
+</tr>
+<tr>
+<td><code>linkedin_search_person</code></td>
+<td>LinkedIn</td>
+<td>Search for a person</td>
+</tr>
+<tr>
+<td><code>contacts_search</code></td>
+<td>Contacts</td>
+<td>Find a contact</td>
+</tr>
+<tr>
+<td><code>camera_take_photo</code></td>
+<td>Camera</td>
+<td>Take a picture</td>
+</tr>
+</tbody>
+</table>
+<p>Each trajectory file is large (often 5,000+ lines) because it includes the full accessibility tree at every step. That’s intentional, replay engines need rich node metadata to resolve targets reliably.</p>
+<h3>Why real recordings matter</h3>
+<p>Synthetic UI automation data is brittle. Real recordings capture:</p>
+<ul>
+<li><strong>Launcher states</strong>: how your home screen looks with your app icons</li>
+<li><strong>Keyboard transitions</strong>: when the soft keyboard appears during text input</li>
+<li><strong>Scroll positions</strong>: where list items sit after scrolling</li>
+<li><strong>Timing</strong>: natural pauses between actions</li>
+</ul>
+<p>These details can’t be generated. They’re the ground truth that makes replay work on your specific device.</p>
+<hr>
+<h2>Training a Tiny Classifier</h2>
+<p>The model is <strong><a href="https://huggingface.co/Qwen/Qwen2.5-3B-Instruct">Qwen2.5-3B-Instruct</a></strong>: deliberately under 4B parameters for the Build Small Hackathon’s <em>Tiny Titan</em> achievement.</p>
+<h3>Why 3B is enough</h3>
+<p>The classification task is narrow:</p>
+<ul>
+<li><strong>15 skill labels</strong> (not open-ended tool use)</li>
+<li><strong>Structured JSON output</strong> (not free-form text)</li>
+<li><strong>Parameter slot-filling</strong> (contact, message, time, not reasoning chains)</li>
+</ul>
+<p>A 3B instruct model already understands apps, contacts, times, and natural language phrasing. Fine-tuning teaches it <em>your</em> skill taxonomy and output format, not general Android knowledge.</p>
+<h3>Training configuration</h3>
+<p>Training runs on <strong>Modal</strong> GPUs via <code>modal_apps/train_modal.py</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Hyperparameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Base model</td>
+<td>Qwen2.5-3B-Instruct</td>
+</tr>
+<tr>
+<td>Method</td>
+<td>4-bit QLoRA + SFT (Unsloth)</td>
+</tr>
+<tr>
+<td>LoRA rank</td>
+<td>32</td>
+</tr>
+<tr>
+<td>LoRA alpha</td>
+<td>32</td>
+</tr>
+<tr>
+<td>Target modules</td>
+<td>q/k/v/o_proj, gate/up/down_proj</td>
+</tr>
+<tr>
+<td>Epochs</td>
+<td>5</td>
+</tr>
+<tr>
+<td>Batch size</td>
+<td>8</td>
+</tr>
+<tr>
+<td>Learning rate</td>
+<td>2e-4</td>
+</tr>
+<tr>
+<td>Optimizer</td>
+<td>AdamW 8-bit</td>
+</tr>
+<tr>
+<td>Max sequence length</td>
+<td>2048</td>
+</tr>
+<tr>
+<td>GPU</td>
+<td>Modal A10G</td>
+</tr>
+</tbody>
+</table>
+<p>The training pipeline:</p>
+<ol>
+<li>Upload <code>data/train_intent.jsonl</code> to a Modal Volume</li>
+<li>Load base model in 4-bit quantization</li>
+<li>Apply QLoRA adapters to attention and MLP layers</li>
+<li>Format examples with Qwen 2.5 chat template</li>
+<li>Train with TRL’s <code>SFTTrainer</code></li>
+<li>Save LoRA adapter to <code>/model/adapter</code></li>
+<li>Save merged 16-bit model to <code>/model/merged</code></li>
+</ol>
+<pre><code class="language-bash">python scripts/generate_intent_dataset.py
+modal run modal_apps/train_modal.py --dataset train_intent.jsonl
+modal volume get android-dataset-model adapter ./trained_model/adapter
+</code></pre>
+<h3>V1 → V2: from labels to intents</h3>
+<p><strong>V1 (skill classification only)</strong> mapped prompts to a skill name:</p>
+<pre><code>&quot;play my workout playlist&quot; → {&quot;skill&quot;: &quot;spotify_play_playlist&quot;}
+</code></pre>
+<p>Training data: ~510 examples in <code>data/train.jsonl</code> (~30 variations per skill).</p>
+<p><strong>V2 (structured intent extraction)</strong> adds parameter slot-filling:</p>
+<pre><code>&quot;text mom on whatsapp i'm on my way&quot;
+→ {&quot;skill&quot;: &quot;whatsapp_send_message&quot;, &quot;parameters&quot;: {&quot;contact&quot;: &quot;mom&quot;, &quot;message&quot;: &quot;i'm on my way&quot;}}
+</code></pre>
+<p>Training data: ~15,000 examples in <code>data/train_intent.jsonl</code> (~1,000 per skill).</p>
+<h3>Parameter schemas</h3>
+<p>Each skill declares its parameters in <code>data/skill_schemas.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;whatsapp_send_message&quot;: {
+    &quot;description&quot;: &quot;Send a WhatsApp message to a contact&quot;,
+    &quot;parameters&quot;: {
+      &quot;contact&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;required&quot;: true},
+      &quot;message&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;required&quot;: true}
+    }
+  },
+  &quot;create_alarm&quot;: {
+    &quot;description&quot;: &quot;Set an alarm at a specific time&quot;,
+    &quot;parameters&quot;: {
+      &quot;time&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;required&quot;: true},
+      &quot;day&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;required&quot;: false}
+    }
+  },
+  &quot;wifi_enable&quot;: {
+    &quot;description&quot;: &quot;Enable Wi-Fi on the device&quot;,
+    &quot;parameters&quot;: {}
+  }
+}
+</code></pre>
+<p>Skills with no variable inputs (<code>wifi_enable</code>, <code>bluetooth_enable</code>, <code>spotify_pause</code>, <code>camera_take_photo</code>) return empty parameter objects.</p>
+<h3>The system prompt</h3>
+<p>The model receives a tight, deterministic instruction:</p>
+<pre><code>You extract structured Android automation intents from natural language.
+Reply with JSON only: {&quot;skill&quot;: &quot;&lt;skill_name&gt;&quot;, &quot;parameters&quot;: {&lt;extracted_fields&gt;}}.
+Pick exactly one skill. Extract all relevant parameters mentioned in the request
+(contact names, messages, times, destinations, channel names, search queries, etc.).
+Use an empty object for parameters when the skill needs none.
+Use the app or action named in the request (contacts, Gmail, Slack, YouTube, etc.)
+to pick the correct skill.
+</code></pre>
+<p>No chain-of-thought. No tool descriptions. No examples in the prompt. Just JSON.</p>
+<h3>Training example format</h3>
+<p>Each row in <code>train_intent.jsonl</code> is a three-turn chat:</p>
+<pre><code class="language-json">{
+  &quot;messages&quot;: [
+    {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;You extract structured Android automation intents...&quot;},
+    {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;whatsapp message Vikram see you tonight&quot;},
+    {&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: &quot;{\&quot;skill\&quot;:\&quot;whatsapp_send_message\&quot;,\&quot;parameters\&quot;:{\&quot;contact\&quot;:\&quot;Vikram\&quot;,\&quot;message\&quot;:\&quot;see you tonight\&quot;}}&quot;}
+  ]
+}
+</code></pre>
+<p>The assistant always responds with compact JSON, no markdown fences, no explanation.</p>
+<hr>
+<h2>Synthetic Data at Scale</h2>
+<p>Fifteen real trajectories can’t train a robust classifier alone. The project generates <strong>~15,000 synthetic SFT examples</strong> locally via <code>scripts/generate_intent_dataset.py</code>.</p>
+<h3>How data generation works</h3>
+<p>The generator follows a four-step pipeline:</p>
+<pre><code>skill_schemas.json + skills.jsonl
+        ↓
+   Entity pools (contacts, messages, times, destinations...)
+        ↓
+   Template variations (24+ templates per skill)
+        ↓
+   train_intent.jsonl (~1000 examples/skill)
+   eval_intent_prompts.json (~6 held-out prompts/skill)
+</code></pre>
+<h3>Entity pools</h3>
+<p>Realistic but synthetic entities ensure diversity without privacy concerns:</p>
+<table>
+<thead>
+<tr>
+<th>Pool</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Contacts</strong></td>
+<td>Ri, Biraj, Mom, Parag Shah, grandma, my roommate</td>
+</tr>
+<tr>
+<td><strong>Messages</strong></td>
+<td>“see you soon”, “running late”, “project update attached”</td>
+</tr>
+<tr>
+<td><strong>Alarm times</strong></td>
+<td>5 am, 6:30 am, 7 am, noon, 10 pm</td>
+</tr>
+<tr>
+<td><strong>Alarm days</strong></td>
+<td>today, tomorrow, monday, next friday</td>
+</tr>
+<tr>
+<td><strong>Destinations</strong></td>
+<td>airport, train station, home, office</td>
+</tr>
+<tr>
+<td><strong>Playlists</strong></td>
+<td>workout, liked songs, chill vibes, focus</td>
+</tr>
+<tr>
+<td><strong>Channels</strong></td>
+<td>engineering, general, data contributors</td>
+</tr>
+<tr>
+<td><strong>Search queries</strong></td>
+<td>pasta recipes, jazz music, ghibli food</td>
+</tr>
+</tbody>
+</table>
+<h3>Template variations</h3>
+<p>Each skill has 15–30 prompt templates with placeholder slots:</p>
+<p><strong>WhatsApp templates:</strong></p>
+<pre><code>&quot;message {message} to {contact} on whatsapp&quot;
+&quot;text {contact} {message} on whatsapp&quot;
+&quot;whatsapp {contact} saying {message}&quot;
+&quot;ping {contact} on whatsapp with {message}&quot;
+</code></pre>
+<p><strong>Alarm templates:</strong></p>
+<pre><code>&quot;create alarm for {time} {day}&quot;
+&quot;wake me up at {time} {day}&quot;
+&quot;set a {time} alarm for {day}&quot;
+&quot;{time} alarm {day} please&quot;
+</code></pre>
+<p><strong>Uber templates:</strong></p>
+<pre><code>&quot;get an uber to {destination}&quot;
+&quot;uber me to {destination}&quot;
+&quot;book a cab to {destination} via uber&quot;
+</code></pre>
+<p>Templates are crossed with random entity samples to produce unique training pairs. The same intent can appear as:</p>
+<ul>
+<li>“set an alarm for 7 am tomorrow”</li>
+<li>“wake me up at seven tomorrow morning”</li>
+<li>“7am alarm pls”</li>
+<li>“please alarm 7 am tomorrow thanks”</li>
+</ul>
+<h3>V1 training data (skill-only)</h3>
+<p>The earlier <code>scripts/generate_training_data.py</code> produces ~510 examples for V1 classification:</p>
+<ul>
+<li>30 variations per skill from <code>skills.jsonl</code> task descriptions</li>
+<li>Guaranteed inclusion of Gradio demo prompts</li>
+<li>Regex-based parsing of task strings to derive alarm times, contacts, etc.</li>
+</ul>
+<h3>Held-out evaluation sets</h3>
+<p>Two evaluation sets prevent overfitting to templates:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Size</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>data/eval_intent_prompts.json</code></td>
+<td>~90 prompts</td>
+<td>Structured eval during training</td>
+</tr>
+<tr>
+<td><code>data/pocket_benchmark_prompts.json</code></td>
+<td>200 prompts</td>
+<td>Real-world messy language benchmark</td>
+</tr>
+</tbody>
+</table>
+<p>The Pocket Automator benchmark is intentionally unlike training data, slang, typos, incomplete phrasing, conversational filler:</p>
+<pre><code>&quot;yo set an alrm for like 5:45 tmrw morning pls&quot;
+&quot;need to b up at 6ish on monday ngl&quot;
+&quot;hit up zoe on whatsapp say im omw&quot;
+&quot;wa msg marcus 'running 20 min late'&quot;
+&quot;lowkey need 11:11 pm alarm tonight&quot;
+&quot;deadass need alarm sunday noon&quot;
+</code></pre>
+<p>Each benchmark case is tagged with <code>domain</code> (alarms, whatsapp, spotify…) and <code>styles</code> (slang, typo, incomplete, conversational). Prompts are filtered against training data to ensure zero overlap.</p>
+<hr>
+<h2>Deployment and Demo</h2>
+<h3>Modal inference API</h3>
+<p>Training and inference both run on <strong>Modal</strong>: serverless GPU infrastructure with persistent volumes.</p>
+<p><code>modal_apps/predict_api.py</code> deploys a FastAPI endpoint:</p>
+<pre><code class="language-bash">modal deploy modal_apps/predict_api.py
+# → https://&lt;workspace&gt;--android-skill-predict-api-skillpredictor-web.modal.run
+</code></pre>
+<p>Architecture:</p>
+<ul>
+<li><strong>Container class</strong> <code>SkillPredictor</code> loads the QLoRA model once via <code>@modal.enter()</code></li>
+<li><strong>4-bit quantized</strong> base model + LoRA adapter from Modal Volume</li>
+<li><strong>Greedy decoding</strong> (<code>do_sample=False</code>) for deterministic JSON output</li>
+<li><strong>128 max new tokens</strong>: enough for any intent JSON</li>
+<li><strong>5-minute scale-down window</strong>: containers stay warm between requests</li>
+</ul>
+<p>Request/response:</p>
+<pre><code class="language-bash">curl -X POST https://.../predict \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;prompt&quot;: &quot;text mom on whatsapp i am on my way&quot;}'
+</code></pre>
+<pre><code class="language-json">{
+  &quot;skill&quot;: &quot;whatsapp_send_message&quot;,
+  &quot;parameters&quot;: {
+    &quot;contact&quot;: &quot;mom&quot;,
+    &quot;message&quot;: &quot;i am on my way&quot;
+  }
+}
+</code></pre>
+<p>The API applies the same post-processing as local evaluation: JSON extraction, skill normalization, alias resolution, and keyword fallbacks.</p>
+<h3>Gradio demo</h3>
+<p>The <strong>Gradio demo</strong> (<code>app.py</code>) is the hackathon submission UI, hosted on Hugging Face Spaces.</p>
+<p>Flow:</p>
+<ol>
+<li>User types a natural language prompt (or picks an example)</li>
+<li>App POSTs to Modal <code>/predict</code> endpoint</li>
+<li>Response is parsed: skill label, parameter tiles, confidence display</li>
+<li>Skill router loads the matching trajectory from <code>trajectories/</code></li>
+<li>UI shows task description, app package, step count, and trajectory preview</li>
+</ol>
+<p>Example prompts built into the demo:</p>
+<ul>
+<li>“play my workout playlist”</li>
+<li>“turn bluetooth on”</li>
+<li>“wake me up tomorrow morning”</li>
+<li>“send ri a message on whatsapp”</li>
+<li>“book an uber to the airport”</li>
+</ul>
+<p>The Space doesn’t ship model weights, inference stays on Modal. Only a <code>MODAL_PREDICT_URL</code> secret is needed.</p>
+<h3>Local development</h3>
+<p>Three commands to run everything locally:</p>
+<pre><code class="language-bash"># 1. Generate training data
+python scripts/generate_intent_dataset.py
+
+# 2. Train on Modal GPU
+modal run modal_apps/train_modal.py --dataset train_intent.jsonl
+
+# 3. Deploy inference + run demo
+modal deploy modal_apps/predict_api.py
+export MODAL_PREDICT_URL=&quot;https://...&quot;
+python app.py
+</code></pre>
+<p>Evaluation can run locally on CPU/MPS if you download the adapter:</p>
+<pre><code class="language-bash">modal volume get android-dataset-model adapter ./trained_model/adapter
+python -m src.evaluate_intent
+</code></pre>
+<hr>
+<h2>Evaluation</h2>
+<h3>Metrics</h3>
+<p>Three metrics capture different levels of correctness:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Definition</th>
+<th>What it measures</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Skill accuracy</strong></td>
+<td>Predicted skill matches expected</td>
+<td>App/action disambiguation</td>
+</tr>
+<tr>
+<td><strong>Parameter accuracy</strong></td>
+<td>All expected parameters match (normalized)</td>
+<td>Slot-filling quality</td>
+</tr>
+<tr>
+<td><strong>Exact JSON match</strong></td>
+<td>Skill + all parameters match exactly</td>
+<td>End-to-end correctness</td>
+</tr>
+</tbody>
+</table>
+<p>Parameter matching uses normalized lowercase comparison, <code>&quot;Mom&quot;</code> matches <code>&quot;mom&quot;</code>, extra whitespace is stripped.</p>
+<h3>Pocket Automator benchmark results</h3>
+<p>Evaluation on <strong>200 held-out prompts</strong> with slang, typos, and conversational phrasing:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Skill accuracy</strong></td>
+<td>99.0%</td>
+</tr>
+<tr>
+<td><strong>Parameter accuracy</strong></td>
+<td>86.0%</td>
+</tr>
+<tr>
+<td><strong>Exact JSON match</strong></td>
+<td>85.5%</td>
+</tr>
+</tbody>
+</table>
+<p>The model almost never picks the wrong app or action. Parameter extraction is harder, preserving informal time expressions like <code>&quot;6ish&quot;</code> vs normalizing to <code>&quot;6 am&quot;</code>, but 86% is strong for a 3B model with no cloud fallback.</p>
+<h3>Where errors happen</h3>
+<p>Parameter failures tend to cluster around:</p>
+<ul>
+<li><strong>Informal time expressions</strong>: “6ish on monday” vs <code>&quot;time&quot;: &quot;6 am&quot;, &quot;day&quot;: &quot;monday&quot;</code></li>
+<li><strong>Abbreviated days</strong>: “tmrw” vs “tomorrow morning”</li>
+<li><strong>Message truncation</strong>: model drops filler words the benchmark expects verbatim</li>
+<li><strong>Contact nicknames</strong>: “roomie” vs a full name</li>
+</ul>
+<p>Skill errors (1%) mostly involve near-miss disambiguation, Spotify search-and-play vs play-playlist when the prompt is ambiguous.</p>
+<h3>Evaluation commands</h3>
+<pre><code class="language-bash"># On Modal GPU
+modal run modal_apps/evaluate_intent_modal.py
+modal run modal_apps/evaluate_pocket_benchmark_modal.py
+
+# Locally
+python -m src.evaluate_intent
+python -m src.evaluate_pocket_benchmark
+</code></pre>
+<p>The pocket benchmark runner produces a confusion matrix, per-domain breakdown, and a failure report saved to <code>data/pocket_benchmark_report.txt</code>.</p>
+<hr>
+<h2>Why This Approach Works</h2>
+<h3>1. Local-first, privacy-preserving</h3>
+<p>A 3B model can run on-device (via llama.cpp, MLC, or similar) or on a small GPU. Your “text mom I’m running late” never needs to hit a frontier API. The entire inference stack fits in ~2GB of VRAM with 4-bit quantization.</p>
+<h3>2. Deterministic replay, not hallucinated taps</h3>
+<p>The model outputs a skill label and parameters. The trajectory is a fixed file recorded on a real device. No invented button coordinates, no drift between runs. If the model says <code>whatsapp_send_message</code>, you get the exact same tap sequence every time.</p>
+<p>This is fundamentally different from vision-based agents that re-locate UI elements on every run and can click the wrong thing.</p>
+<h3>3. Cheap to extend</h3>
+<p>Adding a new skill is a repeatable pipeline:</p>
+<ol>
+<li>Record one trajectory with Pocket Automator</li>
+<li>Add parameter schema to <code>data/skill_schemas.json</code></li>
+<li>Add skill mapping to <code>src/skill_router.py</code></li>
+<li>Regenerate training data: <code>python scripts/generate_intent_dataset.py</code></li>
+<li>Fine-tune: <code>modal run modal_apps/train_modal.py --dataset train_intent.jsonl</code></li>
+</ol>
+<p>No prompt engineering session. No re-architecting the model. Just more data and another training run.</p>
+<h3>4. Separation of concerns</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Responsibility</th>
+<th>Swappable?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Language model</td>
+<td>Understand intent</td>
+<td>Yes; any 3B instruct model</td>
+</tr>
+<tr>
+<td>Skill router</td>
+<td>Map intent → file</td>
+<td>Yes; add skills without retraining</td>
+</tr>
+<tr>
+<td>Pocket Automator</td>
+<td>Execute UI steps</td>
+<td>Yes; any accessibility replay engine</td>
+</tr>
+<tr>
+<td>Trajectory JSON</td>
+<td>Store ground truth</td>
+<td>Yes; re-record when UI changes</td>
+</tr>
+</tbody>
+</table>
+<p>Each piece can be improved independently. Better model? Swap the adapter. UI changed? Re-record one trajectory. New app? Add a skill.</p>
+<h3>5. Designed for the “backyard”</h3>
+<p>This project targets <strong>personal automation on hardware you own</strong>: the Backyard AI track. It’s not trying to automate every Android app in existence. It’s trying to automate <em>your</em> apps, <em>your</em> flows, <em>your</em> phrasing, with a model small enough to run locally.</p>
+<hr>
+<h2>What’s Next</h2>
+<h3>The current gap</h3>
+<p>V2 extracts parameters at inference time:</p>
+<pre><code>&quot;text mom on whatsapp i'm on my way&quot;
+→ {&quot;contact&quot;: &quot;mom&quot;, &quot;message&quot;: &quot;i'm on my way&quot;}
+</code></pre>
+<p>But trajectories are still recorded with <strong>fixed entities</strong>: the WhatsApp trajectory says “message hi to biraj” and the <code>set_text</code> actions contain <code>&quot;hi&quot;</code> and <code>&quot;biraj&quot;</code>. Replay uses those literal values, not the extracted parameters.</p>
+<h3>The planned solution</h3>
+<p><strong>Slot-filling at replay time</strong>: when the model returns <code>{&quot;contact&quot;: &quot;mom&quot;, &quot;message&quot;: &quot;i'm on my way&quot;}</code>, the replay engine:</p>
+<ol>
+<li>Identifies parameterizable steps in the trajectory (text input actions)</li>
+<li>Substitutes extracted values into <code>set_text</code> actions</li>
+<li>Uses smart node resolution to find the contact field, search box, etc.</li>
+</ol>
+<p>This closes the loop:</p>
+<pre><code>Natural language → structured intent → parameterized replay on any device
+</code></pre>
+<p>The trajectory becomes a <strong>template</strong> rather than a fixed recording. Record once with placeholder entities, replay with any contact, message, time, or destination.</p>
+<h3>Other future work</h3>
+<ul>
+<li><strong>On-device inference</strong>: run the 3B model locally without Modal</li>
+<li><strong>More skills</strong>: maps, photos, settings toggles, banking apps</li>
+<li><strong>Multi-step intents</strong>: “set alarm and text mom I’ll be late”</li>
+<li><strong>Confidence calibration</strong>: know when to ask the user for clarification</li>
+<li><strong>UI change detection</strong>: alert when a trajectory needs re-recording</li>
+</ul>
+<hr>
+<h2>Links</h2>
+<h3>Links</h3>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Blog post</strong></td>
+<td><a href="https://huggingface.co/blog/build-small-hackathon/android-skill-router">Hugging Face Blog; Android Skill Router</a></td>
+</tr>
+<tr>
+<td><strong>Live demo</strong></td>
+<td><a href="https://huggingface.co/spaces/build-small-hackathon/android-skill-router">android-skill-router on Hugging Face Spaces</a></td>
+</tr>
+<tr>
+<td><strong>Demo video</strong></td>
+<td><a href="https://youtube.com/shorts/IQRHf7HfTDA">YouTube Short</a></td>
+</tr>
+<tr>
+<td><strong>Pocket Automator</strong></td>
+<td><a href="https://github.com/kriyanshii/pocket-automator">GitHub: Android recorder and replay</a></td>
+</tr>
+<tr>
+<td><strong>Social post</strong></td>
+<td><a href="https://x.com/kriyanshii/status/2066587828839141634">Twitter/X</a></td>
+</tr>
+</tbody>
+</table>
+<h3>Quick start</h3>
+<pre><code class="language-bash">git clone https://github.com/kriyanshii/android-dataset.git
+cd android-dataset
+
+# Generate intent training data
+python scripts/generate_intent_dataset.py
+
+# Train on Modal (requires modal setup)
+pip install modal &amp;&amp; modal setup
+modal run modal_apps/train_modal.py --dataset train_intent.jsonl
+
+# Deploy inference API
+modal deploy modal_apps/predict_api.py
+
+# Run Gradio demo
+pip install -r requirements.txt
+export MODAL_PREDICT_URL=&quot;https://&lt;your-modal-url&gt;/predict&quot;
+python app.py
+</code></pre>
+<h3>Project layout</h3>
+<pre><code>app.py                      # Gradio demo (hackathon submission UI)
+data/
+  skill_schemas.json        # Parameter definitions per skill
+  skills.jsonl              # Canonical skill ↔ task mapping
+  train_intent.jsonl        # ~15k SFT examples (generated locally)
+  eval_intent_prompts.json  # Held-out intent eval set
+  pocket_benchmark_prompts.json  # 200 real-world messy prompts
+src/
+  skill_router.py           # Skill name → trajectory JSON
+  skill_utils.py              # JSON parsing, aliases, fallbacks
+  classifier_prompt.py        # System prompts for V1 and V2
+  evaluate_intent.py          # Local evaluation
+  pocket_benchmark.py         # Benchmark metrics and reports
+modal_apps/
+  train_modal.py              # QLoRA fine-tuning on Modal GPU
+  predict_api.py              # FastAPI inference endpoint
+  evaluate_intent_modal.py    # GPU evaluation
+  evaluate_pocket_benchmark_modal.py
+scripts/
+  generate_skill_dataset.py   # trajectories → skills.jsonl
+  generate_intent_dataset.py  # schemas → train_intent.jsonl
+  generate_pocket_benchmark.py
+trajectories/                 # Pocket Automator exports (15 skills)
+</code></pre>
+<hr>
+<h2>Summary</h2>
+<p><strong>Android Skill Router</strong> shows that personal phone automation doesn’t require a 70B agent in the cloud.</p>
+<ol>
+<li><strong>Record</strong> UI flows once on your Android device with Pocket Automator</li>
+<li><strong>Fine-tune</strong> a 3B model to understand how you actually talk (slang, typos, and all)</li>
+<li><strong>Route</strong> to deterministic trajectories, no hallucinated taps</li>
+<li><strong>Replay</strong> through accessibility APIs on real hardware</li>
+</ol>
+<p>Classify → route → replay. Small model, real hardware, backyard-scale AI that actually does something useful.</p>
+<hr>
+<p><em>Apache 2.0. Base model weights subject to <a href="https://huggingface.co/Qwen/Qwen2.5-3B-Instruct">Qwen license</a>.</em></p>
+
+        </article>
+        <p><a href="https://kriyanshii.github.io/blog/android-skill-router">Open interactive version</a></p>
+      </main>
+    </noscript>
+    <noscript>
+      <main style="max-width:42rem;margin:2rem auto;padding:0 1.5rem;font-family:system-ui,sans-serif;line-height:1.6;color:#333">
+        <h1>Kriyanshi</h1>
+        <p>I work at the intersection of satellites, distributed systems, and the teams who need their data on time. At ISRO's Space Applications Centre, I build ingestion, scheduling, and processing pipelines for geostationary satellite data and design JupyterHub environments that make planetary and weather research more accessible.</p>
+        <p><strong>Work:</strong> Cloudraft (Kubernetes, n8n migration) · Space Applications Centre, ISRO (satellite data, JupyterHub, SeaDAS)</p>
+        <p><strong>Projects:</strong> <a href="https://visionboardit.art">VisionBoardIt</a> · <a href="https://github.com/dagu-org/dagu">Dagu</a> · <a href="https://github.com/kriyanshii/mit-6.5840">MapReduce</a> · <a href="https://sereneworkspace.netlify.app">Serene</a> · <a href="https://github.com/kriyanshii">more on GitHub</a></p>
+        <p><strong>Links:</strong> <a href="https://github.com/kriyanshii">GitHub</a> · <a href="https://x.com/kriyanshii">Twitter/X</a></p>
+        <p><a href="/blog">Blog</a> — Thoughts on software development and backend engineering.</p>
+        <p><em>This site uses JavaScript for the full experience. Enable JS or visit the links above.</em></p>
+      </main>
+    </noscript>
+    <div id="root"></div>
+    <script>
+      (function (l) {
+        if (l.search && l.search.startsWith('?/')) {
+          var decoded = l.search
+            .slice(2)
+            .split('&')
+            .map(function (s) {
+              return s.replace(/~and~/g, '&');
+            })
+            .join('?');
+          window.history.replaceState(null, null, '/' + decoded + l.hash);
+        }
+      })(window.location);
+    </script>
+  </body>
+</html>
