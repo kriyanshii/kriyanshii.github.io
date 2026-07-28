@@ -35,17 +35,17 @@ interface TimelineProps {
 
 export function Timeline({ items, title }: TimelineProps) {
   return (
-    <section className="mb-14">
+    <section className="mb-12">
       {title && (
-        <h2 className="mb-8 text-xs font-medium uppercase tracking-[0.18em] text-gray-500 dark:text-gray-500">
+        <h2 className="mb-6 text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-500">
           {title}
         </h2>
       )}
 
       <div className="relative">
-        <div className="absolute left-[5px] top-2 bottom-2 w-px bg-gray-200 dark:bg-gray-700" />
+        <div className="absolute left-[4px] top-2 bottom-2 w-px bg-gray-200 dark:bg-gray-700" />
 
-        <div className="space-y-10">
+        <div className="space-y-8">
           {items.map((item) => {
             const tech = item.stack?.length ? item.stack : undefined;
             const statusLabel = item.isNew
@@ -58,49 +58,48 @@ export function Timeline({ items, title }: TimelineProps) {
                 ? item.bulletPoints.slice(0, 2)
                 : item.bulletPoints;
 
-            return (
-              <article key={`${item.title}-${item.date}`} className="relative pl-8">
-                <div
-                  className={`absolute left-0 top-[7px] h-[11px] w-[11px] rounded-full border-2 bg-[#fafafa] dark:bg-[#1a1a1a] ${
-                    item.isNew
-                      ? 'border-blue-500 shadow-[0_0_0_3px_rgba(59,130,246,0.15)]'
-                      : 'border-gray-300 dark:border-gray-600'
-                  }`}
-                />
-
-                <div className="mb-1 flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                  {statusLabel && (
-                    <span className="rounded px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide bg-blue-50 text-blue-700 dark:bg-blue-950/50 dark:text-blue-300">
-                      {statusLabel}
-                    </span>
-                  )}
-                  {item.link ? (
-                    <ItemLink
-                      href={item.link}
-                      className="text-[15px] font-medium text-gray-900 transition-colors hover:text-blue-600 dark:text-gray-100 dark:hover:text-blue-400"
-                    >
-                      {item.title}
-                    </ItemLink>
-                  ) : (
-                    <h3 className="text-[15px] font-medium text-gray-900 dark:text-gray-100">
-                      {item.title}
-                    </h3>
-                  )}
+            const body = (
+              <>
+                <div className="mb-1.5 flex items-start justify-between gap-4">
+                  <div className="flex min-w-0 flex-wrap items-center gap-2">
+                    {statusLabel && (
+                      <span className="shrink-0 rounded px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300">
+                        {statusLabel}
+                      </span>
+                    )}
+                    {item.link && item.links?.length ? (
+                      <ItemLink
+                        href={item.link}
+                        className="text-[15px] font-medium leading-snug text-gray-900 transition-colors hover:text-blue-600 dark:text-gray-100 dark:hover:text-blue-400"
+                      >
+                        {item.title}
+                      </ItemLink>
+                    ) : (
+                      <h3 className="text-[15px] font-medium leading-snug text-gray-900 dark:text-gray-100">
+                        {item.title}
+                      </h3>
+                    )}
+                  </div>
+                  <p className="shrink-0 pt-0.5 text-xs text-gray-500 dark:text-gray-500">
+                    {item.date}
+                  </p>
                 </div>
 
-                <div className="mb-2 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5">
-                  {item.role ? (
-                    <p className="text-[13px] text-gray-600 dark:text-gray-400">{item.role}</p>
-                  ) : (
-                    <span />
-                  )}
-                  <p className="shrink-0 text-xs text-gray-500 dark:text-gray-500">{item.date}</p>
-                </div>
+                {item.role && (
+                  <p className="mb-2 text-[13px] text-gray-600 dark:text-gray-400">{item.role}</p>
+                )}
 
                 {tech && tech.length > 0 && (
-                  <p className="mb-2.5 text-[11px] leading-relaxed text-gray-500 dark:text-gray-500">
-                    {tech.join(' · ')}
-                  </p>
+                  <div className="mb-2.5 flex flex-wrap gap-1.5">
+                    {tech.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded px-2 py-0.5 text-[11px] bg-gray-100 text-gray-600 dark:bg-[#252525] dark:text-blue-200/90"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 )}
 
                 {!bullets?.length && item.description && (
@@ -110,13 +109,13 @@ export function Timeline({ items, title }: TimelineProps) {
                 )}
 
                 {bullets && bullets.length > 0 && (
-                  <ul className="mt-1 space-y-1.5">
+                  <ul className="space-y-1.5">
                     {bullets.map((bullet) => (
                       <li
                         key={bullet}
-                        className="flex items-start gap-2 text-[13px] leading-relaxed text-gray-600 dark:text-gray-400"
+                        className="flex items-start gap-2.5 text-[13px] leading-relaxed text-gray-600 dark:text-gray-400"
                       >
-                        <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-gray-400 dark:bg-gray-500" />
+                        <span className="mt-[8px] h-1 w-1 shrink-0 rounded-full bg-gray-400 dark:bg-gray-500" />
                         <span>{bullet}</span>
                       </li>
                     ))}
@@ -135,6 +134,31 @@ export function Timeline({ items, title }: TimelineProps) {
                       </ItemLink>
                     ))}
                   </div>
+                )}
+              </>
+            );
+
+            const wrapWholeCard = Boolean(item.link && !item.links?.length);
+
+            return (
+              <article key={`${item.title}-${item.date}`} className="group relative pl-7">
+                <div
+                  className={`absolute left-0 top-[8px] h-2 w-2 rounded-full border-2 bg-[#fafafa] dark:bg-[#1a1a1a] ${
+                    item.isNew
+                      ? 'border-blue-500 bg-blue-500 dark:bg-blue-500'
+                      : 'border-gray-300 dark:border-gray-600'
+                  }`}
+                />
+
+                {wrapWholeCard ? (
+                  <ItemLink
+                    href={item.link!}
+                    className="block transition-colors group-hover:[&_h3]:text-blue-600 dark:group-hover:[&_h3]:text-blue-400"
+                  >
+                    {body}
+                  </ItemLink>
+                ) : (
+                  body
                 )}
               </article>
             );

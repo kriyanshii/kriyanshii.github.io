@@ -85,8 +85,8 @@ export const workItems: ProjectItem[] = [
 export const projectItems: ProjectItem[] = [
   {
     type: 'project',
-    title: 'Android Skill Router',
-    date: 'Jun 16, 2026',
+    title: 'Android Skill Router: On-Device UI Automation',
+    date: 'Jun 2026 — Present',
     description:
       'A lightweight AI system that converts natural language into reusable Android automation skills using a fine-tuned 3B language model and recorded UI trajectories.',
     link: 'https://huggingface.co/spaces/build-small-hackathon/android-skill-router',
@@ -103,8 +103,8 @@ export const projectItems: ProjectItem[] = [
   },
   {
     type: 'project',
-    title: 'Recite Online',
-    date: '2025',
+    title: 'Recite Online: Guided Recitation Practice',
+    date: '2025 — Present',
     description:
       'A web application that helps students practise speeches, poems, and recitations independently with progress tracking.',
     link: 'https://www.recite.online/',
@@ -117,18 +117,22 @@ export const projectItems: ProjectItem[] = [
   },
   {
     type: 'project',
-    title: 'VisionBoardIt',
-    date: 'Dec 17, 2025',
+    title: 'VisionBoardIt: Visual Goal Boards',
+    date: 'Dec 2025',
     description:
-      'Create beautiful vision boards with photos, notes, and emojis. Bring your dreams to life with Japanese-inspired elegance.',
+      'Create beautiful vision boards with photos, notes, and emojis.',
     link: 'https://visionboardit.art/?ref=producthunt',
     isNew: true,
+    bulletPoints: [
+      'Built a vision board product with photos, notes, and emoji composition for personal goal-setting.',
+      'Shipped a polished web experience with Japanese-inspired visual design.',
+    ],
     stack: ['React', 'TypeScript'],
   },
   {
     type: 'project',
-    title: 'dagu',
-    date: 'Sep 8, 2025',
+    title: 'dagu: Workflow Orchestration Engine',
+    date: 'Sep 2025 — Present',
     description:
       'Open-source workflow engine contributions across backend, frontend, and deployment.',
     link: 'https://github.com/dagu-org/dagu/commits/main/?author=kriyanshii',
@@ -141,37 +145,46 @@ export const projectItems: ProjectItem[] = [
   },
   {
     type: 'project',
-    title: 'Serene',
-    date: 'Feb 2025 — Ongoing',
+    title: 'Serene: Productivity Workspace',
+    date: 'Feb 2025 — Present',
     description:
       'A personalized productivity tool for structured planning and day-to-day task management.',
     link: 'https://sereneworkspace.xyz/',
     isNew: true,
+    bulletPoints: [
+      'Built a productivity workspace focused on structured planning and personal knowledge management.',
+      'Continuing to ship UX and feature updates based on day-to-day use.',
+    ],
     stack: ['React', 'TypeScript'],
   },
   {
     type: 'project',
-    title: 'MapReduce',
-    date: 'Jan 23, 2025',
+    title: 'MapReduce: Distributed Systems from Scratch',
+    date: 'Jan 2025',
     description:
       "Implemented the MapReduce paper from MIT's Distributed Systems course (MIT 6.5840) in Go.",
     link: 'https://github.com/kriyanshii/mit-6.5840',
+    bulletPoints: [
+      "Implemented MIT 6.5840 MapReduce in Go — parallel data processing, distributed computing, and fault tolerance.",
+    ],
     stack: ['Go', 'Distributed Systems'],
   },
   {
     type: 'project',
-    title: 'Shell',
-    date: 'Dec 30, 2024',
+    title: 'Shell: Unix Shell from Scratch',
+    date: 'Dec 2024',
     description: 'A minimalist Unix shell built from scratch in Go.',
     link: 'https://github.com/kriyanshii/shell-go',
+    bulletPoints: ['Built a minimalist Unix shell from scratch in Go.'],
     stack: ['Go'],
   },
   {
     type: 'project',
-    title: 'Grep',
-    date: 'Feb 5, 2025',
+    title: 'Grep: Pattern Matching from Scratch',
+    date: 'Feb 2025',
     description: 'An implementation of the classic grep utility built from scratch in Go.',
     link: 'https://github.com/kriyanshii/grep-go',
+    bulletPoints: ['Implemented the classic grep utility from scratch in Go.'],
     stack: ['Go'],
   },
   {
@@ -180,6 +193,7 @@ export const projectItems: ProjectItem[] = [
     date: 'Nov 2024',
     description: 'A classic Rock-Paper-Scissors game in TypeScript.',
     link: 'https://github.com/kriyanshii/rock-paper-scissors',
+    bulletPoints: ['Implemented Rock-Paper-Scissors in TypeScript.'],
     stack: ['TypeScript'],
   },
   {
@@ -188,14 +202,16 @@ export const projectItems: ProjectItem[] = [
     date: 'Dec 2024',
     description: 'A browser game where you pop bubbles as they appear on screen.',
     link: 'https://github.com/kriyanshii/bubble-burst',
+    bulletPoints: ['Built a browser game where bubbles appear on screen and must be popped.'],
     stack: ['TypeScript'],
   },
   {
     type: 'project',
-    title: 'Wordle',
+    title: 'Wordle: From Scratch',
     date: 'Jan 2025',
     description: 'A from-scratch Wordle implementation in TypeScript.',
     link: 'https://github.com/kriyanshii/wordle',
+    bulletPoints: ['Implemented Wordle from scratch in TypeScript.'],
     stack: ['TypeScript'],
   },
 ];

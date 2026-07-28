@@ -15,9 +15,9 @@ export function Home() {
         ogImage={DEFAULT_OG_IMAGE}
       />
 
-      <header className="mb-14">
-        <h1 className="font-serif text-3xl text-gray-900 dark:text-white mb-3">Kriyanshi</h1>
-        <p className="text-[14px] leading-relaxed text-gray-600 dark:text-gray-400 mb-5">
+      <header className="mb-10">
+        <h1 className="font-serif text-3xl text-gray-900 dark:text-white mb-2">Kriyanshi</h1>
+        <p className="text-[14px] leading-relaxed text-gray-600 dark:text-gray-400 mb-4">
           Backend &amp; systems engineer working on satellite data pipelines, workflow orchestration, and
           production infrastructure. Currently at Matrix Business.
         </p>
