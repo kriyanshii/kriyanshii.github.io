@@ -48,7 +48,7 @@ export function BlogPost() {
 
   if (loading) {
     return (
-      <div className="max-w-3xl mx-auto px-6 pb-16">
+      <div className="max-w-2xl mx-auto px-6 pb-16">
         <p className="text-[15px] text-gray-500 dark:text-gray-400">Loading...</p>
       </div>
     );
@@ -59,7 +59,7 @@ export function BlogPost() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-6 pb-16">
+    <div className="max-w-2xl mx-auto px-6 pb-16">
       <PageSeo
         title={post.title}
         description={post.description}

@@ -5,7 +5,7 @@ import { RESUME_URL } from '../data/portfolio';
 
 export function Resume() {
   return (
-    <div className="max-w-3xl mx-auto px-6">
+    <div className="max-w-2xl mx-auto px-6">
       <PageSeo
         title="Resume"
         description="Resume of Kriyanshi — distributed systems, satellite data pipelines, JupyterHub platforms, and open-source contributions."

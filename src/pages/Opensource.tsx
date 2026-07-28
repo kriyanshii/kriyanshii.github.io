@@ -5,7 +5,7 @@ import { opensourceHighlights } from '../data/portfolio';
 
 export function Opensource() {
   return (
-    <div className="max-w-3xl mx-auto px-6">
+    <div className="max-w-2xl mx-auto px-6">
       <PageSeo
         title="Open Source"
         description="Open-source contributions — Dagu workflow engine, Ray distributed computing, and backend engineering in the OSS ecosystem."

@@ -3,7 +3,7 @@ export const SITE_NAME = 'Kriyanshi';
 export const SITE_TAGLINE = 'Satellites, Distributed Systems & Interactive Computing';
 export const AUTHOR_NAME = 'Kriyanshi';
 export const DEFAULT_DESCRIPTION =
-  'Portfolio of Kriyanshi. I work at ISRO\'s Space Applications Centre building satellite data pipelines, JupyterHub platforms, and interactive computing environments for scientific research.';
+  'Portfolio of Kriyanshi. Backend and systems engineer at Matrix Business — previously at ISRO\'s Space Applications Centre building satellite data pipelines, JupyterHub platforms, and workflow infrastructure.';
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/og/blog-default.png`;
 
 export function absoluteUrl(path: string): string {

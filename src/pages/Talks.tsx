@@ -5,7 +5,7 @@ import { talkItems } from '../data/portfolio';
 
 export function Talks() {
   return (
-    <div className="max-w-3xl mx-auto px-6">
+    <div className="max-w-2xl mx-auto px-6">
       <PageSeo
         title="Talks"
         description="Conference talks and live sessions on JupyterHub, interactive computing, and backend systems for research teams."

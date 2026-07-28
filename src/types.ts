@@ -8,6 +8,7 @@ export interface ProjectItem {
   title: string;
   date: string;
   description: string;
+  role?: string;
   link?: string;
   isNew?: boolean;
   bulletPoints?: string[];

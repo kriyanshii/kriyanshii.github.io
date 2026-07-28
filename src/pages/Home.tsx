@@ -7,88 +7,83 @@ import { Timeline } from '../components/Timeline';
 
 export function Home() {
   return (
-    <div className="max-w-3xl mx-auto px-6">
+    <div className="max-w-2xl mx-auto px-6 pb-20">
       <PageSeo
         title={SITE_TAGLINE}
         description={DEFAULT_DESCRIPTION}
         canonical={`${SITE_URL}/`}
         ogImage={DEFAULT_OG_IMAGE}
       />
-      <header className="mb-10 flex flex-col sm:flex-row gap-6 sm:justify-between sm:items-start">
-        <p className="text-[15px] leading-relaxed text-gray-800 dark:text-gray-300">
-          I work at the intersection of satellites, distributed systems, and the teams who need their data on
-          time. At ISRO’s Space Applications Centre, I build ingestion, scheduling, and processing pipelines for
-          geostationary satellite data and design JupyterHub environments that make planetary and weather
-          research more accessible. I like running production and development setups on air-gapped and on-prem
-          systems end to end—from build to deployment; it’s my guilty pleasure. Lately, I’ve been exploring and
-          customizing SeaDAS to help scientists get more out of Earth observation data. 🌍✨
+
+      <header className="mb-14">
+        <h1 className="font-serif text-3xl text-gray-900 dark:text-white mb-3">Kriyanshi</h1>
+        <p className="text-[14px] leading-relaxed text-gray-600 dark:text-gray-400 mb-5">
+          Backend &amp; systems engineer working on satellite data pipelines, workflow orchestration, and
+          production infrastructure. Currently at Matrix Business.
         </p>
-        <div className="flex flex-col gap-3 shrink-0">
+        <div className="flex items-center gap-4">
           <a
             href="https://github.com/kriyanshii"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
+            className="text-gray-500 hover:text-gray-900 dark:text-gray-500 dark:hover:text-gray-200 transition-colors"
+            aria-label="GitHub"
           >
-            <Github size={18} />
+            <Github size={16} />
           </a>
           <a
             href="https://x.com/kriyanshii"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
+            className="text-gray-500 hover:text-gray-900 dark:text-gray-500 dark:hover:text-gray-200 transition-colors"
+            aria-label="Twitter"
           >
-            <Twitter size={18} />
+            <Twitter size={16} />
           </a>
           <Link
             to="/talks"
-            className="text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
+            className="text-gray-500 hover:text-gray-900 dark:text-gray-500 dark:hover:text-gray-200 transition-colors"
+            aria-label="Talks"
           >
-            <Presentation size={18} />
+            <Presentation size={16} />
           </Link>
         </div>
       </header>
-      <Timeline items={workItems} title="work" />
+
+      <Timeline items={workItems} title="experience" />
       <Timeline items={projectItems} title="projects" />
 
-      <section className="mt-16">
-        <div className="flex items-baseline justify-between mb-6">
-          <h2 className="text-xl font-medium text-gray-900 dark:text-gray-100">talks</h2>
+      <section>
+        <div className="mb-6 flex items-baseline justify-between">
+          <h2 className="text-xs font-medium uppercase tracking-[0.18em] text-gray-500 dark:text-gray-500">
+            talks
+          </h2>
           <Link
             to="/talks"
-            className="text-sm text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
+            className="text-xs text-gray-500 hover:text-gray-900 dark:hover:text-gray-200 transition-colors"
           >
             View all
           </Link>
         </div>
-        <div className="space-y-4">
+        <div className="space-y-6">
           {talkItems.slice(0, 1).map((talk) => (
-            <div
-              key={talk.link}
-              className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow"
-            >
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">{talk.title}</h3>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-3">{talk.description}</p>
-                  <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-500">
-                    <span className="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full">
-                      {talk.tag}
-                    </span>
-                    <span>{talk.year}</span>
-                  </div>
-                </div>
-                <a
-                  href={talk.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="ml-4 flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
-                >
-                  <Presentation size={16} />
-                  Watch Talk
-                </a>
+            <article key={talk.link}>
+              <div className="mb-1 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                <h3 className="text-[15px] font-medium text-gray-900 dark:text-gray-100">{talk.title}</h3>
+                <span className="text-xs text-gray-500">{talk.year}</span>
               </div>
-            </div>
+              <p className="mb-2 text-[13px] leading-relaxed text-gray-600 dark:text-gray-400">
+                {talk.description}
+              </p>
+              <a
+                href={talk.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-gray-500 transition-colors hover:text-blue-600 dark:hover:text-blue-400"
+              >
+                Watch talk
+              </a>
+            </article>
           ))}
         </div>
       </section>

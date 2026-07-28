@@ -58,7 +58,7 @@ export function Blog() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-6">
+    <div className="max-w-2xl mx-auto px-6">
       <PageSeo
         title="Blog"
         description="Thoughts and insights on software development, backend engineering, distributed systems, and interactive computing."

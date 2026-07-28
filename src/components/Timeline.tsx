@@ -1,6 +1,32 @@
-import { ArrowUpRight, Briefcase, Check, FolderGit2, Rss, Github, Dot } from 'lucide-react';
+import type { ReactNode } from 'react';
 import { ProjectItem } from '../types';
-import { Link } from 'react-router-dom';
+
+function isExternal(href: string) {
+  return href.startsWith('http');
+}
+
+function ItemLink({
+  href,
+  children,
+  className,
+}: {
+  href: string;
+  children: ReactNode;
+  className?: string;
+}) {
+  if (isExternal(href)) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
+        {children}
+      </a>
+    );
+  }
+  return (
+    <a href={href} className={className}>
+      {children}
+    </a>
+  );
+}
 
 interface TimelineProps {
   items: ProjectItem[];
@@ -9,185 +35,110 @@ interface TimelineProps {
 
 export function Timeline({ items, title }: TimelineProps) {
   return (
-    <section>
-      <h2 className="text-lg font-medium mb-8 dark:text-white">{title}</h2>
+    <section className="mb-14">
+      {title && (
+        <h2 className="mb-8 text-xs font-medium uppercase tracking-[0.18em] text-gray-500 dark:text-gray-500">
+          {title}
+        </h2>
+      )}
+
       <div className="relative">
-        {/* Vertical Timeline Line */}
-        <div className="absolute left-1 top-0 bottom-0 w-px bg-gray-200 dark:bg-gray-700" />
+        <div className="absolute left-[5px] top-2 bottom-2 w-px bg-gray-200 dark:bg-gray-700" />
 
-        <div className="space-y-8">
-          {items.map((item, index) => (
-            <div key={index} className="group relative pl-12">
-              {/* Timeline Marker */}
-              <div className="absolute left-0 top-[14px]">
-                {(() => {
-                  switch (item.type) {
-                    case 'project':
-                      return (
-                        <div className="relative z-10 bg-[#fafafa] dark:bg-[#1a1a1a] flex items-center justify-center w-[18px] h-[18px] -ml-[3px] transition-colors group-hover:text-blue-500 dark:text-gray-400 dark:group-hover:text-blue-400">
-                          <FolderGit2 size={16} className="transition-colors" />
-                        </div>
-                      );
-                    case 'job':
-                      return <Briefcase size={16} className="transition-colors" />;
-                    case 'opnesource-contrib':
-                      return <Github size={16} className="transition-colors" />;
-                    case 'blog':
-                      return <Rss size={16} className="transition-colors" />;
-                    default:
-                      return (
-                        <Dot
-                          size={9}
-                          className="rounded-full bg-gray-400 dark:bg-gray-500 transition-colors group-hover:bg-blue-500 dark:group-hover:bg-blue-400 -ml-[0px]"
-                        />
-                      );
-                  }
-                })()}
-              </div>
+        <div className="space-y-10">
+          {items.map((item) => {
+            const tech = item.stack?.length ? item.stack : undefined;
+            const statusLabel = item.isNew
+              ? item.type === 'job'
+                ? 'current'
+                : 'active'
+              : null;
+            const bullets =
+              item.type === 'project' && item.bulletPoints && item.bulletPoints.length > 2
+                ? item.bulletPoints.slice(0, 2)
+                : item.bulletPoints;
 
-              {/* Card Content */}
-              <Link
-                to={item.link || '#'}
-                className="block -mt-1.5 p-4 rounded-lg transition-all hover:bg-white dark:hover:bg-[#242424] hover:shadow-sm"
-              >
-                <div className="flex items-center justify-between gap-4 mb-1">
-                  <div className="flex items-center gap-2 min-w-0">
-                    {item.isNew && (
-                      <span className="relative shrink-0 px-2 py-0.5 text-[11px] font-medium bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200 rounded-full leading-none overflow-hidden">
-                        NEW
-                        <div className="absolute inset-0 w-3 h-full bg-white/40 dark:bg-white/10 skew-x-12 animate-shine" />
-                      </span>
-                    )}
-                    <h3
-                      className={`text-[15px] font-medium truncate transition-colors ${'group-hover:text-blue-600 dark:text-gray-200 dark:group-hover:text-blue-400'}`}
+            return (
+              <article key={`${item.title}-${item.date}`} className="relative pl-8">
+                <div
+                  className={`absolute left-0 top-[7px] h-[11px] w-[11px] rounded-full border-2 bg-[#fafafa] dark:bg-[#1a1a1a] ${
+                    item.isNew
+                      ? 'border-blue-500 shadow-[0_0_0_3px_rgba(59,130,246,0.15)]'
+                      : 'border-gray-300 dark:border-gray-600'
+                  }`}
+                />
+
+                <div className="mb-1 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                  {statusLabel && (
+                    <span className="rounded px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide bg-blue-50 text-blue-700 dark:bg-blue-950/50 dark:text-blue-300">
+                      {statusLabel}
+                    </span>
+                  )}
+                  {item.link ? (
+                    <ItemLink
+                      href={item.link}
+                      className="text-[15px] font-medium text-gray-900 transition-colors hover:text-blue-600 dark:text-gray-100 dark:hover:text-blue-400"
                     >
                       {item.title}
+                    </ItemLink>
+                  ) : (
+                    <h3 className="text-[15px] font-medium text-gray-900 dark:text-gray-100">
+                      {item.title}
                     </h3>
-                  </div>
-                  <div className="flex items-center gap-2 shrink-0">
-                    {item.type === 'project' && item.link && item.link.includes('github.com') && (
-                      <a
-                        href={item.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors"
-                        title="View on GitHub"
-                      >
-                        <Github size={16} />
-                      </a>
-                    )}
-                    {item.type === 'project' && item.link && !item.link.includes('github.com') && (
-                      <a
-                        href={item.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors"
-                        title="View Platform"
-                      >
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-                          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-                        </svg>
-                      </a>
-                    )}
-                    <span className="text-xs font-medium text-gray-500 dark:text-gray-400">{item.date}</span>
-                  </div>
+                  )}
                 </div>
-                {item.tags && item.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-1 mb-2">
-                    {item.tags.map((tag, tagIndex) => (
-                      <span
-                        key={tagIndex}
-                        className={`px-2 py-0.5 text-[10px] font-medium rounded-full ${
-                          tag === 'from scratch'
-                            ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200'
-                            : tag === 'tools'
-                              ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200'
-                              : tag === 'games'
-                                ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-200'
-                                : tag === 'opensource'
-                                  ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-200'
-                                  : tag === 'new'
-                                    ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200'
-                                    : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'
-                        }`}
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+
+                <div className="mb-2 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5">
+                  {item.role ? (
+                    <p className="text-[13px] text-gray-600 dark:text-gray-400">{item.role}</p>
+                  ) : (
+                    <span />
+                  )}
+                  <p className="shrink-0 text-xs text-gray-500 dark:text-gray-500">{item.date}</p>
+                </div>
+
+                {tech && tech.length > 0 && (
+                  <p className="mb-2.5 text-[11px] leading-relaxed text-gray-500 dark:text-gray-500">
+                    {tech.join(' · ')}
+                  </p>
                 )}
-                <p className="text-[13px] text-gray-600 dark:text-gray-400 leading-relaxed">
-                  {item.description}
-                </p>
-                {item.highlights && item.highlights.length > 0 && (
-                  <div className="mt-3">
-                    <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.06em] text-gray-500 dark:text-gray-500">
-                      Highlights
-                    </p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {item.highlights.map((highlight) => (
-                        <span
-                          key={highlight}
-                          className="inline-flex items-center gap-1 rounded-md border border-gray-200 bg-white/80 px-2 py-1 text-[11px] font-medium text-gray-700 dark:border-gray-700 dark:bg-white/[0.04] dark:text-gray-300"
-                        >
-                          <Check size={11} className="shrink-0 text-emerald-600 dark:text-emerald-400" />
-                          {highlight}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
+
+                {!bullets?.length && item.description && (
+                  <p className="text-[13px] leading-relaxed text-gray-600 dark:text-gray-400">
+                    {item.description}
+                  </p>
                 )}
-                {item.bulletPoints && item.bulletPoints.length > 0 && (
-                  <ul className="mt-3 space-y-1">
-                    {item.bulletPoints.map((bullet, bulletIndex) => (
+
+                {bullets && bullets.length > 0 && (
+                  <ul className="mt-1 space-y-1.5">
+                    {bullets.map((bullet) => (
                       <li
-                        key={bulletIndex}
-                        className="text-[13px] text-gray-600 dark:text-gray-400 leading-relaxed flex items-start"
+                        key={bullet}
+                        className="flex items-start gap-2 text-[13px] leading-relaxed text-gray-600 dark:text-gray-400"
                       >
-                        <span className="text-gray-400 dark:text-gray-500 mr-2 mt-1.5 text-[10px]">•</span>
+                        <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-gray-400 dark:bg-gray-500" />
                         <span>{bullet}</span>
                       </li>
                     ))}
                   </ul>
                 )}
-                {item.stack && item.stack.length > 0 && (
-                  <p className="mt-3 text-[11px] leading-relaxed text-gray-500 dark:text-gray-500">
-                    <span className="font-medium text-gray-600 dark:text-gray-400">Stack:</span>{' '}
-                    {item.stack.join(' · ')}
-                  </p>
-                )}
+
                 {item.links && item.links.length > 0 && (
-                  <div className="mt-3 flex flex-wrap gap-3">
-                    {item.links.map((projectLink) => (
-                      <a
-                        key={projectLink.href}
-                        href={projectLink.href}
-                        target={projectLink.href.startsWith('/') ? undefined : '_blank'}
-                        rel={projectLink.href.startsWith('/') ? undefined : 'noopener noreferrer'}
-                        onClick={(e) => e.stopPropagation()}
-                        className="inline-flex items-center gap-1 text-xs font-medium text-blue-600 transition-colors hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                  <div className="mt-2.5 flex flex-wrap gap-x-3 gap-y-1">
+                    {item.links.map((link) => (
+                      <ItemLink
+                        key={link.href}
+                        href={link.href}
+                        className="text-xs text-gray-500 transition-colors hover:text-blue-600 dark:text-gray-500 dark:hover:text-blue-400"
                       >
-                        {projectLink.label}
-                        <ArrowUpRight size={12} />
-                      </a>
+                        {link.label}
+                      </ItemLink>
                     ))}
                   </div>
                 )}
-              </Link>
-            </div>
-          ))}
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>
