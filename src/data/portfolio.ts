@@ -1,7 +1,7 @@
 import { ProjectItem } from '../types';
 
 export const RESUME_URL =
-  'https://drive.google.com/file/d/1cfHx8_s2gi52WUW-W4R3EBNCw-INK_cI/view?usp=sharing';
+  'https://drive.google.com/file/d/1dhh-xB0SQqPRl-XTrPcdsw6Eq3slHWTH/view?usp=drive_link';
 
 export interface TalkItem {
   title: string;
@@ -71,13 +71,14 @@ export const workItems: ProjectItem[] = [
     role: 'Software Engineer',
     date: 'Sep 2023 — Dec 2025',
     description:
-      'Delivered mission-critical distributed workflow systems supporting geostationary weather satellite processing.',
+      'Worked on mission-critical software powering the processing of geostationary weather satellite data for the INSAT-3DS mission, building distributed systems used for continuous scientific data processing.',
     bulletPoints: [
-      'Architected workflow orchestration software using Go and React for satellite data processing pipelines.',
-      'Automated scientific processing pipelines for geostationary weather satellite data.',
-      'Designed containerized environments for air-gapped deployments.',
-      'Integrated geospatial processing tools into production workflow systems.',
-      'Improved reliability of production workflow systems supporting continuous satellite data streams.',
+      'Architected and developed a distributed workflow orchestration platform using Go and React for automated INSAT-3DS satellite image processing.',
+      'Designed and implemented end-to-end processing pipelines and microservices to ingest, process, and distribute geospatial satellite data.',
+      'Built an interactive scientific computing platform using JupyterHub, custom JupyterLab extensions, and domain-specific Docker images for meteorological and oceanographic analysis.',
+      'Engineered containerized environments that enabled reliable deployments in air-gapped infrastructure while simplifying software distribution and maintenance.',
+      'Integrated geospatial processing libraries and scientific tooling into production workflows to automate satellite data processing.',
+      'Improved the reliability and maintainability of systems responsible for continuous satellite data processing and workflow execution.',
     ],
   },
 ];

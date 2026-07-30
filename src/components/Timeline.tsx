@@ -31,15 +31,21 @@ function ItemLink({
 interface TimelineProps {
   items: ProjectItem[];
   title?: string;
+  badge?: ReactNode;
 }
 
-export function Timeline({ items, title }: TimelineProps) {
+export function Timeline({ items, title, badge }: TimelineProps) {
   return (
     <section className="mb-12">
-      {title && (
-        <h2 className="mb-6 text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-500">
-          {title}
-        </h2>
+      {(title || badge) && (
+        <div className="mb-6 flex flex-wrap items-center gap-3">
+          {title && (
+            <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-500">
+              {title}
+            </h2>
+          )}
+          {badge}
+        </div>
       )}
 
       <div className="relative">
@@ -102,8 +108,8 @@ export function Timeline({ items, title }: TimelineProps) {
                   </div>
                 )}
 
-                {!bullets?.length && item.description && (
-                  <p className="text-[13px] leading-relaxed text-gray-600 dark:text-gray-400">
+                {item.description && (item.type === 'job' || !bullets?.length) && (
+                  <p className="mb-2.5 text-[13px] leading-relaxed text-gray-600 dark:text-gray-400">
                     {item.description}
                   </p>
                 )}

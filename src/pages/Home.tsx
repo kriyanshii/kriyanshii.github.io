@@ -1,9 +1,9 @@
 import { Github, Twitter, Presentation } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { PageSeo } from '../components/PageSeo';
+import { Timeline } from '../components/Timeline';
 import { DEFAULT_DESCRIPTION, DEFAULT_OG_IMAGE, SITE_TAGLINE, SITE_URL } from '../constants/site';
 import { projectItems, talkItems, workItems } from '../data/portfolio';
-import { Timeline } from '../components/Timeline';
 
 export function Home() {
   return (
@@ -50,7 +50,15 @@ export function Home() {
         </div>
       </header>
 
-      <Timeline items={workItems} title="experience" />
+      <Timeline
+        items={workItems}
+        title="experience"
+        badge={
+          <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-[11px] font-medium text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+            Open to work
+          </span>
+        }
+      />
       <Timeline items={projectItems} title="projects" />
 
       <section>
