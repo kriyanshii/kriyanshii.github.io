@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <title>How we built enqueue, retry, and dedup in a Go DAG scheduler | Kriyanshi</title>
+    <meta name="description" content="How satellite image pipelines forced capacity-aware queues into Dagu — enqueue routing, exit-code retries, and reproducible runs, with real PR links." />
+    <link rel="canonical" href="https://kriyanshii.github.io/blog/enqueue-retry-dedup" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://kriyanshii.github.io/blog/enqueue-retry-dedup" />
+    <meta property="og:title" content="How we built enqueue, retry, and dedup in a Go DAG scheduler" />
+    <meta property="og:description" content="How satellite image pipelines forced capacity-aware queues into Dagu — enqueue routing, exit-code retries, and reproducible runs, with real PR links." />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content="https://kriyanshii.github.io/og/enqueue-retry-dedup.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="How we built enqueue, retry, and dedup in a Go DAG scheduler" />
+    <meta name="twitter:description" content="How satellite image pipelines forced capacity-aware queues into Dagu — enqueue routing, exit-code retries, and reproducible runs, with real PR links." />
+    <meta name="twitter:image" content="https://kriyanshii.github.io/og/enqueue-retry-dedup.png" />
+    <meta property="article:published_time" content="2026-08-12" />
+    <meta property="article:section" content="Tech" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"How we built enqueue, retry, and dedup in a Go DAG scheduler","description":"How satellite image pipelines forced capacity-aware queues into Dagu — enqueue routing, exit-code retries, and reproducible runs, with real PR links.","url":"https://kriyanshii.github.io/blog/enqueue-retry-dedup","datePublished":"2026-08-12","dateModified":"2026-08-12","image":"https://kriyanshii.github.io/og/enqueue-retry-dedup.png","author":{"@type":"Person","name":"Kriyanshi","url":"https://kriyanshii.github.io"},"publisher":{"@type":"Person","name":"Kriyanshi","url":"https://kriyanshii.github.io"},"articleSection":"Tech","mainEntityOfPage":{"@type":"WebPage","@id":"https://kriyanshii.github.io/blog/enqueue-retry-dedup"}}</script>
+<meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" sizes="32x32" href="/assets/favicon-Te9WZvHs.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="6487df11-3901-40bc-bbfd-f93f7cfcb4a3"></script>
+    <script type="module" crossorigin src="/assets/index-DwOsYDKD.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-03PZ574-.css">
+    <style>
+      .static-blog { max-width: 48rem; margin: 0 auto; padding: 4rem 1.5rem; font-family: system-ui, sans-serif; line-height: 1.7; color: #374151; }
+      .static-blog h1 { font-size: 1.875rem; font-weight: 500; margin-bottom: 1.5rem; color: #111827; }
+      .static-blog h2 { font-size: 1.25rem; font-weight: 500; margin: 2rem 0 1rem; color: #111827; }
+      .static-blog p { margin-bottom: 1.25rem; }
+      .static-blog a { color: #2563eb; font-weight: 500; text-decoration: underline; text-decoration-color: rgba(147, 197, 253, 0.8); text-underline-offset: 3px; }
+      .static-blog figcaption { font-size: 0.875rem; color: #6b7280; margin: 0.5rem 0 1.5rem; font-style: italic; }
+      .static-blog .mermaid-figure { margin: 1.5rem 0; padding: 1rem; background: #f9fafb; border-radius: 0.5rem; }
+      .static-blog .mermaid-diagram { display: block; max-width: 100%; height: auto; margin: 0 auto; }
+    </style>
+  </head>
+  <body>
+    <noscript>
+      <main class="static-blog">
+        
+        <article>
+          <h1>How we built enqueue, retry, and dedup in a Go DAG scheduler</h1>
+          <p><time datetime="2026-08-12">2026-08-12</time> · Tech</p>
+          <p><strong>Dagu</strong> is an open-source, local-first workflow orchestrator (YAML DAGs, scheduler, queues, UI). I contribute Go backend + UI to <a href="https://github.com/dagucloud/dagu">dagucloud/dagu</a> (formerly <code>dagu-org</code> / <code>yohamta</code>). This post covers three problems that show up once “run a DAG” becomes a <strong>durable work queue</strong>: enqueue routing, capacity-aware retries, and keeping runs reproducible / non-duplicated.</p>
+<p>The design didn’t start as an open-source feature request. It started as a production pain: turning satellite raw data into images in realtime, and occasionally reprocessing huge backfills of the same raw data. I’m a contributor, not the sole author. The queue story starts with that in-org implementation — stress-tested in production, then pitched to maintainer <a href="https://github.com/yota-hamada">Yota Hamada</a> — which became <a href="https://github.com/dagucloud/dagu/pull/690">#690</a> (closed unmerged as too large) and later the design basis for <a href="https://github.com/dagucloud/dagu/issues/938">#938</a>. Links below are to <strong>my</strong> follow-on merged PRs that shaped enqueue routing, capacity-aware retry, and reproducibility. Adjacent platform features (singleton enqueue, cursor pagination, SSE) landed via maintainer work and are noted as such.</p>
+<hr>
+<h2>The shape of the problem</h2>
+<p>A DAG scheduler has to answer:</p>
+<ol>
+<li><strong>Where does this run go?</strong> (which queue / priority — realtime ingest vs backfill)</li>
+<li><strong>What happens when it fails?</strong> (retry now vs later, under what policy)</li>
+<li><strong>How do we avoid duplicate or drifted runs?</strong> (same identity, locked params, capacity honesty)</li>
+</ol>
+<p>Naive answers (“just start the process”) break under load: retries bypass capacity, queue config stuck in YAML can’t handle “replay on the low-priority queue,” and any nonzero exit gets treated the same.</p>
+<figure class="mermaid-figure"><img src="/diagrams/enqueue-retry-dedup/0.svg" alt="Diagram" class="mermaid-diagram" loading="lazy" /></figure><hr>
+<h2>Origin: queues from production, not theory</h2>
+<p>We used Dagu to process satellite raw data into image products. Two workloads shared the same machines:</p>
+<ul>
+<li><strong>Realtime</strong> — new raw data arrives, DAGs must start soon, capacity is scarce</li>
+<li><strong>Reprocessing</strong> — occasionally we had to re-run a huge chunk of historical raw data through the same pipelines</li>
+</ul>
+<p>At first we bolted on a sidecar microservice: poll how many DAGs were running, then decide whether to ingest the next batch. That worked until it didn’t. Running count alone couldn’t tell you what was waiting, what was stuck, or how a reprocessing flood would collide with realtime ingest. Operators couldn’t see queued vs running work in one place, and admission logic lived outside the scheduler — so capacity honesty was always one API call behind reality.</p>
+<p>So we implemented the queue <strong>inside</strong> our org’s Dagu deployment: admit work into a durable queue, bound concurrency in the scheduler itself, and make running vs queued visible. We stress-tested it in production under realtime ingest and large reprocessing bursts, then pitched the design and implementation to maintainer <a href="https://github.com/yota-hamada">Yota Hamada</a>.</p>
+<p>That became <a href="https://github.com/dagucloud/dagu/pull/690">#690</a>: file-backed queue + running-count stats, a flag so dequeued work went straight to running, and <code>DAGQueueLength</code>. It ran in production (multiple concurrent DAGs) but was closed as too large to review.</p>
+<p>The work didn’t disappear. Issue <a href="https://github.com/dagucloud/dagu/issues/938">#938</a> explicitly cites <code>#690</code> as the initial implementation. Design notes there also absorb ideas I pushed in-thread: <strong>config toggle to enable/disable queuing</strong>, and <strong>dequeue</strong> so users can cancel work still waiting. When queues shipped in v1.17, the maintainer called out that original implementation by name.</p>
+<p>The rest of this post is what I built on top of that foundation once queues existed in main: routing overrides (realtime vs backfill without editing YAML), retries that honor capacity, and locks so science / reprocessing runs stay reproducible.</p>
+<h2>1. Enqueue is a first-class path (not a side door)</h2>
+<p><strong>Queue override.</strong> DAG YAML can declare a default queue, but operators often need this run on a different queue (backfill vs realtime) without editing the file.</p>
+<p>Design:</p>
+<ul>
+<li>Persist an optional <code>Queue</code> on run status at enqueue time</li>
+<li>Resolution order: <strong>stored override → DAG YAML <code>queue</code> → DAG name</strong></li>
+</ul>
+<pre><code class="language-bash">dagu enqueue --queue=&quot;realtime&quot; data_processor.yaml
+</code></pre>
+<p>PR: <a href="https://github.com/dagucloud/dagu/pull/1240">#1240 Add Queue Override Support for DAG Enqueue Operations</a></p>
+<p><strong>Enqueue from a spec.</strong> API to enqueue a DAG-run from inline YAML (not only a file on disk) — useful for automation that composes runs dynamically.</p>
+<p>PR: <a href="https://github.com/dagucloud/dagu/pull/1375">#1375 New API endpoint for enqueuing a DAGRun from a spec</a></p>
+<p><strong>Operator hygiene.</strong> Clear a queue; dequeue must pass the queue name (<code>ProcGroup</code>) or items get lost.</p>
+<p>PRs: <a href="https://github.com/dagucloud/dagu/pull/1299">#1299 clear queue</a>, <a href="https://github.com/dagucloud/dagu/pull/1481">#1481 include queue name in dequeue</a></p>
+<hr>
+<h2>2. Retry must respect the same capacity as enqueue</h2>
+<p>The bug class: <strong>retry ran immediately and skipped global queue capacity.</strong></p>
+<p>Symptom: capacity = 3, but after retries you’d see 4 running. UI and scheduler disagreed. “Retry = start again” was wrong once queues existed.</p>
+<p>Fix for DAGs on a global queue:</p>
+<ul>
+<li>Mark attempt <strong>Queued</strong>, stamp queue metadata, trigger type = Retry</li>
+<li>Enqueue at <strong>low priority</strong></li>
+<li>Let the queue processor start it when capacity exists</li>
+<li>Step-level retry still runs immediately (processor doesn’t carry step context)</li>
+</ul>
+<figure class="mermaid-figure"><img src="/diagrams/enqueue-retry-dedup/1.svg" alt="Diagram" class="mermaid-diagram" loading="lazy" /></figure><p>PR: <a href="https://github.com/dagucloud/dagu/pull/1676">#1676 scheduler: respect global queue capacity on retry</a></p>
+<p><strong>Exit-code-aware step retry.</strong> Retries shouldn’t fire on every failure. Step <code>retry_policy</code> can allowlist exit codes — retry on 429/503, fail fast otherwise.</p>
+<pre><code class="language-yaml">steps:
+  - run: curl https://api.example.com/data
+    retry_policy:
+      limit: 6
+      interval_sec: 1
+      exit_code: [429, 503]
+</code></pre>
+<p>PR: <a href="https://github.com/dagucloud/dagu/pull/902">#902 custom exit codes on retry</a></p>
+<p>Also: disable step-retry controls while the parent DAG is still running (<a href="https://github.com/dagucloud/dagu/pull/1447">#1447</a>).</p>
+<hr>
+<h2>3. Dedup and reproducibility</h2>
+<p><strong>Parameter / run-ID locking.</strong> For backfills, science pipelines, and audits, params and run identity shouldn’t drift in the UI mid-flight:</p>
+<pre><code class="language-yaml">run_config:
+  disable_param_edit: true
+  disable_run_id_edit: true
+</code></pre>
+<p>PR: <a href="https://github.com/dagucloud/dagu/pull/1176">#1176 Add DAG configuration to lock parameters and run ID</a></p>
+<p><strong>Attempt identity on enqueue.</strong> Enqueue checks for an existing attempt before creating one — same DAG + run ID already exists ⇒ refuse. That store-backed identity is the foundation; opt-in <strong>singleton</strong> (409 if already running/queued) later landed as maintainer work (<a href="https://github.com/dagucloud/dagu/pull/1483">#1483</a>) on top of the same problem space. Lesson: check-then-act alone is TOCTOU; real uniqueness needs store semantics.</p>
+<hr>
+<h2>Status UX (supporting cast)</h2>
+<ul>
+<li>Configurable “latest status” window (<a href="https://github.com/dagucloud/dagu/pull/558">#558</a>)</li>
+<li>Fix DAG list truncation from a hardcoded paginator cap (<a href="https://github.com/dagucloud/dagu/pull/1126">#1126</a>)</li>
+<li>Running/failed step names on run summaries for faster triage (<a href="https://github.com/dagucloud/dagu/pull/1420">#1420</a>)</li>
+</ul>
+<p>Cursor pagination and SSE live updates were maintainer follow-ons — they scale the UI without changing the queue/retry core.</p>
+<hr>
+<h2>Tradeoffs I’d make again</h2>
+<table>
+<thead>
+<tr>
+<th>Choice</th>
+<th>Why</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Retries go through the queue</td>
+<td>Capacity stays honest; UI matches reality</td>
+<td>Slightly higher latency to restart</td>
+</tr>
+<tr>
+<td>Persist queue override on status</td>
+<td>Routing survives restarts / processor hops</td>
+<td>Extra field + resolution rules</td>
+</tr>
+<tr>
+<td>Lock params / run ID</td>
+<td>Reproducibility for batch &amp; science</td>
+<td>Less “edit and hot-retry” flexibility</td>
+</tr>
+<tr>
+<td>Exit-code allowlist on retry</td>
+<td>Fewer useless retries</td>
+<td>Authors must document exit contracts</td>
+</tr>
+<tr>
+<td>File-backed queues</td>
+<td>Simple local-first ops</td>
+<td>Harder atomic singleton than Redis</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>Why this matters for platform / workflow hiring</h2>
+<p>Same problem space as Temporal task queues, K8s job controllers, and CI runners — and the same shape as our satellite pipeline: <strong>admit work, bound concurrency, retries that don’t stampede, reproducible dispatch</strong>, whether the next item is a realtime frame or a multi-day reprocessing chunk.</p>
+<ul>
+<li>GitHub: <a href="https://github.com/kriyanshii">github.com/kriyanshii</a></li>
+<li>Portfolio: <a href="https://kriyanshii.github.io/">kriyanshii.github.io</a></li>
+<li>Dagu: <a href="https://github.com/dagucloud/dagu">github.com/dagucloud/dagu</a></li>
+<li>Related: <a href="https://medium.com/@kriyanshii/understanding-partial-success-in-dag-systems-building-resilient-workflows-977de786100f">Partial Success in DAG Systems (Medium)</a></li>
+</ul>
+<h3>My PRs referenced</h3>
+<ul>
+<li><a href="https://github.com/dagucloud/dagu/pull/690">#690</a> original queue implementation (closed; design basis)</li>
+<li><a href="https://github.com/dagucloud/dagu/issues/938">#938</a> queue feature issue citing #690</li>
+<li><a href="https://github.com/dagucloud/dagu/pull/902">#902</a> exit-code retry</li>
+<li><a href="https://github.com/dagucloud/dagu/pull/1176">#1176</a> lock parameters + run ID</li>
+<li><a href="https://github.com/dagucloud/dagu/pull/1240">#1240</a> queue override on enqueue</li>
+<li><a href="https://github.com/dagucloud/dagu/pull/1375">#1375</a> enqueue from spec API</li>
+<li><a href="https://github.com/dagucloud/dagu/pull/1676">#1676</a> capacity-aware retry</li>
+<li><a href="https://github.com/dagucloud/dagu/pull/1299">#1299</a> / <a href="https://github.com/dagucloud/dagu/pull/1481">#1481</a> queue ops</li>
+<li><a href="https://github.com/dagucloud/dagu/pull/1420">#1420</a> / <a href="https://github.com/dagucloud/dagu/pull/1447">#1447</a> status UX</li>
+<li><a href="https://github.com/dagucloud/dagu/pull/1613">#1613</a> production Helm chart (K8s signal)</li>
+</ul>
+
+        </article>
+        <p><a href="https://kriyanshii.github.io/blog/enqueue-retry-dedup">Open interactive version</a></p>
+      </main>
+    </noscript>
+    <noscript>
+      <main style="max-width:42rem;margin:2rem auto;padding:0 1.5rem;font-family:system-ui,sans-serif;line-height:1.6;color:#333">
+        <h1>Kriyanshi</h1>
+        <p>Backend and systems engineer at Matrix Business. Previously at ISRO's Space Applications Centre building satellite data pipelines, JupyterHub platforms, and workflow infrastructure.</p>
+        <p><strong>Work:</strong> Matrix Business (BGV platform) · Independent (Recite, Serene, Android Skill Router, Dagu, Ray) · Cloudraft (Jan–Mar 2026) · Space Applications Centre, ISRO (Sep 2023–Dec 2025)</p>
+        <p><strong>Projects:</strong> <a href="https://visionboardit.art">VisionBoardIt</a> · <a href="https://github.com/dagu-org/dagu">Dagu</a> · <a href="https://github.com/kriyanshii/mit-6.5840">MapReduce</a> · <a href="https://sereneworkspace.netlify.app">Serene</a> · <a href="https://github.com/kriyanshii">more on GitHub</a></p>
+        <p><strong>Links:</strong> <a href="https://github.com/kriyanshii">GitHub</a> · <a href="https://x.com/kriyanshii">Twitter/X</a></p>
+        <p><a href="/blog">Blog</a> — Thoughts on software development and backend engineering.</p>
+        <p><em>This site uses JavaScript for the full experience. Enable JS or visit the links above.</em></p>
+      </main>
+    </noscript>
+    <div id="root"></div>
+    <script>
+      (function (l) {
+        if (l.search && l.search.startsWith('?/')) {
+          var decoded = l.search
+            .slice(2)
+            .split('&')
+            .map(function (s) {
+              return s.replace(/~and~/g, '&');
+            })
+            .join('?');
+          window.history.replaceState(null, null, '/' + decoded + l.hash);
+        }
+      })(window.location);
+    </script>
+  </body>
+</html>
