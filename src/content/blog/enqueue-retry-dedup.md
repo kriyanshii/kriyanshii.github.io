@@ -2,14 +2,14 @@
 title: How we built enqueue, retry, and dedup in a Go DAG scheduler
 date: 2026-08-12
 tag: Tech
-description: Capacity-aware queues, exit-code retries, and reproducible runs in Dagu — from satellite pipelines to upstream, with real PR links.
+description: Capacity-aware queues, exit-code retries, and reproducible runs in Dagu — from INSAT-3DS ingest at ISRO to upstream, with real PR links.
 ---
 
 # How we built enqueue, retry, and dedup in a Go DAG scheduler
 
 **Dagu** is an open-source, local-first workflow orchestrator (YAML DAGs, scheduler, queues, UI). I contribute Go backend + UI to [dagucloud/dagu](https://github.com/dagucloud/dagu) (formerly `dagu-org` / `yohamta`). This post covers three problems that show up once "run a DAG" becomes a **durable work queue**: enqueue routing, capacity-aware retries, and keeping runs reproducible / non-duplicated.
 
-I'm a contributor, not the sole author. Queues in Dagu didn't start as an OSS feature request — they started as a production need for **satellite raw-data image processing** (realtime ingest + bulk reprocess). We built and stress-tested the queue inside our org, then pitched it to maintainer [@yota-hamada](https://github.com/yohamta). That path is [#690](https://github.com/dagucloud/dagu/pull/690) → [#938](https://github.com/dagucloud/dagu/issues/938) → co-authored landing in [#940](https://github.com/dagucloud/dagu/pull/940) / [`b98063d`](https://github.com/dagucloud/dagu/commit/b98063dd874acdea7745a985e714b1f3b9f97754). Links below are my follow-on merged PRs on routing, capacity-aware retry, and reproducibility. Adjacent features (singleton enqueue, cursor pagination, SSE) are later maintainer work and noted as such.
+I'm a contributor, not the sole author. Queues in Dagu didn't start as an OSS feature request — they started as a production need while I worked on **INSAT-3DS data ingestion at ISRO**: realtime raw-data image processing when a pass lands, plus bulk reprocess of historical chunks. We built and stress-tested the queue inside the org, then pitched it to maintainer [@yota-hamada](https://github.com/yohamta). That path is [#690](https://github.com/dagucloud/dagu/pull/690) → [#938](https://github.com/dagucloud/dagu/issues/938) → co-authored landing in [#940](https://github.com/dagucloud/dagu/pull/940) / [`b98063d`](https://github.com/dagucloud/dagu/commit/b98063dd874acdea7745a985e714b1f3b9f97754). Links below are my follow-on merged PRs on routing, capacity-aware retry, and reproducibility. Adjacent features (singleton enqueue, cursor pagination, SSE) are later maintainer work and noted as such.
 
 ---
 
@@ -62,9 +62,9 @@ flowchart LR
 ---
 
 
-## Origin: satellite pipelines, then upstream
+## Origin: INSAT-3DS ingest at ISRO, then upstream
 
-We run Dagu on **satellite raw-data image processing**: realtime streams when a pass lands, and occasional **reprocess** jobs that dump a huge historical chunk back through the same DAGs. Capacity is the hard part — too many concurrent runs and the workers melt; too few and the downlink backlog grows.
+While working on **INSAT-3DS data ingestion at ISRO**, we ran Dagu on satellite raw-data image processing: realtime streams when a pass lands, and occasional **reprocess** jobs that dump a huge historical chunk back through the same DAGs. Capacity is the hard part — too many concurrent runs and the workers melt; too few and the downlink backlog grows.
 
 **Before queues existed in Dagu**, we bolted on a sidecar microservice: watch how many DAGs are running, and only ingest/start new work when under a limit. That gated starts, but it was a blind spot for everything waiting. Operators couldn't tell **running vs queued vs stuck**, reprocess floods looked the same as realtime, and the control loop lived outside the orchestrator — another service to deploy, another source of truth to distrust under load.
 
@@ -87,7 +87,7 @@ What that change introduced (the foundation everything below builds on):
 - **Scheduler queue reader + processor** — drain when concurrency allows, with a `ProcStore` for live process tracking
 - **Paths + UI** — `queueDir` / `procDir`, Queued chips, workflow actions wired to the new status
 
-Lineage in one line: **satellite prod pain → in-org implementation + stress test → pitch to Yota → co-authored upstream**. The rest of this post is what I built on top once queues lived in main: routing overrides (realtime vs reprocess queues), retries that honor capacity, and locks so bulk science/reprocess runs stay reproducible.
+Lineage in one line: **INSAT-3DS ingest pain at ISRO → in-org implementation + prod stress test → pitch to Yota → co-authored upstream**. The rest of this post is what I built on top once queues lived in main: routing overrides (realtime vs reprocess queues), retries that honor capacity, and locks so bulk reprocess runs stay reproducible.
 
 ## 1. Enqueue is a first-class path (not a side door)
 
@@ -210,7 +210,7 @@ Cursor pagination and SSE live updates were maintainer follow-ons — they scale
 
 ## Why this matters for platform / workflow hiring
 
-Same problem space as Temporal task queues, K8s job controllers, and CI runners — and the same shape we hit on satellite ingest: **admit work, bound concurrency, see running vs queued clearly, retries that don't stampede, reproducible dispatch for bulk reprocess.**
+Same problem space as Temporal task queues, K8s job controllers, and CI runners — and the same shape we hit on INSAT-3DS ingest at ISRO: **admit work, bound concurrency, see running vs queued clearly, retries that don't stampede, reproducible dispatch for bulk reprocess.**
 
 - GitHub: [github.com/kriyanshii](https://github.com/kriyanshii)
 - Portfolio: [kriyanshii.github.io](https://kriyanshii.github.io/)
