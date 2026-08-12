@@ -11,6 +11,10 @@
   "android-skill-router": [
     "/diagrams/android-skill-router/0.svg"
   ],
+  "enqueue-retry-dedup": [
+    "/diagrams/enqueue-retry-dedup/0.svg",
+    "/diagrams/enqueue-retry-dedup/1.svg"
+  ],
   "interacitve-computing-environments": [
     "/diagrams/interacitve-computing-environments/0.svg"
   ]

@@ -143,6 +143,10 @@ export const projectItems: ProjectItem[] = [
       'Added DAG visualization zoom support and improved frontend build stability for the development workflow.',
     ],
     stack: ['Go', 'React', 'TypeScript', 'Kubernetes'],
+    links: [
+      { label: 'Write-up', href: '/blog/enqueue-retry-dedup' },
+      { label: 'Contributions summary', href: '/blog/open-source-contributions' },
+    ],
   },
   {
     type: 'project',
@@ -236,6 +240,7 @@ export const opensourceHighlights = [
     links: [
       { label: 'Contributions on GitHub', href: 'https://github.com/dagu-org/dagu/commits/main/?author=kriyanshii' },
       { label: 'Write-up on this site', href: '/blog/open-source-contributions' },
+      { label: 'Enqueue, retry, dedup', href: '/blog/enqueue-retry-dedup' },
     ],
   },
   {

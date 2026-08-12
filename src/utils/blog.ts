@@ -11,7 +11,11 @@ function normalizeDate(value: string | Date): string {
 
 function mermaidFigureHtml(imageUrl: string, alt = 'Diagram') {
   const safeAlt = alt.replace(/"/g, '&quot;');
-  return `<figure class="mermaid-figure"><img src="${imageUrl}" alt="${safeAlt}" class="mermaid-diagram" loading="lazy" /></figure>`;
+  const safeSrc = imageUrl.replace(/"/g, '&quot;');
+  return `<figure class="mermaid-figure" data-diagram-src="${safeSrc}" role="button" tabindex="0" aria-label="Expand diagram">
+  <img src="${safeSrc}" alt="${safeAlt}" class="mermaid-diagram" loading="lazy" />
+  <span class="mermaid-expand-hint">Click to expand</span>
+</figure>`;
 }
 
 function createMarkdownRenderer(mermaidImages: string[] = []) {

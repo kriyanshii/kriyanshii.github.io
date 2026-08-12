@@ -5,7 +5,7 @@ tag: Tech
 description: A summary of my contributions to Dagu — co-authoring the queue system, 20 merged PRs, 16 GitHub release credits, and production-ready features across Go, React, and Kubernetes.
 ---
 
-*This post complements my other writing on [Dagu](https://github.com/dagucloud/dagu), including [partial success in DAG systems](/blog/partial-success) and [using the SSH executor](/blog/blog-ssh-executor). Where those posts explain how Dagu works, this one documents what I've contributed upstream.*
+*This post complements my other writing on [Dagu](https://github.com/dagucloud/dagu), including [enqueue, retry, and dedup](/blog/enqueue-retry-dedup), [partial success in DAG systems](/blog/partial-success), and [using the SSH executor](/blog/blog-ssh-executor). Where those posts explain how Dagu works, this one documents what I've contributed upstream.*
 
 ## Introduction
 
