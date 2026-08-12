@@ -1,8 +1,10 @@
 import { useEffect, useState, type KeyboardEvent, type MouseEvent } from 'react';
-import { ArrowLeft, X, ZoomIn } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, X, ZoomIn } from 'lucide-react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import { OpenToWorkNote } from '../components/OpenToWorkNote';
 import { PageSeo } from '../components/PageSeo';
 import { AUTHOR_NAME, postOgImageUrl, postUrl } from '../constants/site';
+import { RESUME_URL } from '../data/portfolio';
 import { BlogPost as BlogPostType } from '../types';
 import { getPostBySlug } from '../utils/blog';
 
@@ -112,7 +114,17 @@ export function BlogPost() {
       />
 
       <header className="mb-12 pb-8 border-b border-gray-100 dark:border-gray-800">
-        <div className="flex justify-end mb-6">
+        <div className="mb-6 flex items-center justify-between gap-3">
+          <a
+            href={RESUME_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200/80 bg-emerald-50/80 px-2.5 py-1 text-[11px] font-medium text-emerald-800 transition-colors hover:border-emerald-300 hover:bg-emerald-50 dark:border-emerald-900/50 dark:bg-emerald-950/40 dark:text-emerald-300 dark:hover:border-emerald-800 dark:hover:bg-emerald-950/60"
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" aria-hidden="true" />
+            Open to work
+            <ArrowUpRight size={11} className="opacity-70" />
+          </a>
           <Link
             to="/blog"
             className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 -mr-2.5 text-[13px] font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-white dark:hover:bg-[#242424] hover:shadow-sm transition-all group"
@@ -175,6 +187,8 @@ export function BlogPost() {
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
       </article>
+
+      <OpenToWorkNote className="mt-14" />
 
       {lightboxSrc && (
         <div
