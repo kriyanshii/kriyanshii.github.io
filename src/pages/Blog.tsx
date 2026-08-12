@@ -1,8 +1,9 @@
-import  { useEffect, useState } from 'react';
-// import type { LinkProps } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { PageSeo } from '../components/PageSeo';
 import { DEFAULT_OG_IMAGE, SITE_URL } from '../constants/site';
+import { RESUME_URL } from '../data/portfolio';
 import { BlogPost } from '../types';
 import { getAllPosts } from '../utils/blog';
 
@@ -58,7 +59,7 @@ export function Blog() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto px-6">
+    <div className="max-w-2xl mx-auto px-6 pb-20">
       <PageSeo
         title="Blog"
         description="Thoughts and insights on software development, backend engineering, distributed systems, and interactive computing."
@@ -67,7 +68,19 @@ export function Blog() {
       />
 
       <header className="mb-16">
-        <h1 className="text-2xl font-medium mb-4 dark:text-white">Blog</h1>
+        <div className="mb-4 flex flex-wrap items-center gap-3">
+          <h1 className="text-2xl font-medium dark:text-white">Blog</h1>
+          <a
+            href={RESUME_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200/80 bg-emerald-50/80 px-2.5 py-1 text-[11px] font-medium text-emerald-800 transition-colors hover:border-emerald-300 hover:bg-emerald-50 dark:border-emerald-900/50 dark:bg-emerald-950/40 dark:text-emerald-300 dark:hover:border-emerald-800 dark:hover:bg-emerald-950/60"
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" aria-hidden="true" />
+            Open to work
+            <ArrowUpRight size={11} className="opacity-70" />
+          </a>
+        </div>
         <p className="text-[15px] leading-relaxed text-gray-800 dark:text-gray-300">
           Thoughts and insights on software development and backend engineering.
         </p>
@@ -117,6 +130,49 @@ export function Blog() {
           </article>
         ))}
       </div>
+
+      <aside className="mt-14 border-t border-gray-100 pt-8 dark:border-gray-800">
+        <div className="flex flex-wrap items-center gap-2 mb-3">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-2.5 py-0.5 text-[11px] font-medium text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" aria-hidden="true" />
+            Open to work
+          </span>
+          <span className="text-[12px] text-gray-500 dark:text-gray-500">
+            Backend &amp; systems roles
+          </span>
+        </div>
+        <p className="text-[13px] leading-relaxed text-gray-600 dark:text-gray-400 mb-4 max-w-xl">
+          I&apos;m Kriyanshi — a backend and systems engineer working on satellite data pipelines,
+          workflow orchestration, and production infrastructure. Previously at ISRO&apos;s Space
+          Applications Centre; currently shipping at Matrix Business and contributing upstream to
+          Dagu.
+        </p>
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px]">
+          <a
+            href={RESUME_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200"
+          >
+            Resume
+            <ArrowUpRight size={12} />
+          </a>
+          <Link
+            to="/"
+            className="text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200"
+          >
+            About
+          </Link>
+          <a
+            href="https://github.com/kriyanshii"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200"
+          >
+            GitHub
+          </a>
+        </div>
+      </aside>
     </div>
   );
 }
