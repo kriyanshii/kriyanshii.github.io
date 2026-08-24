@@ -165,13 +165,14 @@ export function BlogPost() {
               [&_img]:max-w-full [&_img]:h-auto [&_img]:rounded-lg [&_img]:my-8 [&_img]:shadow-md [&_img]:dark:shadow-gray-800
               [&>p>img]:mx-auto [&>p>img]:block
               [&_.mermaid-figure]:group [&_.mermaid-figure]:relative [&_.mermaid-figure]:my-8 [&_.mermaid-figure]:mx-auto [&_.mermaid-figure]:max-w-full
-              [&_.mermaid-figure]:overflow-x-auto [&_.mermaid-figure]:rounded-xl [&_.mermaid-figure]:border
+              [&_.mermaid-figure]:overflow-hidden [&_.mermaid-figure]:rounded-xl [&_.mermaid-figure]:border
               [&_.mermaid-figure]:border-gray-200 [&_.mermaid-figure]:dark:border-gray-700
               [&_.mermaid-figure]:bg-slate-50 [&_.mermaid-figure]:dark:bg-[#1c1c1c]
               [&_.mermaid-figure]:p-4 [&_.mermaid-figure]:sm:p-5
               [&_.mermaid-figure]:cursor-zoom-in [&_.mermaid-figure]:outline-none
               [&_.mermaid-figure]:transition-shadow [&_.mermaid-figure]:hover:shadow-md
               [&_.mermaid-figure]:focus-visible:ring-2 [&_.mermaid-figure]:focus-visible:ring-blue-500/40
+              [&_.mermaid-scroll]:overflow-x-auto [&_.mermaid-scroll]:overflow-y-hidden
               [&_.mermaid-diagram]:my-0 [&_.mermaid-diagram]:rounded-none [&_.mermaid-diagram]:shadow-none
               [&_.mermaid-diagram]:w-full [&_.mermaid-diagram]:min-w-[40rem] [&_.mermaid-diagram]:h-auto
               [&_.mermaid-expand-hint]:pointer-events-none [&_.mermaid-expand-hint]:absolute [&_.mermaid-expand-hint]:right-3 [&_.mermaid-expand-hint]:top-3
@@ -198,27 +199,31 @@ export function BlogPost() {
           aria-modal="true"
           aria-label="Expanded diagram"
         >
-          <button
-            type="button"
-            onClick={() => setLightboxSrc(null)}
-            className="absolute right-3 top-3 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-gray-700 shadow-sm transition hover:bg-white dark:bg-[#2a2a2a] dark:text-gray-200 sm:right-5 sm:top-5"
-            aria-label="Close expanded diagram"
-          >
-            <X size={18} />
-          </button>
           <div
-            className="flex h-[92vh] w-[96vw] max-w-[90rem] flex-col overflow-hidden rounded-2xl border border-white/10 bg-white shadow-2xl dark:bg-[#161616]"
+            className="flex max-h-[92vh] max-w-[96vw] flex-col overflow-hidden rounded-2xl border border-white/10 bg-white shadow-2xl dark:bg-[#161616]"
             onClick={(event) => event.stopPropagation()}
           >
-            <div className="flex shrink-0 items-center gap-1.5 border-b border-gray-100 px-4 py-3 text-[12px] font-medium text-gray-500 dark:border-gray-800 dark:text-gray-400 sm:px-5">
-              <ZoomIn size={13} />
-              Expanded view · Esc to close
+            <div className="flex shrink-0 items-center justify-between gap-4 border-b border-gray-100 px-4 py-2.5 text-[12px] font-medium text-gray-500 dark:border-gray-800 dark:text-gray-400 sm:px-5">
+              <span className="flex items-center gap-1.5">
+                <ZoomIn size={13} />
+                Expanded view · Esc to close
+              </span>
+              <button
+                type="button"
+                onClick={() => setLightboxSrc(null)}
+                className="-mr-1 inline-flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-full text-gray-500 transition-all duration-150 hover:bg-gray-100 hover:text-gray-700 active:scale-[0.98] dark:text-gray-400 dark:hover:bg-[#2a2a2a] dark:hover:text-gray-200"
+                aria-label="Close expanded diagram"
+              >
+                <X size={15} />
+              </button>
             </div>
-            <div className="min-h-0 flex-1 overflow-auto p-4 sm:p-6">
+            <div className="min-h-0 overflow-auto p-4 sm:p-6">
+              {/* Sized off the viewport, not the panel, so the panel shrink-wraps the diagram instead of reserving 92vh. */}
               <img
                 src={lightboxSrc}
                 alt="Expanded diagram"
-                className="mx-auto block h-auto w-full max-w-none"
+                draggable={false}
+                className="mx-auto block h-auto max-h-[calc(92vh-7rem)] w-auto max-w-full select-none object-contain"
               />
             </div>
           </div>
