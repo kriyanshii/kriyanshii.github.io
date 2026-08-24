@@ -165,13 +165,14 @@ export function BlogPost() {
               [&_img]:max-w-full [&_img]:h-auto [&_img]:rounded-lg [&_img]:my-8 [&_img]:shadow-md [&_img]:dark:shadow-gray-800
               [&>p>img]:mx-auto [&>p>img]:block
               [&_.mermaid-figure]:group [&_.mermaid-figure]:relative [&_.mermaid-figure]:my-8 [&_.mermaid-figure]:mx-auto [&_.mermaid-figure]:max-w-full
-              [&_.mermaid-figure]:overflow-x-auto [&_.mermaid-figure]:rounded-xl [&_.mermaid-figure]:border
+              [&_.mermaid-figure]:overflow-hidden [&_.mermaid-figure]:rounded-xl [&_.mermaid-figure]:border
               [&_.mermaid-figure]:border-gray-200 [&_.mermaid-figure]:dark:border-gray-700
               [&_.mermaid-figure]:bg-slate-50 [&_.mermaid-figure]:dark:bg-[#1c1c1c]
               [&_.mermaid-figure]:p-4 [&_.mermaid-figure]:sm:p-5
               [&_.mermaid-figure]:cursor-zoom-in [&_.mermaid-figure]:outline-none
               [&_.mermaid-figure]:transition-shadow [&_.mermaid-figure]:hover:shadow-md
               [&_.mermaid-figure]:focus-visible:ring-2 [&_.mermaid-figure]:focus-visible:ring-blue-500/40
+              [&_.mermaid-scroll]:overflow-x-auto [&_.mermaid-scroll]:overflow-y-hidden
               [&_.mermaid-diagram]:my-0 [&_.mermaid-diagram]:rounded-none [&_.mermaid-diagram]:shadow-none
               [&_.mermaid-diagram]:w-full [&_.mermaid-diagram]:min-w-[40rem] [&_.mermaid-diagram]:h-auto
               [&_.mermaid-expand-hint]:pointer-events-none [&_.mermaid-expand-hint]:absolute [&_.mermaid-expand-hint]:right-3 [&_.mermaid-expand-hint]:top-3
