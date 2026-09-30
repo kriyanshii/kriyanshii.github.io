@@ -8,7 +8,7 @@ export function Opensource() {
     <div className="max-w-2xl mx-auto px-6">
       <PageSeo
         title="Open Source"
-        description="Open-source contributions — Dagu workflow engine, Ray distributed computing, and backend engineering in the OSS ecosystem."
+        description="Open-source contributions — Dagu, Temporal worker-controller and Helm charts, and Ray."
         canonical={`${SITE_URL}/opensource`}
         ogImage={DEFAULT_OG_IMAGE}
       />
@@ -16,8 +16,7 @@ export function Opensource() {
       <header className="mb-16">
         <h1 className="text-2xl font-medium mb-4 dark:text-white">Open Source</h1>
         <p className="text-[15px] leading-relaxed text-gray-800 dark:text-gray-300">
-          Contributions to workflow orchestration, backend systems, and the broader OSS ecosystem — including
-          PyData-adjacent infra work and distributed systems tooling.
+          Contributions to workflow orchestration and distributed systems — Dagu, Temporal, and Ray.
         </p>
       </header>
 
@@ -29,6 +28,32 @@ export function Opensource() {
           >
             <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">{item.project}</h2>
             <p className="text-[15px] text-gray-700 dark:text-gray-300 mb-4">{item.summary}</p>
+            {item.bullets && item.bullets.length > 0 && (
+              <ul className="mb-4 space-y-3">
+                {item.bullets.map((bullet) => (
+                  <li key={bullet.href} className="text-[15px] leading-relaxed text-gray-700 dark:text-gray-300">
+                    <span
+                      className={`mr-2 inline-flex rounded-full px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide ${
+                        bullet.status === 'open'
+                          ? 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-200'
+                          : 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300'
+                      }`}
+                    >
+                      {bullet.status === 'open' ? 'Open' : 'Merged'}
+                    </span>
+                    <a
+                      href={bullet.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 dark:text-blue-400 hover:underline underline-offset-2"
+                    >
+                      {bullet.label}
+                    </a>
+                    <span> — {bullet.text}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
             <div className="flex flex-wrap gap-4">
               {item.links.map((link) =>
                 link.href.startsWith('/') ? (

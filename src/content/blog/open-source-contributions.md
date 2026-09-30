@@ -76,13 +76,13 @@ Foundational load-control primitive — queues, concurrency limits, and distribu
 
 ### Production-Ready Helm Chart for Kubernetes — [#1613](https://github.com/dagucloud/dagu/pull/1613) · [v2.0.2](https://github.com/dagucloud/dagu/releases/tag/v2.0.2)
 
-Complete Helm chart for deploying Dagu on Kubernetes — configurable values, service definitions, and deployment templates. First-class K8s install path: **16 files, ~683 lines added**.
+Production Kubernetes Helm chart for the scheduler, worker, UI, and coordinator, including PVC. Merged 1 Feb 2026. **16 files, ~683 lines added**.
 
 ---
 
 ### Scheduler Global Queue Capacity on Retry — [#1676](https://github.com/dagucloud/dagu/pull/1676) · [v2.0.2](https://github.com/dagucloud/dagu/releases/tag/v2.0.2)
 
-Retries now respect global queue capacity limits, preventing overflow when failed runs are re-queued. **13 files, ~497 lines.** Co-authored with Yota Hamada.
+Retries for global-queue DAGs enqueue instead of running immediately, so retries respect queue capacity (API + CLI). Merged 16 Feb 2026. **13 files, ~497 lines.** Co-authored with Yota Hamada.
 
 ---
 
@@ -250,7 +250,8 @@ Credited in release notes without direct code PR authorship:
 ## Links
 
 - **GitHub:** [@kriyanshii](https://github.com/kriyanshii)
-- **Project:** [dagucloud/dagu](https://github.com/dagucloud/dagu)
+- **Project:** [dagu.sh](https://dagu.sh/) · [dagu-org/dagu](https://github.com/dagu-org/dagu)
+- **Talk:** [Escaping Cron Hell: Building and Contributing to Dagu](https://fossunited.org/c/indiafoss/2026/cfp/8ne6l7qetc) — IndiaFOSS 2026, Cloud & DevOps, 27 Sep
 - **Documentation:** [docs.dagu.sh](https://docs.dagu.sh)
 - **Releases:** [github.com/dagucloud/dagu/releases](https://github.com/dagucloud/dagu/releases)
 - **All PRs:** [github.com/kriyanshii?q=dagu](https://github.com/kriyanshii?q=dagu)
