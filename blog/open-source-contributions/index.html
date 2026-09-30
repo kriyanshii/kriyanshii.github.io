@@ -35,8 +35,8 @@
     
     
     <script defer src="https://cloud.umami.is/script.js" data-website-id="6487df11-3901-40bc-bbfd-f93f7cfcb4a3"></script>
-    <script type="module" crossorigin src="/assets/index-ClWP_-k2.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-DSkGrnqV.css">
+    <script type="module" crossorigin src="/assets/index-BKHyimLb.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-lpWpVXVO.css">
     <style>
       .static-blog { max-width: 48rem; margin: 0 auto; padding: 4rem 1.5rem; font-family: system-ui, sans-serif; line-height: 1.7; color: #374151; }
       .static-blog h1 { font-size: 1.875rem; font-weight: 500; margin-bottom: 1.5rem; color: #111827; }
@@ -160,10 +160,10 @@
 <p>Foundational load-control primitive — queues, concurrency limits, and distributed workers all build on it. Original prototype ~847 lines across 21 files; shipped via <a href="https://github.com/dagucloud/dagu/pull/940">#940</a> with ~5,200 lines across 115 files. Co-authored with Yota Hamada (integration &amp; merge).</p>
 <hr>
 <h3>Production-Ready Helm Chart for Kubernetes — <a href="https://github.com/dagucloud/dagu/pull/1613">#1613</a> · <a href="https://github.com/dagucloud/dagu/releases/tag/v2.0.2">v2.0.2</a></h3>
-<p>Complete Helm chart for deploying Dagu on Kubernetes — configurable values, service definitions, and deployment templates. First-class K8s install path: <strong>16 files, ~683 lines added</strong>.</p>
+<p>Production Kubernetes Helm chart for the scheduler, worker, UI, and coordinator, including PVC. Merged 1 Feb 2026. <strong>16 files, ~683 lines added</strong>.</p>
 <hr>
 <h3>Scheduler Global Queue Capacity on Retry — <a href="https://github.com/dagucloud/dagu/pull/1676">#1676</a> · <a href="https://github.com/dagucloud/dagu/releases/tag/v2.0.2">v2.0.2</a></h3>
-<p>Retries now respect global queue capacity limits, preventing overflow when failed runs are re-queued. <strong>13 files, ~497 lines.</strong> Co-authored with Yota Hamada.</p>
+<p>Retries for global-queue DAGs enqueue instead of running immediately, so retries respect queue capacity (API + CLI). Merged 16 Feb 2026. <strong>13 files, ~497 lines.</strong> Co-authored with Yota Hamada.</p>
 <hr>
 <h3>Enqueue DAGRun from Spec API — <a href="https://github.com/dagucloud/dagu/pull/1375">#1375</a> · <a href="https://github.com/dagucloud/dagu/releases/tag/v1.24.0">v1.24.0</a></h3>
 <p>REST endpoint to enqueue a DAG run from a YAML spec, without a pre-existing on-disk DAG file. <strong>5 files, ~648 lines.</strong> Co-authored with Yota Hamada.</p>
@@ -560,7 +560,8 @@
 <h2>Links</h2>
 <ul>
 <li><strong>GitHub:</strong> <a href="https://github.com/kriyanshii">@kriyanshii</a></li>
-<li><strong>Project:</strong> <a href="https://github.com/dagucloud/dagu">dagucloud/dagu</a></li>
+<li><strong>Project:</strong> <a href="https://dagu.sh/">dagu.sh</a> · <a href="https://github.com/dagu-org/dagu">dagu-org/dagu</a></li>
+<li><strong>Talk:</strong> <a href="https://fossunited.org/c/indiafoss/2026/cfp/8ne6l7qetc">Escaping Cron Hell: Building and Contributing to Dagu</a> — IndiaFOSS 2026, Cloud &amp; DevOps, 27 Sep</li>
 <li><strong>Documentation:</strong> <a href="https://docs.dagu.sh">docs.dagu.sh</a></li>
 <li><strong>Releases:</strong> <a href="https://github.com/dagucloud/dagu/releases">github.com/dagucloud/dagu/releases</a></li>
 <li><strong>All PRs:</strong> <a href="https://github.com/kriyanshii?q=dagu">github.com/kriyanshii?q=dagu</a></li>
