@@ -9,6 +9,21 @@ export interface TalkItem {
   year: string;
   tag: string;
   link: string;
+  linkLabel?: string;
+}
+
+export interface OpensourceBullet {
+  status: 'merged' | 'open';
+  label: string;
+  text: string;
+  href: string;
+}
+
+export interface OpensourceHighlight {
+  project: string;
+  summary: string;
+  bullets?: OpensourceBullet[];
+  links: { label: string; href: string }[];
 }
 
 export const workItems: ProjectItem[] = [
@@ -39,14 +54,16 @@ export const workItems: ProjectItem[] = [
       'Built Recite Online, an educational platform that helps students practise speeches and recitations with progress tracking and self-paced learning.',
       'Developed Serenity Workspace, a productivity application focused on structured planning and personal knowledge management.',
       'Built Android Skill Router, a fine-tuned 3B-model system that turns natural language into reusable Android UI automation skills.',
-      'Became one of the leading contributors to Dagu, implementing workflow orchestration features across the Go backend and React frontend.',
+      'Contributed to Dagu: a production Kubernetes Helm chart (scheduler, worker, UI, coordinator, PVC) and queue retries that enqueue instead of running immediately.',
+      'First contribution to Temporal worker-controller (Helm extraEnv proxy docs and EnvVar schema validation, shipped in v1.10.0). Open pull request on Temporal Helm charts for optional defaultDb.',
       'Contributed to the Ray ecosystem while exploring distributed execution and large-scale compute orchestration.',
     ],
     links: [
       { label: 'Recite Online', href: 'https://www.recite.online/' },
       { label: 'Serenity Workspace', href: 'https://sereneworkspace.netlify.app/' },
       { label: 'Android Skill Router', href: '/blog/android-skill-router' },
-      { label: 'Dagu', href: 'https://github.com/dagu-org/dagu/commits/main/?author=kriyanshii' },
+      { label: 'Dagu', href: 'https://dagu.sh/' },
+      { label: 'GitHub', href: 'https://github.com/kriyanshii' },
       { label: 'Ray', href: 'https://github.com/kriyanshii/ray/commits/master/?author=kriyanshii' },
     ],
   },
@@ -136,16 +153,38 @@ export const projectItems: ProjectItem[] = [
     date: 'Sep 2025 — Present',
     description:
       'Open-source workflow engine contributions across backend, frontend, and deployment.',
-    link: 'https://github.com/dagu-org/dagu/commits/main/?author=kriyanshii',
+    link: 'https://dagu.sh/',
     isNew: true,
     bulletPoints: [
-      'Implemented enqueue logic, exit-code based retries, and controlled execution configs for reproducible runs.',
-      'Added DAG visualization zoom support and improved frontend build stability for the development workflow.',
+      'Production Kubernetes Helm chart (scheduler, worker, UI, coordinator, PVC). Merged 1 Feb 2026.',
+      'Global-queue DAG retries enqueue instead of running immediately, so they respect queue capacity (API + CLI). Merged 16 Feb 2026.',
     ],
     stack: ['Go', 'React', 'TypeScript', 'Kubernetes'],
     links: [
+      { label: 'dagu.sh', href: 'https://dagu.sh/' },
+      { label: '#1613 Helm chart', href: 'https://github.com/dagu-org/dagu/pull/1613' },
+      { label: '#1676 queue retries', href: 'https://github.com/dagu-org/dagu/pull/1676' },
       { label: 'Write-up', href: '/blog/enqueue-retry-dedup' },
       { label: 'Contributions summary', href: '/blog/open-source-contributions' },
+    ],
+  },
+  {
+    type: 'project',
+    title: 'Temporal: Worker Controller & Helm Charts',
+    date: '2026',
+    description:
+      'Helm docs, schema validation, and an open chart change for Temporal.',
+    link: 'https://github.com/temporalio/temporal-worker-controller/pull/558',
+    isNew: true,
+    bulletPoints: [
+      'Helm extraEnv proxy docs and EnvVar schema validation on temporal-worker-controller. Shipped in v1.10.0. First contribution on that repo.',
+      'Open: optional defaultDb so the schema job can pass --defaultdb (Citus / Aiven). Fixes #433. Opened 1 Sep 2026.',
+    ],
+    stack: ['Helm', 'Kubernetes'],
+    links: [
+      { label: '#558 worker-controller', href: 'https://github.com/temporalio/temporal-worker-controller/pull/558' },
+      { label: 'v1.10.0', href: 'https://github.com/temporalio/temporal-worker-controller/releases/tag/v1.10.0' },
+      { label: '#976 helm-charts (open)', href: 'https://github.com/temporalio/helm-charts/pull/976' },
     ],
   },
   {
@@ -223,6 +262,14 @@ export const projectItems: ProjectItem[] = [
 
 export const talkItems: TalkItem[] = [
   {
+    title: 'Escaping Cron Hell: Building and Contributing to Dagu',
+    description: 'IndiaFOSS 2026, Cloud & DevOps, 27 Sep.',
+    year: '2026',
+    tag: 'Conference Talk',
+    link: 'https://fossunited.org/c/indiafoss/2026/cfp/8ne6l7qetc',
+    linkLabel: 'Session',
+  },
+  {
     title: 'Interactive Computing Environments for Open Science',
     description:
       'Scalable JupyterHub deployments and Mercury integration for scientific research workflows.',
@@ -232,15 +279,53 @@ export const talkItems: TalkItem[] = [
   },
 ];
 
-export const opensourceHighlights = [
+export const opensourceHighlights: OpensourceHighlight[] = [
   {
     project: 'Dagu',
     summary:
-      'Co-authored Dagu\'s queue management system (v1.17.0), 20 merged PRs, and 16 GitHub release credits — queue tooling, Helm/Kubernetes deployment, DAG run controls, and API design.',
+      'Co-authored the queue system (v1.17.0), with 20 merged PRs and 16 GitHub release credits.',
+    bullets: [
+      {
+        status: 'merged',
+        label: '#1613',
+        text: 'Production Kubernetes Helm chart (scheduler, worker, UI, coordinator, PVC). Merged 1 Feb 2026.',
+        href: 'https://github.com/dagu-org/dagu/pull/1613',
+      },
+      {
+        status: 'merged',
+        label: '#1676',
+        text: 'Retries for global-queue DAGs enqueue instead of running immediately, so they respect queue capacity (API + CLI). Merged 16 Feb 2026.',
+        href: 'https://github.com/dagu-org/dagu/pull/1676',
+      },
+    ],
     links: [
+      { label: 'dagu.sh', href: 'https://dagu.sh/' },
+      { label: 'GitHub', href: 'https://github.com/kriyanshii' },
       { label: 'Contributions on GitHub', href: 'https://github.com/dagu-org/dagu/commits/main/?author=kriyanshii' },
       { label: 'Write-up on this site', href: '/blog/open-source-contributions' },
       { label: 'Enqueue, retry, dedup', href: '/blog/enqueue-retry-dedup' },
+    ],
+  },
+  {
+    project: 'Temporal',
+    summary: 'Helm and schema work on the worker controller and the Temporal Helm charts.',
+    bullets: [
+      {
+        status: 'merged',
+        label: 'worker-controller #558',
+        text: 'Helm extraEnv proxy docs and EnvVar schema validation. Shipped in v1.10.0. First contribution on that repo.',
+        href: 'https://github.com/temporalio/temporal-worker-controller/pull/558',
+      },
+      {
+        status: 'open',
+        label: 'helm-charts #976',
+        text: 'Optional defaultDb so the schema job can pass --defaultdb (Citus / Aiven). Fixes #433. Opened 1 Sep 2026.',
+        href: 'https://github.com/temporalio/helm-charts/pull/976',
+      },
+    ],
+    links: [
+      { label: 'v1.10.0 release', href: 'https://github.com/temporalio/temporal-worker-controller/releases/tag/v1.10.0' },
+      { label: '#976 (open)', href: 'https://github.com/temporalio/helm-charts/pull/976' },
     ],
   },
   {

@@ -141,7 +141,7 @@ export function Home() {
                 rel="noopener noreferrer"
                 className="text-xs text-gray-500 transition-colors hover:text-blue-600 dark:hover:text-blue-400"
               >
-                Watch talk
+                {talk.linkLabel ?? 'Watch talk'}
               </a>
             </article>
           ))}

@@ -8,7 +8,7 @@ export function Talks() {
     <div className="max-w-2xl mx-auto px-6">
       <PageSeo
         title="Talks"
-        description="Conference talks and live sessions on JupyterHub, interactive computing, and backend systems for research teams."
+        description="Conference talks on Dagu, workflow orchestration, and interactive computing for research teams."
         canonical={`${SITE_URL}/talks`}
         ogImage={DEFAULT_OG_IMAGE}
       />
@@ -16,8 +16,7 @@ export function Talks() {
       <header className="mb-16">
         <h1 className="text-2xl font-medium mb-4 dark:text-white">Talks</h1>
         <p className="text-[15px] leading-relaxed text-gray-800 dark:text-gray-300">
-          Presentations on interactive computing environments, open science infrastructure, and backend
-          engineering for research teams.
+          Conference talks on workflow orchestration and interactive computing for research teams.
         </p>
       </header>
 
@@ -45,7 +44,7 @@ export function Talks() {
                 className="shrink-0 flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
               >
                 <Presentation size={16} />
-                Watch
+                {talk.linkLabel ?? 'Watch'}
               </a>
             </div>
           </div>
