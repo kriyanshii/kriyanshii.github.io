@@ -1,7 +1,7 @@
 import { ProjectItem } from '../types';
 
 export const RESUME_URL =
-  'https://drive.google.com/file/d/1dhh-xB0SQqPRl-XTrPcdsw6Eq3slHWTH/view?usp=drive_link';
+  'https://drive.google.com/file/d/1FjaHE9hi1FjeYFEkGtnskGwqdih7fsTn/view?usp=drive_link';
 
 export interface TalkItem {
   title: string;
@@ -12,11 +12,16 @@ export interface TalkItem {
   linkLabel?: string;
 }
 
+export interface OpensourcePr {
+  label: string;
+  href: string;
+}
+
 export interface OpensourceBullet {
   status: 'merged' | 'open';
-  label: string;
+  prs: OpensourcePr[];
+  join?: 'and' | 'comma';
   text: string;
-  href: string;
 }
 
 export interface OpensourceHighlight {
@@ -281,59 +286,150 @@ export const talkItems: TalkItem[] = [
 
 export const opensourceHighlights: OpensourceHighlight[] = [
   {
-    project: 'Dagu',
-    summary:
-      'Co-authored the queue system (v1.17.0), with 20 merged PRs and 16 GitHub release credits.',
+    project: 'Temporal',
+    summary: 'temporalio/helm-charts and temporalio/temporal-worker-controller.',
     bullets: [
       {
         status: 'merged',
-        label: '#1613',
-        text: 'Production Kubernetes Helm chart (scheduler, worker, UI, coordinator, PVC). Merged 1 Feb 2026.',
-        href: 'https://github.com/dagu-org/dagu/pull/1613',
+        prs: [{ label: 'helm-charts #976', href: 'https://github.com/temporalio/helm-charts/pull/976' }],
+        text: 'allow --defaultdb on the schema job (Oct 2026)',
       },
       {
         status: 'merged',
-        label: '#1676',
-        text: 'Retries for global-queue DAGs enqueue instead of running immediately, so they respect queue capacity (API + CLI). Merged 16 Feb 2026.',
-        href: 'https://github.com/dagu-org/dagu/pull/1676',
+        prs: [
+          {
+            label: 'worker-controller #565',
+            href: 'https://github.com/temporalio/temporal-worker-controller/pull/565',
+          },
+        ],
+        text: 'generate values.schema.json from values.yaml (Oct 2026)',
+      },
+      {
+        status: 'merged',
+        prs: [
+          {
+            label: 'worker-controller #561',
+            href: 'https://github.com/temporalio/temporal-worker-controller/pull/561',
+          },
+        ],
+        text: 'fail CI when values.yaml changes without a schema update (Sep 2026)',
+      },
+      {
+        status: 'merged',
+        prs: [
+          {
+            label: 'worker-controller #558',
+            href: 'https://github.com/temporalio/temporal-worker-controller/pull/558',
+          },
+        ],
+        text: 'document extraEnv proxy usage and validate EnvVar shape (Aug 2026)',
+      },
+    ],
+    links: [],
+  },
+  {
+    project: 'Grafana k6',
+    summary: 'grafana/k6.',
+    bullets: [
+      {
+        status: 'merged',
+        prs: [{ label: '#6561', href: 'https://github.com/grafana/k6/pull/6561' }],
+        text: 'include the searched path when a local file cannot be found (Oct 2026)',
+      },
+    ],
+    links: [],
+  },
+  {
+    project: 'Dagu',
+    summary: 'About 28 merged PRs on dagucloud/dagu.',
+    bullets: [
+      {
+        status: 'merged',
+        join: 'and',
+        prs: [
+          { label: '#3058', href: 'https://github.com/dagucloud/dagu/pull/3058' },
+          { label: '#3059', href: 'https://github.com/dagucloud/dagu/pull/3059' },
+        ],
+        text: 'xlsx protected workbooks and whole-number column formatting (Oct 2026)',
+      },
+      {
+        status: 'merged',
+        prs: [{ label: '#2582', href: 'https://github.com/dagucloud/dagu/pull/2582' }],
+        text: 'retry a step with its downstream steps (Aug 2026)',
+      },
+      {
+        status: 'merged',
+        prs: [
+          { label: '#2454', href: 'https://github.com/dagucloud/dagu/pull/2454' },
+          { label: '#2455', href: 'https://github.com/dagucloud/dagu/pull/2455' },
+          { label: '#2456', href: 'https://github.com/dagucloud/dagu/pull/2456' },
+        ],
+        text: 'ps, rm and ls CLI commands (Aug 2026)',
+      },
+      {
+        status: 'merged',
+        prs: [{ label: '#2173', href: 'https://github.com/dagucloud/dagu/pull/2173' }],
+        text: 'UI fix for eval-backed default params (May 2026)',
+      },
+      {
+        status: 'merged',
+        prs: [{ label: '#1676', href: 'https://github.com/dagucloud/dagu/pull/1676' }],
+        text: 'scheduler respects global queue capacity on retry (Feb 2026)',
+      },
+      {
+        status: 'merged',
+        prs: [{ label: '#1613', href: 'https://github.com/dagucloud/dagu/pull/1613' }],
+        text: 'production-ready Helm chart for Kubernetes (Feb 2026)',
       },
     ],
     links: [
-      { label: 'dagu.sh', href: 'https://dagu.sh/' },
-      { label: 'GitHub', href: 'https://github.com/kriyanshii' },
-      { label: 'Contributions on GitHub', href: 'https://github.com/dagu-org/dagu/commits/main/?author=kriyanshii' },
-      { label: 'Write-up on this site', href: '/blog/open-source-contributions' },
-      { label: 'Enqueue, retry, dedup', href: '/blog/enqueue-retry-dedup' },
+      {
+        label: 'All merged PRs',
+        href: 'https://github.com/dagucloud/dagu/pulls?q=is%3Apr+author%3Akriyanshii+is%3Amerged',
+      },
+      {
+        label: 'IndiaFOSS 2026 talk',
+        href: 'https://fossunited.org/c/indiafoss/2026/cfp/8ne6l7qetc',
+      },
     ],
   },
   {
-    project: 'Temporal',
-    summary: 'Helm and schema work on the worker controller and the Temporal Helm charts.',
+    project: 'Argo Workflows',
+    summary: 'argoproj/argo-workflows.',
     bullets: [
       {
         status: 'merged',
-        label: 'worker-controller #558',
-        text: 'Helm extraEnv proxy docs and EnvVar schema validation. Shipped in v1.10.0. First contribution on that repo.',
-        href: 'https://github.com/temporalio/temporal-worker-controller/pull/558',
-      },
-      {
-        status: 'open',
-        label: 'helm-charts #976',
-        text: 'Optional defaultDb so the schema job can pass --defaultdb (Citus / Aiven). Fixes #433. Opened 1 Sep 2026.',
-        href: 'https://github.com/temporalio/helm-charts/pull/976',
+        prs: [{ label: '#16850', href: 'https://github.com/argoproj/argo-workflows/pull/16850' }],
+        text: 'move concurrency fixtures into testdata (Sep 2026)',
       },
     ],
-    links: [
-      { label: 'v1.10.0 release', href: 'https://github.com/temporalio/temporal-worker-controller/releases/tag/v1.10.0' },
-      { label: '#976 (open)', href: 'https://github.com/temporalio/helm-charts/pull/976' },
-    ],
+    links: [],
   },
   {
     project: 'Ray',
-    summary:
-      'Contributions to Ray core and Ray Data — actor lifecycle fixes, dual-task error handling, datasource test organization, and Grafana observability panels.',
-    links: [
-      { label: 'Contributions on GitHub', href: 'https://github.com/kriyanshii/ray/commits/master/?author=kriyanshii' },
+    summary: 'ray-project/ray.',
+    bullets: [
+      {
+        status: 'merged',
+        prs: [{ label: '#59425', href: 'https://github.com/ray-project/ray/pull/59425' }],
+        text: 'fix crash when killing an actor handle from a previous session (Jan 2026)',
+      },
+      {
+        status: 'merged',
+        prs: [{ label: '#59507', href: 'https://github.com/ray-project/ray/pull/59507' }],
+        text: 'handle dual task errors with read-only args (Jan 2026)',
+      },
+      {
+        status: 'merged',
+        prs: [{ label: '#60171', href: 'https://github.com/ray-project/ray/pull/60171' }],
+        text: 'move datasource/datasink tests into a subfolder (Jan 2026)',
+      },
+      {
+        status: 'merged',
+        prs: [{ label: '#60481', href: 'https://github.com/ray-project/ray/pull/60481' }],
+        text: 'fix a Grafana panel metric name (Jan 2026)',
+      },
     ],
+    links: [],
   },
 ];
