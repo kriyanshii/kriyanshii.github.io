@@ -1,14 +1,43 @@
+import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { PageSeo } from '../components/PageSeo';
 import { DEFAULT_OG_IMAGE, SITE_URL } from '../constants/site';
-import { opensourceHighlights } from '../data/portfolio';
+import { opensourceHighlights, type OpensourcePr } from '../data/portfolio';
+
+function prSeparator(count: number, index: number, join: 'and' | 'comma' = 'comma') {
+  if (index === 0) return null;
+  if (join === 'and' && count === 2) return ' and ';
+  return ', ';
+}
+
+function PullRequestLinks({ prs, join }: { prs: OpensourcePr[]; join?: 'and' | 'comma' }) {
+  const nodes: ReactNode[] = [];
+
+  prs.forEach((pr, index) => {
+    const separator = prSeparator(prs.length, index, join);
+    if (separator) nodes.push(separator);
+    nodes.push(
+      <a
+        key={pr.href}
+        href={pr.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-600 dark:text-blue-400 hover:underline underline-offset-2"
+      >
+        {pr.label}
+      </a>,
+    );
+  });
+
+  return <>{nodes}</>;
+}
 
 export function Opensource() {
   return (
     <div className="max-w-2xl mx-auto px-6">
       <PageSeo
         title="Open Source"
-        description="Open-source contributions — Dagu, Temporal worker-controller and Helm charts, and Ray."
+        description="Merged pull requests across Temporal, Grafana k6, Dagu, Argo Workflows, and Ray."
         canonical={`${SITE_URL}/opensource`}
         ogImage={DEFAULT_OG_IMAGE}
       />
@@ -16,7 +45,7 @@ export function Opensource() {
       <header className="mb-16">
         <h1 className="text-2xl font-medium mb-4 dark:text-white">Open Source</h1>
         <p className="text-[15px] leading-relaxed text-gray-800 dark:text-gray-300">
-          Contributions to workflow orchestration and distributed systems — Dagu, Temporal, and Ray.
+          Merged pull requests, newest first.
         </p>
       </header>
 
@@ -31,7 +60,10 @@ export function Opensource() {
             {item.bullets && item.bullets.length > 0 && (
               <ul className="mb-4 space-y-3">
                 {item.bullets.map((bullet) => (
-                  <li key={bullet.href} className="text-[15px] leading-relaxed text-gray-700 dark:text-gray-300">
+                  <li
+                    key={bullet.prs.map((pr) => pr.href).join(' ')}
+                    className="text-[15px] leading-relaxed text-gray-700 dark:text-gray-300"
+                  >
                     <span
                       className={`mr-2 inline-flex rounded-full px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide ${
                         bullet.status === 'open'
@@ -41,42 +73,37 @@ export function Opensource() {
                     >
                       {bullet.status === 'open' ? 'Open' : 'Merged'}
                     </span>
-                    <a
-                      href={bullet.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 dark:text-blue-400 hover:underline underline-offset-2"
-                    >
-                      {bullet.label}
-                    </a>
-                    <span> — {bullet.text}</span>
+                    <PullRequestLinks prs={bullet.prs} join={bullet.join} />
+                    <span> - {bullet.text}</span>
                   </li>
                 ))}
               </ul>
             )}
-            <div className="flex flex-wrap gap-4">
-              {item.links.map((link) =>
-                link.href.startsWith('/') ? (
-                  <Link
-                    key={link.href}
-                    to={link.href}
-                    className="text-sm text-blue-600 dark:text-blue-400 hover:underline underline-offset-2"
-                  >
-                    {link.label}
-                  </Link>
-                ) : (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-blue-600 dark:text-blue-400 hover:underline underline-offset-2"
-                  >
-                    {link.label}
-                  </a>
-                ),
-              )}
-            </div>
+            {item.links.length > 0 && (
+              <div className="flex flex-wrap gap-4">
+                {item.links.map((link) =>
+                  link.href.startsWith('/') ? (
+                    <Link
+                      key={link.href}
+                      to={link.href}
+                      className="text-sm text-blue-600 dark:text-blue-400 hover:underline underline-offset-2"
+                    >
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-blue-600 dark:text-blue-400 hover:underline underline-offset-2"
+                    >
+                      {link.label}
+                    </a>
+                  ),
+                )}
+              </div>
+            )}
           </article>
         ))}
       </div>
