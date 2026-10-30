@@ -1,7 +1,12 @@
 import { ProjectItem } from '../types';
 
 export const RESUME_URL =
-  'https://drive.google.com/file/d/1FjaHE9hi1FjeYFEkGtnskGwqdih7fsTn/view?usp=drive_link';
+  'https://drive.google.com/file/d/1FjaHE9hi1FjeYFEkGtnskGwqdih7fsTn/view?usp=sharing';
+export const LINKEDIN_URL = 'https://www.linkedin.com/in/kriyanshi-shah';
+export const EMAIL = 'kriyanshishah06@gmail.com';
+export const GITHUB_URL = 'https://github.com/kriyanshii';
+export const OPEN_SOURCE_SUMMARY =
+  '37 merged PRs to open-source projects, including Dagu (24 PRs: production Helm chart, queue capacity controls, step-level timeouts, CLI), Ray (4 PRs, shipped in Ray 2.54.0) and Temporal worker-controller (Helm).';
 
 export interface TalkItem {
   title: string;
@@ -34,42 +39,32 @@ export interface OpensourceHighlight {
 export const workItems: ProjectItem[] = [
   {
     type: 'job',
+    title: 'Independent Software Engineer',
+    role: 'Remote',
+    date: 'Aug 2026 — Present',
+    description: '',
+    isNew: true,
+    bulletPoints: [
+      'Open source: 37 merged PRs across workflow and distributed-systems projects. [Full list](https://github.com/pulls?q=is%3Apr+author%3Akriyanshii+is%3Amerged).',
+      'Dagu (top contributor, 24 merged PRs): production-grade Helm chart; queueing with global capacity controls for thousands of concurrent DAGs, including a fix for queue capacity on retry; queue override/clear; enqueue-from-spec API; step-level timeouts; retry with downstream steps; ps/ls/rm CLI with history purge; status-based search/filtering with real-time updates.',
+      'Ray (4 merged PRs, shipped in Ray 2.54.0): fixed an actor-handle kill crash, dual task error handling, and a Grafana metric.',
+      'Temporal worker-controller (3 merged PRs): Helm chart values.schema.json validation and CI improvements.',
+      'Products: [Serene](https://sereneworkspace.xyz), a focus-desk web app with tasks, notes and Pro billing, built solo, with 66 users and no marketing; also Recite and Android Skill Router.',
+      'Speaker: "[Escaping Cron Hell: Building and Contributing to Dagu](https://fossunited.org/c/indiafoss/2026/cfp/8ne6l7qetc)" at IndiaFOSS 2026.',
+    ],
+  },
+  {
+    type: 'job',
     title: 'Matrix Business',
     role: 'Software Engineer',
-    date: 'Mar 2026 — Present',
+    date: 'Mar 2026 — Aug 2026',
     description:
       'Built and deployed a production self-service Background Verification (BGV) platform, owning backend architecture, customer onboarding, verification workflows, and production deployment from design to launch.',
-    isNew: true,
     bulletPoints: [
       'Led the engineering of a production self-service BGV platform, from backend architecture and APIs to deployment and production support.',
       'Designed backend services powering authentication, customer onboarding, document verification, reporting, and payment workflows using FastAPI and PostgreSQL.',
       'Designed a Backend-for-Frontend (BFF) layer that simplified communication between the portal, verification services, payment gateway, and storage systems.',
       'Managed production deployments using Docker and Nginx, resolving authentication, routing, and reverse proxy issues in production environments.',
-    ],
-  },
-  {
-    type: 'job',
-    title: 'Independent Software Engineer',
-    role: 'Products & Open Source',
-    date: 'Mar 2026 — Ongoing',
-    description:
-      'Built products and contributed to open-source infrastructure in parallel with full-time work — shipping apps, exploring on-device AI, and deepening distributed systems through production contributions.',
-    link: '/projects',
-    bulletPoints: [
-      'Built Recite Online, an educational platform that helps students practise speeches and recitations with progress tracking and self-paced learning.',
-      'Developed Serenity Workspace, a productivity application focused on structured planning and personal knowledge management.',
-      'Built Android Skill Router, a fine-tuned 3B-model system that turns natural language into reusable Android UI automation skills.',
-      'Contributed to Dagu: a production Kubernetes Helm chart (scheduler, worker, UI, coordinator, PVC) and queue retries that enqueue instead of running immediately.',
-      'First contribution to Temporal worker-controller (Helm extraEnv proxy docs and EnvVar schema validation, shipped in v1.10.0). Open pull request on Temporal Helm charts for optional defaultDb.',
-      'Contributed to the Ray ecosystem while exploring distributed execution and large-scale compute orchestration.',
-    ],
-    links: [
-      { label: 'Recite Online', href: 'https://www.recite.online/' },
-      { label: 'Serenity Workspace', href: 'https://sereneworkspace.netlify.app/' },
-      { label: 'Android Skill Router', href: '/blog/android-skill-router' },
-      { label: 'Dagu', href: 'https://dagu.sh/' },
-      { label: 'GitHub', href: 'https://github.com/kriyanshii' },
-      { label: 'Ray', href: 'https://github.com/kriyanshii/ray/commits/master/?author=kriyanshii' },
     ],
   },
   {
@@ -108,160 +103,127 @@ export const workItems: ProjectItem[] = [
 export const projectItems: ProjectItem[] = [
   {
     type: 'project',
-    title: 'Android Skill Router: On-Device UI Automation',
-    date: 'Jun 2026 — Present',
+    title: 'Serene',
+    date: '',
     description:
-      'A lightweight AI system that converts natural language into reusable Android automation skills using a fine-tuned 3B language model and recorded UI trajectories.',
-    link: 'https://huggingface.co/spaces/build-small-hackathon/android-skill-router',
-    isNew: true,
-    bulletPoints: [
-      'Fine-tuned Qwen2.5-3B using QLoRA (Unsloth) on Modal, with a synthetic intent dataset for Android automation.',
-      'Built an end-to-end inference pipeline from prompt to executable UI trajectory, and deployed a Gradio demo on Hugging Face Spaces.',
-    ],
-    stack: ['Python', 'Qwen2.5-3B', 'Unsloth', 'Modal', 'Gradio', 'Kotlin'],
-    links: [
-      { label: 'Write-up', href: '/blog/android-skill-router' },
-      { label: 'Live demo', href: 'https://huggingface.co/spaces/build-small-hackathon/android-skill-router' },
-    ],
+      'A calm in-browser focus desk with a timer, tasks, notes, account sync and Pro billing, built solo from scratch. 66 users with no marketing.',
+    link: 'https://sereneworkspace.xyz',
   },
   {
     type: 'project',
-    title: 'Recite Online: Guided Recitation Practice',
-    date: '2025 — Present',
+    title: 'Dagu',
+    date: '',
     description:
-      'A web application that helps students practise speeches, poems, and recitations independently with progress tracking.',
-    link: 'https://www.recite.online/',
-    isNew: true,
-    bulletPoints: [
-      'Designed and built a full-stack app for self-paced recitation practice across desktop and mobile.',
-      'Iterated on the product from user feedback to improve usability, engagement, and progress tracking.',
-    ],
-    stack: ['React', 'TypeScript', 'Node.js', 'Express', 'MongoDB'],
+      'Top contributor to an open-source workflow engine (24 merged PRs), including a production Helm chart, queueing with global capacity controls, step-level timeouts and CLI tools.',
+    link: 'https://dagu.sh',
   },
   {
     type: 'project',
-    title: 'VisionBoardIt: Visual Goal Boards',
-    date: 'Dec 2025',
+    title: 'MapReduce, MIT 6.5840',
+    date: '',
     description:
-      'Create beautiful vision boards with photos, notes, and emojis.',
-    link: 'https://visionboardit.art/?ref=producthunt',
-    isNew: true,
-    bulletPoints: [
-      'Built a vision board product with photos, notes, and emoji composition for personal goal-setting.',
-      'Shipped a polished web experience with Japanese-inspired visual design.',
-    ],
-    stack: ['React', 'TypeScript'],
-  },
-  {
-    type: 'project',
-    title: 'dagu: Workflow Orchestration Engine',
-    date: 'Sep 2025 — Present',
-    description:
-      'Open-source workflow engine contributions across backend, frontend, and deployment.',
-    link: 'https://dagu.sh/',
-    isNew: true,
-    bulletPoints: [
-      'Production Kubernetes Helm chart (scheduler, worker, UI, coordinator, PVC). Merged 1 Feb 2026.',
-      'Global-queue DAG retries enqueue instead of running immediately, so they respect queue capacity (API + CLI). Merged 16 Feb 2026.',
-    ],
-    stack: ['Go', 'React', 'TypeScript', 'Kubernetes'],
-    links: [
-      { label: 'dagu.sh', href: 'https://dagu.sh/' },
-      { label: '#1613 Helm chart', href: 'https://github.com/dagu-org/dagu/pull/1613' },
-      { label: '#1676 queue retries', href: 'https://github.com/dagu-org/dagu/pull/1676' },
-      { label: 'Write-up', href: '/blog/enqueue-retry-dedup' },
-      { label: 'Contributions summary', href: '/blog/open-source-contributions' },
-    ],
-  },
-  {
-    type: 'project',
-    title: 'Temporal: Worker Controller & Helm Charts',
-    date: '2026',
-    description:
-      'Helm docs, schema validation, and an open chart change for Temporal.',
-    link: 'https://github.com/temporalio/temporal-worker-controller/pull/558',
-    isNew: true,
-    bulletPoints: [
-      'Helm extraEnv proxy docs and EnvVar schema validation on temporal-worker-controller. Shipped in v1.10.0. First contribution on that repo.',
-      'Open: optional defaultDb so the schema job can pass --defaultdb (Citus / Aiven). Fixes #433. Opened 1 Sep 2026.',
-    ],
-    stack: ['Helm', 'Kubernetes'],
-    links: [
-      { label: '#558 worker-controller', href: 'https://github.com/temporalio/temporal-worker-controller/pull/558' },
-      { label: 'v1.10.0', href: 'https://github.com/temporalio/temporal-worker-controller/releases/tag/v1.10.0' },
-      { label: '#976 helm-charts (open)', href: 'https://github.com/temporalio/helm-charts/pull/976' },
-    ],
-  },
-  {
-    type: 'project',
-    title: 'Serene: Productivity Workspace',
-    date: 'Feb 2025 — Present',
-    description:
-      'A personalized productivity tool for structured planning and day-to-day task management.',
-    link: 'https://sereneworkspace.xyz/',
-    isNew: true,
-    bulletPoints: [
-      'Built a productivity workspace focused on structured planning and personal knowledge management.',
-      'Continuing to ship UX and feature updates based on day-to-day use.',
-    ],
-    stack: ['React', 'TypeScript'],
-  },
-  {
-    type: 'project',
-    title: 'MapReduce: Distributed Systems from Scratch',
-    date: 'Jan 2025',
-    description:
-      "Implemented the MapReduce paper from MIT's Distributed Systems course (MIT 6.5840) in Go.",
+      "A distributed MapReduce in Go with a coordinator and workers, built for MIT's distributed systems course, with fault tolerance.",
     link: 'https://github.com/kriyanshii/mit-6.5840',
-    bulletPoints: [
-      "Implemented MIT 6.5840 MapReduce in Go — parallel data processing, distributed computing, and fault tolerance.",
-    ],
-    stack: ['Go', 'Distributed Systems'],
   },
   {
     type: 'project',
-    title: 'Shell: Unix Shell from Scratch',
-    date: 'Dec 2024',
+    title: 'VisionBoardIt',
+    date: '',
+    description: 'Vision boards of photos, notes, and emojis for personal goal-setting.',
+    link: 'https://visionboardit.art',
+  },
+  {
+    type: 'project',
+    title: 'Recite',
+    date: '',
+    description:
+      'A web app that helps students practise speeches, poems, and recitations with progress tracking.',
+    link: 'https://www.recite.online/',
+  },
+  {
+    type: 'project',
+    title: 'Android Skill Router',
+    date: '',
+    description:
+      'Turns natural language into reusable Android automation skills with a fine-tuned on-device model.',
+    link: 'https://huggingface.co/spaces/build-small-hackathon/android-skill-router',
+  },
+];
+
+export const projectsPageItems: ProjectItem[] = [
+  {
+    type: 'project',
+    title: 'Serene',
+    date: '',
+    description:
+      'A calm in-browser focus desk with a timer, tasks, notes, account sync and Pro billing, built solo from scratch. 66 users with no marketing.',
+    link: 'https://sereneworkspace.xyz/',
+  },
+  {
+    type: 'project',
+    title: 'MapReduce, MIT 6.5840',
+    date: '',
+    description:
+      "A distributed MapReduce in Go with a coordinator and workers, built for MIT's distributed systems course, with fault tolerance.",
+    link: 'https://github.com/kriyanshii/mit-6.5840',
+  },
+  {
+    type: 'project',
+    title: 'Android Skill Router',
+    date: '',
+    description:
+      'Turns natural language into reusable Android automation skills with a fine-tuned on-device model.',
+    link: 'https://huggingface.co/spaces/build-small-hackathon/android-skill-router',
+  },
+  {
+    type: 'project',
+    title: 'Recite',
+    date: '',
+    description:
+      'A web app that helps students practise speeches, poems, and recitations with progress tracking.',
+    link: 'https://www.recite.online/',
+  },
+  {
+    type: 'project',
+    title: 'Shell',
+    date: '',
     description: 'A minimalist Unix shell built from scratch in Go.',
     link: 'https://github.com/kriyanshii/shell-go',
-    bulletPoints: ['Built a minimalist Unix shell from scratch in Go.'],
-    stack: ['Go'],
   },
   {
     type: 'project',
-    title: 'Grep: Pattern Matching from Scratch',
-    date: 'Feb 2025',
+    title: 'Grep',
+    date: '',
     description: 'An implementation of the classic grep utility built from scratch in Go.',
     link: 'https://github.com/kriyanshii/grep-go',
-    bulletPoints: ['Implemented the classic grep utility from scratch in Go.'],
-    stack: ['Go'],
   },
   {
     type: 'project',
-    title: 'Rock Paper Scissors',
-    date: 'Nov 2024',
-    description: 'A classic Rock-Paper-Scissors game in TypeScript.',
-    link: 'https://github.com/kriyanshii/rock-paper-scissors',
-    bulletPoints: ['Implemented Rock-Paper-Scissors in TypeScript.'],
-    stack: ['TypeScript'],
+    title: 'VisionBoardIt',
+    date: '',
+    description: 'Vision boards of photos, notes, and emojis for personal goal-setting.',
+    link: 'https://visionboardit.art/',
+  },
+  {
+    type: 'project',
+    title: 'Wordle',
+    date: '',
+    description: 'A from-scratch Wordle implementation in TypeScript.',
+    link: 'https://github.com/kriyanshii/wordle',
   },
   {
     type: 'project',
     title: 'Bubble Burst',
-    date: 'Dec 2024',
+    date: '',
     description: 'A browser game where you pop bubbles as they appear on screen.',
     link: 'https://github.com/kriyanshii/bubble-burst',
-    bulletPoints: ['Built a browser game where bubbles appear on screen and must be popped.'],
-    stack: ['TypeScript'],
   },
   {
     type: 'project',
-    title: 'Wordle: From Scratch',
-    date: 'Jan 2025',
-    description: 'A from-scratch Wordle implementation in TypeScript.',
-    link: 'https://github.com/kriyanshii/wordle',
-    bulletPoints: ['Implemented Wordle from scratch in TypeScript.'],
-    stack: ['TypeScript'],
+    title: 'Rock Paper Scissors',
+    date: '',
+    description: 'A classic Rock-Paper-Scissors game in TypeScript.',
+    link: 'https://github.com/kriyanshii/rock-paper-scissors',
   },
 ];
 
@@ -276,11 +238,10 @@ export const talkItems: TalkItem[] = [
   },
   {
     title: 'Interactive Computing Environments for Open Science',
-    description:
-      'Scalable JupyterHub deployments and Mercury integration for scientific research workflows.',
+    description: 'JupyterHub and Mercury for open science.',
     year: '2025',
     tag: 'Conference Talk',
-    link: 'https://youtu.be/6o_XY5jBchY?si=lZssP4yTXsjFuYQx',
+    link: 'https://youtu.be/6o_XY5jBchY',
   },
 ];
 

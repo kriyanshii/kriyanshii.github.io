@@ -1,6 +1,7 @@
 import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { RESUME_URL } from '../data/portfolio';
+import { DEFAULT_DESCRIPTION } from '../constants/site';
+import { EMAIL, LINKEDIN_URL, RESUME_URL } from '../data/portfolio';
 
 export function OpenToWorkNote({ className = '' }: { className?: string }) {
   return (
@@ -11,14 +12,11 @@ export function OpenToWorkNote({ className = '' }: { className?: string }) {
           Open to work
         </span>
         <span className="text-[12px] text-gray-500 dark:text-gray-500">
-          Backend &amp; systems roles
+          Backend, Go and platform roles
         </span>
       </div>
       <p className="mb-4 max-w-xl text-[13px] leading-relaxed text-gray-600 dark:text-gray-400">
-        I&apos;m Kriyanshi — a backend and systems engineer working on satellite data pipelines,
-        workflow orchestration, and production infrastructure. Previously at ISRO&apos;s Space
-        Applications Centre; currently shipping at Matrix Business and contributing upstream to
-        Dagu.
+        {DEFAULT_DESCRIPTION}
       </p>
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px]">
         <a
@@ -36,6 +34,20 @@ export function OpenToWorkNote({ className = '' }: { className?: string }) {
         >
           About
         </Link>
+        <a
+          href={`mailto:${EMAIL}`}
+          className="text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200"
+        >
+          Email
+        </a>
+        <a
+          href={LINKEDIN_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200"
+        >
+          LinkedIn
+        </a>
         <a
           href="https://github.com/kriyanshii"
           target="_blank"

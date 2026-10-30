@@ -28,13 +28,42 @@ function ItemLink({
   );
 }
 
+function BulletText({ text }: { text: string }) {
+  const nodes: ReactNode[] = [];
+  const pattern = /\[([^\]]+)\]\(([^)]+)\)/g;
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = pattern.exec(text)) !== null) {
+    if (match.index > lastIndex) nodes.push(text.slice(lastIndex, match.index));
+    const [, label, href] = match;
+    nodes.push(
+      <ItemLink
+        key={`${href}-${match.index}`}
+        href={href}
+        className="underline decoration-gray-300 underline-offset-2 transition-colors hover:text-blue-600 dark:decoration-gray-600 dark:hover:text-blue-400"
+      >
+        {label}
+      </ItemLink>,
+    );
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex === 0) return text;
+  if (lastIndex < text.length) nodes.push(text.slice(lastIndex));
+  return <>{nodes}</>;
+}
+
 interface TimelineProps {
   items: ProjectItem[];
   title?: string;
   badge?: ReactNode;
+  footer?: ReactNode;
+  append?: ReactNode;
+  titleLinksOnly?: boolean;
 }
 
-export function Timeline({ items, title, badge }: TimelineProps) {
+export function Timeline({ items, title, badge, footer, append, titleLinksOnly }: TimelineProps) {
   return (
     <section className="mb-12">
       {(title || badge) && (
@@ -73,7 +102,16 @@ export function Timeline({ items, title, badge }: TimelineProps) {
                         {statusLabel}
                       </span>
                     )}
-                    {item.link && item.links?.length ? (
+                    {titleLinksOnly && item.link ? (
+                      <h3 className="text-[15px] font-medium leading-snug">
+                        <ItemLink
+                          href={item.link}
+                          className="text-gray-900 transition-colors hover:text-blue-600 dark:text-gray-100 dark:hover:text-blue-400"
+                        >
+                          {item.title}
+                        </ItemLink>
+                      </h3>
+                    ) : item.link && item.links?.length ? (
                       <ItemLink
                         href={item.link}
                         className="text-[15px] font-medium leading-snug text-gray-900 transition-colors hover:text-blue-600 dark:text-gray-100 dark:hover:text-blue-400"
@@ -86,9 +124,11 @@ export function Timeline({ items, title, badge }: TimelineProps) {
                       </h3>
                     )}
                   </div>
-                  <p className="shrink-0 pt-0.5 text-xs text-gray-500 dark:text-gray-500">
-                    {item.date}
-                  </p>
+                  {item.date ? (
+                    <p className="shrink-0 pt-0.5 text-xs text-gray-500 dark:text-gray-500">
+                      {item.date}
+                    </p>
+                  ) : null}
                 </div>
 
                 {item.role && (
@@ -122,7 +162,9 @@ export function Timeline({ items, title, badge }: TimelineProps) {
                         className="flex items-start gap-2.5 text-[13px] leading-relaxed text-gray-600 dark:text-gray-400"
                       >
                         <span className="mt-[8px] h-1 w-1 shrink-0 rounded-full bg-gray-400 dark:bg-gray-500" />
-                        <span>{bullet}</span>
+                        <span>
+                          <BulletText text={bullet} />
+                        </span>
                       </li>
                     ))}
                   </ul>
@@ -144,7 +186,7 @@ export function Timeline({ items, title, badge }: TimelineProps) {
               </>
             );
 
-            const wrapWholeCard = Boolean(item.link && !item.links?.length);
+            const wrapWholeCard = Boolean(item.link && !item.links?.length && !titleLinksOnly);
 
             return (
               <article key={`${item.title}-${item.date}`} className="group relative pl-7">
@@ -169,8 +211,10 @@ export function Timeline({ items, title, badge }: TimelineProps) {
               </article>
             );
           })}
+          {append}
         </div>
       </div>
+      {footer ? <div className="mt-6 pl-7">{footer}</div> : null}
     </section>
   );
 }

@@ -114,7 +114,7 @@ export function applyPageSeo(seo: PageSeoProps): () => void {
     upsertMeta('og:url', seo.canonical, true),
     upsertMeta('og:type', seo.ogType ?? 'website', true),
     upsertMeta('og:locale', 'en_US', true),
-    upsertMeta('twitter:card', 'summary_large_image'),
+    upsertMeta('twitter:card', seo.ogImage ? 'summary_large_image' : 'summary'),
     upsertMeta('twitter:title', seo.title),
     upsertMeta('twitter:description', seo.description),
   ];

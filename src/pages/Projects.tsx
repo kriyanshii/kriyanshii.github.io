@@ -1,6 +1,6 @@
 import { PageSeo } from '../components/PageSeo';
 import { DEFAULT_OG_IMAGE, SITE_URL } from '../constants/site';
-import { projectItems } from '../data/portfolio';
+import { GITHUB_URL, projectsPageItems } from '../data/portfolio';
 import { Timeline } from '../components/Timeline';
 
 export function Projects() {
@@ -16,12 +16,24 @@ export function Projects() {
       <header className="mb-12">
         <h1 className="mb-3 text-2xl font-medium dark:text-white">Projects</h1>
         <p className="text-[14px] leading-relaxed text-gray-600 dark:text-gray-400">
-          Things I&apos;ve built or contributed to — from workflow engines and MapReduce implementations to
-          tools and games.
+          Things I&apos;ve built.
         </p>
       </header>
 
-      <Timeline items={projectItems} />
+      <Timeline
+        items={projectsPageItems}
+        titleLinksOnly
+        footer={
+          <a
+            href={GITHUB_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-gray-500 transition-colors hover:text-blue-600 dark:hover:text-blue-400"
+          >
+            more on GitHub
+          </a>
+        }
+      />
     </div>
   );
 }
