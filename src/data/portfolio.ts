@@ -1,7 +1,7 @@
 import { ProjectItem } from '../types';
 
 export const RESUME_URL =
-  'https://drive.google.com/file/d/1FjaHE9hi1FjeYFEkGtnskGwqdih7fsTn/view?usp=sharing';
+  'https://drive.google.com/file/d/1jd2R2RyD9PpCPsIayLTL5Pi15gEE8YB6/view?usp=sharing';
 export const LINKEDIN_URL = 'https://www.linkedin.com/in/kriyanshi-shah';
 export const EMAIL = 'kriyanshishah06@gmail.com';
 export const GITHUB_URL = 'https://github.com/kriyanshii';
