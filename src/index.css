@@ -64,6 +64,45 @@
   }
 }
 
+@keyframes announcement-run {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.announcement-run {
+  animation: announcement-run 28s linear infinite;
+}
+
+.announcement-banner:hover .announcement-run,
+.announcement-banner:focus-within .announcement-run {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .announcement-viewport {
+    overflow: visible;
+  }
+
+  .announcement-run {
+    animation: none;
+    width: auto;
+    flex-wrap: wrap;
+  }
+
+  .announcement-clone {
+    display: none;
+  }
+
+  .announcement-run p {
+    white-space: normal;
+    padding-right: 0;
+  }
+}
+
 @keyframes shine {
   from {
     transform: translateX(-200%) skewX(-12deg);

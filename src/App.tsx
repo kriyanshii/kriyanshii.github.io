@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AnalyticsTracker } from './components/AnalyticsTracker';
+import { AnnouncementBanner } from './components/AnnouncementBanner';
 import { Navigation } from './components/Navigation';
 import { Home } from './pages/Home';
 import { Blog } from './pages/Blog';
@@ -19,6 +20,7 @@ function App() {
           <div className="fixed inset-x-0 top-0 h-16 bg-gradient-to-b from-[#fafafa] dark:from-[#1a1a1a] to-transparent transform -translate-y-full" />
           <div className="fixed inset-x-0 bottom-0 h-16 bg-gradient-to-t from-gray-100 dark:from-gray-800 to-transparent transform translate-y-full" />
 
+          <AnnouncementBanner />
           <Navigation />
           <Routes>
             <Route path="/" element={<Home />} />
